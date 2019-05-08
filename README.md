@@ -12,12 +12,13 @@ Online IDE for developing( C, C++, java )
 
 ## Clone Repo
 ```=1
-git clone https://github.com/ambersun1234/ThinkSync-Coding.git
+git clone --recurse-submodules https://github.com/ambersun1234/ThinkSync-Coding.git
 ```
 
 ## Author
 + [ambersun1234](https://github.com/ambersun1234)
 + [snowmint](https://github.com/snowmint)
++ [s1123527](https://github.com/s1123527)
 
 ## License
 This project is Licensed under GNU General Public v3.0 License - see the [LICENSE](https://github.com/ambersun1234/ThinkSync-Coding/blob/master/LICENSE) file for detail
