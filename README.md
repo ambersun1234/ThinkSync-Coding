@@ -12,7 +12,9 @@ Online IDE for developing( C, C++, java )
 
 ## Clone Repo
 ```=1
-git clone --recurse-submodules https://github.com/ambersun1234/ThinkSync-Coding.git
+git clone https://github.com/ambersun1234/ThinkSync-Coding.git
+cd ThinkSync-Coding
+git submodule update --init --recursive
 ```
 
 ## Author
