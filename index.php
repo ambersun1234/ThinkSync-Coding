@@ -93,11 +93,34 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
         
     <style>
+        .w3-top{
+            font-family: "Inconsolata", sans-serif;
+            color : white;
+            background: "#rgb(101, 152, 146)";
+            position:fixed;
+            top:0px;
+            z-index: 7;
+            height:20px;
+        }
+        a{
+            color: white;
+            text-decoration: none;
+        }
+        a:link, a:visited { color:white; }
+        #id_footer {
+            height: 40px;
+            position: fixed;
+            bottom: 0px;
+            width: 100%;
+            background: black;
+            z-index: 7;
+            color: white;
+        }
         .CodeMirror {
             border: 1px solid black;
             font-size: 16px;
             height: 300px;
-            width: 70%;
+            width: 65.5%;
         }
         /*save button*/
         .saveButton {
@@ -150,7 +173,16 @@
             border: 1px solid black;
             font-size: 16px;
             height: 300px;
-            width: 69.5%;
+            width: 63.5%;
+        }
+        /*compile message*/
+        .compileMsg{
+            float: right;
+            height: 610px;
+            width: 28%;
+            margin-right: 10px;
+            background: #ffffff;
+            border: 1px solid black;
         }
     </style>
 </head>
@@ -229,7 +261,8 @@
                 <option>-o3</option>
             </select>
         </div>
-        <div style="margin:0px 0px 10px 10px;">
+        
+        <div style="margin:0px 0px 20px;">
             <input type="checkbox" name="-Wall" value="-Wall">Compile Wall
             <input type="checkbox" name="-Werror" value="-Werror">Compile Werror
             
@@ -238,7 +271,16 @@
             <input class="runButton" type="button" name="run" value="run">
         </div>
     </div>
-    <div class="codearea" style="margin:0px 0px 10px 10px;">
+    <!--/*compile message*/-->
+    <div class="compileMsg" style="margin:0px 3% 0px 0px;">
+        <form>
+            <textarea id="compile_msg" name="compile_msg" style="display: none;">
+
+            </textarea>
+        </form>
+    </div>
+    <!--/*code area*/-->
+    <div class="codearea" style="margin:0px 0px 0px 3%;">
         <form>
             <textarea id="c-code" name="c-code" style="display: none;">
 //test
@@ -354,11 +396,17 @@ int main() {
             }
         });
     </script>
-    <div class="output" style="margin:0px 10px;">
+    <!--/*compile output*/-->
+    <div class="output" style="margin:10px 0px 0px 3%;">
         <form>
             <textarea id="compile_output" name="compile_output" style="display: none;">
             
             </textarea>
         </form>
     </div>
+    <footer id="id_footer" style="text-align:center;padding: 11px;">
+        <a href="#">隱私權政策</a>&nbsp;&nbsp;&nbsp;&nbsp;聯絡人：u10506111
+    </footer>
 </body>
+</html>
+
