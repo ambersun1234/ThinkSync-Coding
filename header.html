@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+        <meta http-equiv="Content-Type" content="test/html; charset=utf-8" />
+        <meta http-equiv="Expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
+        <meta http-equiv="Parama" content="no-cache">
+        <meta charset="utf-8">
+        <!-- include jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+        <!-- include Cycle plugin -->
+        <script type="text/javascript" src="http://malsup.github.com/jquery.cycle.all.js"></script>
+
+        <link rel="stylesheet" href="./codemirror-5.46.0/doc/docs.css">
+    </head>
+    <body>
+        <div class="w3-top">
+          <div class="w3-row w3-padding w3-black">
+
+            <div class="w3-col s1">
+              <a href="index.php" class="w3-button w3-block w3-black scroll">HOME</a>
+            </div>
+            <div class="w3-col s1">
+              <a href="index.php" class="w3-button w3-block w3-black scroll">ABOUT</a>
+            </div>
+            <!--<div class="w3-col s1">
+              <a href="view_article.php?kind=All&OrderBy=TimeNew" class="w3-button w3-block w3-black scroll">ARTICLE</a>
+            </div>
+            <div class="w3-col s1">
+                <a href="prizeTest.php" class="w3-button w3-block scroll">LOTTERY</a>
+            </div>-->
+            <!--<?php if(empty($_SESSION['ID'])) {?>
+                <div id = "pic" class="w3-right w3-hide-small">
+                  <a href="./index.php" class="w3-bar-item w3-button">LOGIN</a>
+                  <a href="./register.php" class="w3-bar-item w3-button">SIGNUP</a>
+                </div>
+            <?php }?>
+            <?php if(!empty($_SESSION['ID'])) { ?>
+                <div id = "pic" class="w3-right w3-hide-small">
+                   <?php
+                        $ID = $_SESSION['ID'];
+                        $sql = "SELECT * FROM user WHERE '$ID' = user.ID";
+                        $r = mysqli_query($conn, $sql);
+                        $result =  mysqli_fetch_array($r);
+                        echo "<font class='w3-bar-item' style='position:center;padding:0px 5px;'align='center' valign='center' face='Inconsolata' size='3'>Hi! ".$result['Fname']."!&nbsp;&nbsp;&nbsp;&nbsp;</font>";
+                    ?>
+                  <a href="./logout.php" class="w3-bar-item w3-button">LOGOUT</a>
+                  <a href="./post.php" class="w3-bar-item w3-button">POST</a>
+                  <a href="./update.php" class="w3-bar-item w3-button">USER CENTER</a>
+                </div>
+            <?php }?>-->
+            <?php if(empty($_SESSION['ID'])) {?>
+                <div id = "pic" class="w3-right w3-hide-small">
+                    <a href="index.php" class="w3-bar-item w3-button" style="color: aliceblue">LOGIN</a>
+                    <a href="index.php" class="w3-bar-item w3-button" style="color: aliceblue">SIGNUP</a>
+                </div>
+            <?php }?>
+          </div>
+        </div>
+    </body>
+</html>

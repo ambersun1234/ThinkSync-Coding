@@ -122,8 +122,45 @@ int main() {
    return 0;
 }
             </textarea>
+            <textarea id="java-code" name="java-code" style="display: none;">
+//test
+import java.util.*;
+import java.lang.*;
+
+public class Main {
+    public static void main(String[] args)  {
+        int x = 5;
+        float y = 1.5;
+        System.out.println("x = " + x + ", y = " + y);
+    }
+}
+            </textarea>
+            <textarea id="cpp-code" name="cpp-code" style="display: none;">
+//test
+#inlcude <iostream>
+#include <sstring>
+
+using namespase std;
+
+int add(int a, int b) {
+    return a+b;
+}
+int main() {
+   int a = 1, b = 2, c;
+   c = add(a, b);
+   cout << c << endl;
+   return 0;
+}
+            </textarea>
         </form>
     </div>
+    <p>Select program language
+        <select onchange="selectProgramLanguage()" id="selectPL">
+            <option selected="">C (gcc)</option>
+            <option>C++</option>
+            <option>Java</option>
+        </select>
+    </p>
     <p>Select a theme:
         <select onchange="selectTheme()" id="select">
             <option selected="">default</option>
@@ -189,14 +226,25 @@ int main() {
         //mdn-like
         //mode: "text/x-c++src"
         //"text/x-java"
-
-
+        var java_editor = CodeMirror.fromTextArea(document.getElementById("java-code"), {
+            lineNumbers: true,
+            styleActiveLine: true,
+            matchBrackets: true,
+            mode:  "text/text/x-java"
+        });
+        var cpp_editor = CodeMirror.fromTextArea(document.getElementById("cpp_-code"), {
+            lineNumbers: true,
+            styleActiveLine: true,
+            matchBrackets: true,
+            mode:  "text/x-c++src"
+        });
         var editor = CodeMirror.fromTextArea(document.getElementById("c-code"), {
             lineNumbers: true,
             styleActiveLine: true,
             matchBrackets: true,
             mode:  "text/x-csrc"
         });
+        
         var input = document.getElementById("select");
 
         function selectTheme() {
