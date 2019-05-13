@@ -100,7 +100,7 @@
             position:fixed;
             top:0px;
             z-index: 7;
-            height:20px;
+            height:50px;
         }
         a{
             color: white;
@@ -112,12 +112,12 @@
             position: fixed;
             bottom: 0px;
             width: 100%;
-            background: black;
+            background: grey;
             z-index: 7;
             color: white;
         }
         .CodeMirror {
-            border: 1px solid black;
+            border: 1px solid #CCCCCC;
             font-size: 16px;
             height: 300px;
             width: 65.5%;
@@ -170,7 +170,7 @@
         /*compile output*/
         .output{
             background: #555555;
-            border: 1px solid black;
+            border: 1px solid #CCCCCC;
             font-size: 16px;
             height: 300px;
             width: 63.5%;
@@ -182,7 +182,7 @@
             width: 28%;
             margin-right: 10px;
             background: #ffffff;
-            border: 1px solid black;
+            border: 1px solid #CCCCCC;
         }
     </style>
 </head>
