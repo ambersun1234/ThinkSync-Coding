@@ -1,4 +1,6 @@
 # ThinkSync-Coding
+[![Build Status](https://travis-ci.com/ambersun1234/ThinkSync-Coding.svg?token=e57vJgMEsZsXRodR9BkR&branch=master)](https://travis-ci.com/ambersun1234/ThinkSync-Coding)
+<br>
 Online IDE for developing( C, C++, java )
 
 ## Features

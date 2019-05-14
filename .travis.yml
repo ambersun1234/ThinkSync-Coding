@@ -1,0 +1,18 @@
+dist: xenial
+language: generic
+addons:
+  apt:
+    packages:
+    - sshpass
+after_success:
+- export SSHPASS=$firstPwd
+- sshpass -e ssh -p $port -t $firstUser@$remote "rm -rf ${path}"
+- sshpass -e scp -o PubkeyAuthentication=no -o StrictHostKeyChecking=no -v -P $port
+  -r $TRAVIS_BUILD_DIR/* $firstUser@$remote:$path
+- export SSHPASS=$secondPwd
+- sshpass -e ssh -p $port -t $secondUser@$remote "rm -rf ${path}"
+- sshpass -e scp -o PubkeyAuthentication=no -o StrictHostKeyChecking=no -v -P $port
+  -r $TRAVIS_BUILD_DIR/* $secondUser@$remote:$path
+env:
+  global:
+    secure: R3jX8t+lc4VtMvy6DeLjoaZv+NUGYxQp6EW3dHhLPiVLv6dEfaQNFbKGsc1JJc7Y0Lpn2DthEU1dQXjr7BOHypQG1xGJm6/GJSNdy04inld5r7l8TXwrNSiCHuBMufgtEgIFkZh5HPORRQi4Qx6HodWK0rvk+e/N7kAgrG0SgJ6LB2Tgo2Sove9zbS8mfPNsK4hb4BIxTbd3mnLZmxY+I1zbLLFvuFUarGuG41LQ4/VcoOhdyGuG3FzprsFXqQZj/47aoyjunxC0J9wCM+6+25Gx7W61Tegpy7xU3IkGBDmsYuF8JPmpWKYPpm6NwU7K4tiXZuK2y0PGc04PHM57+toSC/zU2VESxYuf0ICBhxA9jwbjVGNyNmLYHv6Z53Q5B/Zn9aYfynCEZL2A2fjd0E0mePPE17SVkrVedsyhHBQyxWsJefUYMkApn94YLVay6IH/e9AKPokexSPYbNbVeknC2VOQgUIiUimqObCMiv+JRZmXkBTVxUfRe3sgwYYQVBX/CKiSjIibu34BR+6yrx7vze/eCIP27nfYfeYVFKThVw6gzty50hWsqlyyDrTinzsvD96pFFyRr03thc1GzaNJ+QodRd7dQmxbwHgLTt629Gq4kXOvQkkKwKI6z2F4ZsZk8DkU2UlXvX4yoa99/kK94zrpOWzBpYY6Oxi4dSI=
