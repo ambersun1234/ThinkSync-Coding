@@ -6,13 +6,15 @@ addons:
     - sshpass
 after_success:
 - export SSHPASS=$firstPwd
-- sshpass -e ssh -p $port -t $firstUser@$remote "rm -rf ${path}"
+- sshpass -e ssh -o PubkeyAuthentication=no -o StrictHostKeyChecking=no -v -p $port
+  $firstUser@$remote "rm -rf $path && mkdir -vp /home/$firstUser/web/ThinkSync"
 - sshpass -e scp -o PubkeyAuthentication=no -o StrictHostKeyChecking=no -v -P $port
-  -r $TRAVIS_BUILD_DIR/* $firstUser@$remote:$path
+  -r $TRAVIS_BUILD_DIR/* $firstUser@$remote:/home/$firstUser/web/ThinkSync/.
 - export SSHPASS=$secondPwd
-- sshpass -e ssh -p $port -t $secondUser@$remote "rm -rf ${path}"
+- sshpass -e ssh -o PubkeyAuthentication=no -o StrictHostKeyChecking=no -v -p $port
+  $secondUser@$remote "rm -rf $path && mkdir -vp /home/$secondUser/web/ThinkSync"
 - sshpass -e scp -o PubkeyAuthentication=no -o StrictHostKeyChecking=no -v -P $port
-  -r $TRAVIS_BUILD_DIR/* $secondUser@$remote:$path
+  -r $TRAVIS_BUILD_DIR/* $secondUser@$remote:/home/$secondUser/web/ThinkSync/.
 env:
   global:
-    secure: R3jX8t+lc4VtMvy6DeLjoaZv+NUGYxQp6EW3dHhLPiVLv6dEfaQNFbKGsc1JJc7Y0Lpn2DthEU1dQXjr7BOHypQG1xGJm6/GJSNdy04inld5r7l8TXwrNSiCHuBMufgtEgIFkZh5HPORRQi4Qx6HodWK0rvk+e/N7kAgrG0SgJ6LB2Tgo2Sove9zbS8mfPNsK4hb4BIxTbd3mnLZmxY+I1zbLLFvuFUarGuG41LQ4/VcoOhdyGuG3FzprsFXqQZj/47aoyjunxC0J9wCM+6+25Gx7W61Tegpy7xU3IkGBDmsYuF8JPmpWKYPpm6NwU7K4tiXZuK2y0PGc04PHM57+toSC/zU2VESxYuf0ICBhxA9jwbjVGNyNmLYHv6Z53Q5B/Zn9aYfynCEZL2A2fjd0E0mePPE17SVkrVedsyhHBQyxWsJefUYMkApn94YLVay6IH/e9AKPokexSPYbNbVeknC2VOQgUIiUimqObCMiv+JRZmXkBTVxUfRe3sgwYYQVBX/CKiSjIibu34BR+6yrx7vze/eCIP27nfYfeYVFKThVw6gzty50hWsqlyyDrTinzsvD96pFFyRr03thc1GzaNJ+QodRd7dQmxbwHgLTt629Gq4kXOvQkkKwKI6z2F4ZsZk8DkU2UlXvX4yoa99/kK94zrpOWzBpYY6Oxi4dSI=
+    secure: nHiXlW7V+Wmw0EJJ/0Ybrf6IEy8Qz9sVlwCvww32tXIjtFuIFUA+dy7uR0GnOIpmzbGwZNMfpWQBz3Q/PuOJNz7tDJUr2dpnXgQWz0PLp4Uu+jqDNJH5JOpCLU4mgWtProdLOhDyNTF3MZSylG0qhk53B0kW4B5y9QsQxPTWHZHUdSuSxDTI5vkLVCE1j4d3S6JLMQQZGlxnoEOZMj5cqES281MhjzdZt3XPYk/adHIx20EtmjY3C3Okvb/T8iWvOUuFxdwRYJlHXancv3z50CR3mlFDlMYcSuZRs4lP8yyhRlcEHsNwwGmXsFzU8mfApUrKMmOReSxRtkVc3TptO/NyfVRCBg8IJHDvPa4U5ciYxkDtk4eCvPWAmPvQEipVd6Yi9dsV1TntQm7IbOLX0RfLZOUfRgO1c44e5QbZLx8k2WG5d4/8Rgi8ctvX610HUcc7NjHg6tp0XuibjkGul4/MPe9p9CZSiAeXFYPur1xTUV5MiiFOeygLxM30ZAdqiyE2hLbFn8WbrO4wIz9FgGldJ5FQK8a+ux3mqZ4vXrb6TZAYGtGLnArmRNMQeuaTzNk0stAcIqqv4/tWea2V6iHveGoDJSSLdj7S0LaK+zwLs3yrzO5RcHSn/CoWmD97p5q84Go/DQ/7WGUG9U/HIKc879c/DOqxXKufNEdpS7M=
