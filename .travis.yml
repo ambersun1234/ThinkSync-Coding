@@ -5,6 +5,7 @@ addons:
     packages:
     - sshpass
 after_success:
+- cd codemirror && git checkout dab6f676
 - export SSHPASS=$firstPwd
 - sshpass -e ssh -o PubkeyAuthentication=no -o StrictHostKeyChecking=no -v -p $port
   $firstUser@$remote "rm -rf $path && mkdir -vp /home/$firstUser/web/ThinkSync"
