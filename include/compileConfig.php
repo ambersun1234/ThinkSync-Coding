@@ -25,7 +25,7 @@
     );
 
     $color2Hex = Array(
-        "bold"         => "bold";
+        "bold"         => "bold",
         "black"        => "#010101",
         "red"          => "#de382b",
         "green"        => "#39b54a",
@@ -43,4 +43,31 @@
         "light cyan"   => "#00ffff",
         "white"        => "#ffffff"
     );
+
+    
+    function getVersion($language) {
+        $returnVal = Array("ret" => NULL, "version" => NULL);
+
+        exec("$compiler --version | grep $compiler", $output, $ret); // execute shell command
+        $returnVal["ret"] = $ret;
+        $returnVal["version"] = $output;
+
+        return $returnVal;
+    }
+
+    function success($content, $version) {
+        $returnVal = Array("code" => NULL, "msg" => NULL, "version" => NULL);
+        $returnVal["code"] = 0;
+        $returnVal["msg"] = $content;
+        $returnVal["version"] = $version;
+        return json_encode($returnVal);
+    }
+
+    function error() {
+        $returnVal = Array("code" => NULL, "msg" => NULL, "version" => NULL);
+        $returnVal["code"] = 1;
+        $returnVal["msg"] = "";
+        $returnVal["version"] = "";
+        return json_encode($returnVal);
+    }
  ?>
