@@ -12,33 +12,35 @@
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
         <!-- include Cycle plugin -->
         <script type="text/javascript" src="http://malsup.github.com/jquery.cycle.all.js"></script>
-
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="stylesheet" href="./codemirror-5.46.0/doc/docs.css">
         <style>
-            .w3-top{
+            .top{
                 font-family: "Inconsolata", sans-serif;
                 color : white;
-                background: grey;
+                background: black;
                 position:fixed;
                 top: 0px;
                 z-index: 7;
-                height: auto
+                height: 40px;
+                width: 100%;
                 /*color: cornflowerblue*/
             }
             .w3-col{
-                background: grey;
+                background: black;
+                color : white;
             }
         </style>
     </head>
     <body>
-        <div class="w3-top" style="color:#fff;">
-          <div class="w3-row w3-padding">
+        <div class="top" style="color:#fff;">
+          <div><!-- class="w3-row " w3-padding-->
 
             <div class="w3-col s1">
-              <a href="index.php" class="w3-button w3-block scroll">HOME</a>
+              <a href="home.php" class="w3-button w3-block scroll">HOME</a>
             </div>
             <div class="w3-col s1">
-              <a href="index.php" class="w3-button w3-block scroll">ARTICLE</a>
+              <a href="index_new.php#C#default" class="w3-button w3-block scroll">START</a>
             </div>
             <!--<div class="w3-col s1">
               <a href="view_article.php?kind=All&OrderBy=TimeNew" class="w3-button w3-block w3-black scroll">ARTICLE</a>
@@ -68,8 +70,8 @@
             <?php }?>-->
             <?php if(empty($_SESSION['ID'])) {?>
                 <div id = "pic" class="w3-right w3-hide-small">
-                    <a href="index.php" class="w3-bar-item w3-button" style="background: grey; color: aliceblue">LOGIN</a>
-                    <a href="index.php" class="w3-bar-item w3-button" style="color: aliceblue;background: grey">SIGNUP</a>
+                    <a href="index.php" class="w3-bar-item w3-button" style="background: black; color: aliceblue">LOGIN</a>
+                    <a href="index.php" class="w3-bar-item w3-button" style="color: aliceblue;background: black">SIGNUP</a>
                 </div>
             <?php }?>
           </div>

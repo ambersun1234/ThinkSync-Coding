@@ -1,5 +1,6 @@
 <?php
-    //include('header.html');
+    include('header.html');
+    include('footer.html');
 ?>
 <html>
 <meta http-equiv="Content-Type" content="test/html; charset=utf-8" />
@@ -90,37 +91,20 @@
     
     <script src="http://codemirror.net/mode/xml/xml.js"></script>
     <script src="https://rawgithub.com/angular-ui/ui-codemirror/bower/ui-codemirror.min.js"></script>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
         
     <style>
-        .w3-top{
-            font-family: "Inconsolata", sans-serif;
-            color : white;
-            background: "#rgb(101, 152, 146)";
-            position:fixed;
-            top:0px;
-            z-index: 7;
-            height:50px;
-        }
         a{
             color: white;
             text-decoration: none;
         }
-        a:link, a:visited { color:white; }
-        #id_footer {
-            height: 40px;
-            position: fixed;
-            bottom: 0px;
-            width: 100%;
-            background: grey;
-            z-index: 7;
-            color: white;
-        }
+        a:link, a:visited, a:hover { color:white; }
+        
         .CodeMirror {
             border: 1px solid #CCCCCC;
             font-size: 16px;
-            height: 300px;
+            height: 600px;
             width: 65.5%;
         }
         /*save button*/
@@ -179,7 +163,7 @@
         /*compile message*/
         .compileMsg{
             float: right;
-            height: 610px;
+            height: 910px;
             width: 28%;
             margin-right: 10px;
             background: #ffffff;
@@ -191,13 +175,16 @@
 
 <body>
     <div>
-        <div style="margin:80px 10px 10px 10px;">
+        <div style="margin:50px 45px 0px 45px; ">
+            <p style="font-size:40px;height:40px;"><strong>ThinkSync.</strong></p>
+        </div>
+        <div style="margin:0px 45px 10px 45px;">
             Select program language
             <select onchange="selectPL()" id="selectPL">
                 <option selected="">C</option>
                 <option>C++</option>
                 <!--<option>Java</option>-->
-            </select>
+            </select>&nbsp;&nbsp;
             Select a theme:
             <select onchange="selectTheme()" id="select">
                 <option selected="">default</option>
@@ -255,8 +242,8 @@
                 <option>yeti</option>
                 <option>yonce</option>
                 <option>zenburn</option>
-            </select>
-        Select program language
+            </select>&nbsp;&nbsp;
+        Select optimise option
             <select id="selectComFlag"><!--//onchange="selectPL()"-->
                 <option selected="">-o1</option>
                 <option>-o2</option>
@@ -264,8 +251,8 @@
             </select>
         </div>
         
-        <div style="margin:0px 0px 20px;">
-            <input type="checkbox" name="-Wall" value="-Wall">Compile Wall
+        <div style="margin:10px 45px 10px 45px;"> <!--top right bottom left-->
+            <input type="checkbox" name="-Wall" value="-Wall">Compile Wall&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="checkbox" name="-Werror" value="-Werror">Compile Werror
             
             <input class="saveButton" type="button" name="save" value="save" style="margin-left:30px">
@@ -464,7 +451,6 @@
             });*/
         /*}*/
     </script>
-    
     <!--/*compile output*/-->
     <div class="output" style="margin:10px 0px 0px 3%;">
         <form>
@@ -473,9 +459,7 @@
             </textarea>
         </form>
     </div>
-    <footer id="id_footer" style="text-align:center;padding: 11px;">
-        <a href="#">隱私權政策</a>&nbsp;&nbsp;&nbsp;&nbsp;聯絡人：u10506111
-    </footer>
+    <br><br>
     
 </body>
 </html>
