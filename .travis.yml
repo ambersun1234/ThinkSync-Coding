@@ -10,17 +10,13 @@ after_success:
   $PSUser@$remote "rm -rf /home/$PSUser/web/ThinkSync/* && mkdir -vp /home/$PSUser/web/ThinkSync"
 - sshpass -e scp -o PubkeyAuthentication=no -o StrictHostKeyChecking=no -v -P $port
   -r $TRAVIS_BUILD_DIR/* $PSUser@$remote:/home/$PSUser/web/ThinkSync/.
-- export SSHPASS=$TSPwd
-- sshpass -e ssh -o PubkeyAuthentication=no -o StrictHostKeyChecking=no -v -p $port
-  $TSUser@$remote "rm -rf /home/$TSUser/web/ThinkSyncDeploy/* && mkdir -vp /home/$TSUser/web/ThinkSyncDeploy/"
-- sshpass -e scp -o PubkeyAuthentication=no -o StrictHostKeyChecking=no -v -P $port
-  -r $TRAVIS_BUILD_DIR/* $TSUser@$remote:/home/$TSUser/web/ThinkSyncDeploy/.
 notifications:
   email:
     recipients:
     - ambersun1019.shawn@gmail.com
+    - u10506111@ms.ttu.edu.tw
     on_success: never
     on_failure: always
 env:
   global:
-    secure: YM/n+T/8Zn2kJ777qz4QN2ziNJIC5diqR85/E/3djPk2nX8lABFbMi1sbX/nWM7CeZoeIKqnL5JPob4WcDQ5tmIg/iraLb860zrhySDAA8V4le4xABO+tojOkv9QDQj2dAQqvdhcxUqqLt+enUjDXThUKRMwkUuixRI2YmamsVvOejMDwGiOu/IVQTei9OsY7ZDyrfkB6KLNYfPHfjYcEPmeRfSA8nZRM1hi1IwYNgLB4Z5g+mvnaMLWc3dZty+fHW94gePosfmJvlgtNxlV6s1QbQtikSA7418DQjAE7b2XVF34OSYvUUSWgDJ0w9VoPh1Ay8mOKnaxQMwtiCdkY9bp/Q9fwUbx50xp3NgyRDZxwivn00WnC9tsF4ICTL2eZufUvIemuTZ/Au5CFgZWQiN8bJOlkaoy4bEKr0YHVlsFSR3rmExSUNCdmZv6VIV0GlPbf7+Km4epkid5WnOXmYiovBwUE75cSEUtD7r7kDg6O3uFXYITYS4tzUh8RLB/qhWkToP/COjPB2xZ925FxDaXauyy5HUx6mbOEjM7AGVhua1j6NS5HPBWhNjiAKjm5+oHUhIiG+jUkNgu53nslekr4Zhdw1cJ6xLETGzQHnNGMtgaGGZYOiAR0KupDUj+bsmUi/yMqx0+4D3x/+QLqGz7o3GWvsAh7owr99cW79U=
+    secure: KPneG51v9IRypMVUwlD6evBa46gy/hO6+pfmddSlzZa+g0Z00bD7yPvye26kItc0kI9XS4y8zLiPKmyv41u6OPm7vl8ttW+3V9H9YXj7YGHQvVQkLDCWtTdfmbxtiJPtWgoFN2uzP8WZW0UdxAzJ+WeeF7KEAbBLUPSqf4835xTev4qZVHwIyy4xJX7tW4rz9iXkjjqxGsN8G/+1vGw75yeQu9YeRBhmxAqObROJxwxndl58XNK2KJb4FlVRnkqywIdAT8/bRvb6fZjdQJKD+AwMWnKqNsWIubtauCezEsqTaW2IocTd6qxEo3GX/lWaN1165D1onTPTzvf35cYottlsnM0FCParHQvID+2g80GEKhdZolfJkoPBechb4gKRvdgkkGYIOydcwweKsT3a5GTeS2uJ6FsI3IuHEf9UtzQrZiHToAuAWuiYj71vS/to9s36QdiyYOpLMEkF45B9zuOX4ha3WbQ3sw9Dz0NzGLTa54e/DMufGUGaYP/OuoYrKCFVJBNay7cqkgzJkGqlkiVsrR3guA2CDVh/bmuc0GLFmv1PpnSB/KFfDFaS8M0XW7J0CMsXqabsdbfmKnVOmSYm9nj8YJwWv+wIw2wsZ5pudKnlBAE6eF198OJ5DZUt4eVQ1eD2qjlthQeMpyidPXaZgRNjWZGEoZH6jt7b1sg=
