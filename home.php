@@ -182,8 +182,8 @@
 
         <!-- Header with image bgimg -->
         <header class="bgimg w3-display-container w3-grayscale-min w3-center" id="home">
-                <div style="position: relative;text-align: center;font-size: 80pt;color: aliceblue;font-weight: 200;top:120px;">
-                    How<br>About<br>IDE<br>?
+                <div style="position: relative;text-align: center;font-size: 80pt;color: aliceblue;font-weight: 200;top:170px;">
+                    ThinkSync.<br><p style="font-size:30pt">———————————————————————————————————————————————</p><p style="font-size:20pt">We are devoted to building a complete online IDE platform</p>
                 </div>
 
                 <div class="bg" id= "slideshow">
@@ -199,14 +199,13 @@
             <div class="w3-container" id="about">
                 <div class="w3-content" style="max-width:700px">
                     <h4 class="w3-center w3-padding-64"><span class="w3-wide" style = "border-bottom-style: solid;padding : 10px">ABOUT THE THINKSYNC.</span></h4>
-                    <p>成立於 2019/05/07 的小組專題。</p>
-                    <p>為什麼要取名為 ThinkSync. 呢？<br><br>
-                    <p>　　　　其主旨在於：<strong>讓你的想法與世界同步！</strong></p><br><br>
-                    來跟大家分享你的想法吧！</p><br>
+                    <p style="font-size:20pt;">This site was established on 2019/05/07 </p><!--成立於 2019/05/07 的小組專題。-->
+                    <p>Why we name this project "ThinkSync." ?</p><br><!--為什麼要取名為 ThinkSync. 呢-->
+                    <p>　　　　Its main purpose is :<strong>Synchronize your Think with the world!</strong></p><br>
+                    <p>Let's <strong>coding everywhere!</strong></p><br><!--其主旨在於：讓你的想法與世界同步！來跟大家分享你的想法吧-->
                     <div class="w3-panel w3-leftbar w3-light-grey"><br>
                         <p><i>"　Not being heard is no reason for silence.　"</i></p>
-                        <p><i>" 沒有被聽見不是沉默的理由。"</i></p>
-                        <p>　　　　　　　　　　　　　　　　      by: Victor Marie Hugo</p>
+                        <p>　　　　　　　　　　　　　　　　              by: Victor Marie Hugo</p>
                         <br>
                     </div>
                     <img src="homepage_pic/pic_01.jpg" style="width:100%;max-width:1000px" class="w3-margin-top">
@@ -221,8 +220,8 @@
                 </div>
                 <br><br>
                 <div class="w3-panel w3-leftbar w3-border-black w3-white w3-content" style="max-width:700px"><br>
-                    <p>  營業時間 ： MON ~ FRI 08:00 ~ 17:00</p>
-                    <p>  連絡電話 ： 0987-487-945</p>
+                    <p>  Service Time ： MON ~ FRI 08:00 ~ 17:00</p> <!--營業時間-->
+                    <p>  Contact Nsumber ： 0987-487-945</p> <!--連絡電話-->
                     <br>
                 </div>
             </div>
@@ -252,14 +251,14 @@
             <div class="w3-container" id = "contact" style="padding-bottom:32px;" >
                 <div class="w3-content" style="max-width:700px">
                     <h4 class="w3-center w3-padding-48"><span class="w3-wide" style = "border-bottom-style: solid;padding : 10px">CONTACT</span></h4>
-                    <p><span class="w3-tag">※  有任何問題歡迎給我們回饋 ！</span></p><br>
-                    <p>這封信將會寄到我們的信箱，但未必會<strong> " 立刻 " </strong>得到回覆，請耐心等待</p><br>
+                    <p><span class="w3-tag">※  Feedback is Welcome</span></p><br>
+                    <p>This feedback will send to us, but it won't reply<strong> "IMMEDIATELY", </strong> please wait patiently</p><br><!--※ 有任何問題歡迎給我們回饋 這封信將會寄到我們的信箱，但未必會 " 立刻 "得到回覆，請耐心等待！寄出信件-->
                     <form name = "form1" action="action_page.php" method = "post" target="_blank"> <!--target="_blank"-->
                         <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Name" required name="T1"></p>
                         <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Subject" required name="T2"></p>
                         <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Your email address" required name="T3"></p>
                         <p><textarea class="w3-input w3-padding-16 w3-border" rows="10" cols="60" placeholder="Message \ Special requirements" required name="T4"></textarea></p>
-                        <p><button class="w3-button w3-black" type="submit" value = "submit">寄出信件</button></p>
+                        <p><button class="w3-button w3-black" type="submit" value = "submit">SEND</button></p>
                     </form>
                 </div>
             </div>
@@ -268,10 +267,12 @@
 
             <!-- Footer -->
             <footer class="w3-center w3-padding-48" style="background-color:#9098a0">
-                <p style="color:#fff;"><a href="https://www.edu.tw/News_Content.aspx?n=9F932B3D33DCCF6B&sms=15283ECA9D7F60AA&s=C046940F587A693C">隱私權政策</a> | <a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=I0050021">個人資料保護相關法律事項</a></p>
-                <p style="color:#fff;">建議或客服請洽：u10506111</p>
+                <p style="color:#fff;"><a href="https://www.edu.tw/News_Content.aspx?n=9F932B3D33DCCF6B&sms=15283ECA9D7F60AA&s=C046940F587A693C">Privacy Policy</a> | <a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=I0050021">Personal Data Protection Related Legal Matters</a></p>
+                <p style="color:#fff;">Suggestions or customer service please contact : u10506111</p>
             </footer>
+            <!--Privacy Policy|Personal Data Protection Related Legal Matters
 
+Suggestions or customer service please contact-->
             <!--About jquery-->
             <!--script>
                 // Tabbed Menu
