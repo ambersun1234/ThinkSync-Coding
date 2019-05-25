@@ -1,6 +1,6 @@
 <?php
     //include('header.html');
-    include('head_line.inc.php');
+    include('./include/head_line.inc.php');
     include('footer.html');
 ?>
 <html>
