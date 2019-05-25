@@ -1,5 +1,6 @@
 <?php
-    include('header.html');
+    //include('header.html');
+    include('head_line.inc.php');
     include('footer.html');
 ?>
 <html>
@@ -152,6 +153,49 @@
           transform: translateY(4px);
         }
         
+        .saveasButton {
+          display: inline-block;
+          padding: 2px 30px;
+          font-size: 16px;
+          cursor: pointer;
+          text-align: center;
+          text-decoration: none;
+          outline: none;
+          color: #fff;
+          background-color: #ffb529;
+          border: none;
+          border-radius: 15px;
+          /*box-shadow: 0 9px #999;*/
+        }
+
+        .saveasButton:hover {background-color: #ffa700}
+
+        .saveasButton:active {
+          background-color: #ffa700;
+          transform: translateY(4px);
+        }
+        
+        .postButton {
+          display: inline-block;
+          padding: 2px 30px;
+          font-size: 16px;
+          cursor: pointer;
+          text-align: center;
+          text-decoration: none;
+          outline: none;
+          color: #fff;
+          background-color: #ff9cd1;
+          border: none;
+          border-radius: 15px;
+          /*box-shadow: 0 9px #999;*/
+        }
+
+        .postButton:hover {background-color: #ff7fc3}
+
+        .postButton:active {
+          background-color: #ff7fc3;
+          transform: translateY(4px);
+        }
         /*compile output*/
         .output{
             background: #555555;
@@ -170,12 +214,36 @@
             border: 1px solid #CCCCCC;
         }
     </style>
-    
+    <script>
+    function download(){
+        var text = editor.getValue();//document.getElementById("code").value;
+        text = text.replace(/\n/g, "\r\n"); // To retain the Line breaks.
+        var blob = new Blob([text], { type: "text/plain"});
+        var anchor = document.createElement("a");
+        
+        //anchor.download = "my-filename.txt";
+        var choosePL = document.getElementById("selectPL");
+        programlanguage = choosePL.options[choosePL.selectedIndex].textContent;
+        if(programlanguage == "C") {
+            anchor.download = "my-code-by-thinksync.c";
+        }
+        else if (programlanguage == "C++"){
+            anchor.download = "my-code-by-thinksync.cpp"
+        }
+        
+        anchor.href = window.URL.createObjectURL(blob);
+        anchor.target ="_blank";
+        anchor.style.display = "none"; // just to be safe!
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+     }
+    </script>
 </head>
 
 <body>
     <div>
-        <div style="margin:50px 45px 0px 45px; ">
+        <div style="margin:60px 45px 0px 45px; ">
             <p style="font-size:40px;height:40px;"><strong>ThinkSync.</strong></p>
         </div>
         <div style="margin:0px 45px 10px 45px;">
@@ -254,10 +322,11 @@
         <div style="margin:10px 45px 10px 45px;"> <!--top right bottom left-->
             <input type="checkbox" name="-Wall" value="-Wall">Compile Wall&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="checkbox" name="-Werror" value="-Werror">Compile Werror
-            
-            <input class="saveButton" type="button" name="save" value="save" style="margin-left:30px">
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <input class="runButton" type="button" name="run" value="run">
+            <input class="postButton" type="button" name="post" value="post to public" style="margin-left:20px">
+            <input class="saveasButton" type="button" name="saveas" value="save as file" style="margin-left:20px" onclick="download()">
+            <input class="saveButton" type="button" name="save" value="save as private" style="margin-left:20px">
+            <input class="runButton" type="button" name="run" value="run" style="margin-left:20px">
             <!--onclick="sendToCompile()"-->
         </div>
     </div>
@@ -288,7 +357,6 @@
             tabSize: 4,
             mode: "text/x-csrc"
         });
-        
         
         var choosePL = document.getElementById("selectPL");
         var input = document.getElementById("select");
