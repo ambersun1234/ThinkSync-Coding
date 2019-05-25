@@ -1,23 +1,17 @@
 <?php
-    session_start(); 
-    //$_SESSION['Category'] = 'All';
-?>
-<?php
-    //include('action_page.php');
-    //include('mysql_connect.inc.php');
-
-?>
+    session_start();
+ ?>
 <!DOCTYPE html>
 <html>
     <head>
         <title>HOME</title>
-    
+
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
-        
+
         <script type="text/javascript" src="http://cherne.net/brian/resources/jquery.hoverIntent.js"></script>
         <script type="text/javascript" src="https://raw.githubusercontent.com/douglascrockford/JSON-js/master/json2.js"></script>
         <script type="text/javascript" src="./jquery.cycle.all.js"></script>
@@ -64,16 +58,16 @@
         <style type="text/css">
             #slideshow {
                 width:   1600px;
-                height:  900px; 
-                padding: 0;  
+                height:  900px;
+                padding: 0;
                 margin:  0;
-                overflow:hidden;  
+                overflow:hidden;
             }
-            #slideshow img {  
-                background-color: #eee;  
-                width:  1600px; 
-                height: 900px; 
-                top:  0; 
+            #slideshow img {
+                background-color: #eee;
+                width:  1600px;
+                height: 900px;
+                top:  0;
                 left: 0;
             }
             .flex-caption {
@@ -92,7 +86,7 @@
             }
 
         </style>
-        
+
         <!--"Script" have scroll function for better experience-->
         <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
@@ -112,7 +106,7 @@
 
             });
         </script>
-      
+
         <!--"Script" About visual-pic-->
         <script type="text/javascript">
             $(document).ready(function() {
@@ -127,7 +121,7 @@
         </script>
     </head>
     <!--end of head-->
-    
+
     <body>
         <!-- Links (sit on top) -->
         <div class="w3-top">
@@ -170,7 +164,7 @@
                         $result =  mysqli_fetch_array($r);
                         echo "<font class='w3-bar-item' style='position:center;padding:0px 5px;'align='center' valign='center' face='Inconsolata' size='3'>Hi! ".$result['Fname']." 歡迎回來!&nbsp;&nbsp;&nbsp;&nbsp;</font>";
                     ?>
-                    
+
                     <a href="./logout.php" class="w3-bar-item w3-button">LOGOUT</a>
                     <a href="./post.php" class="w3-bar-item w3-button">POST</a>
                     <a href="./update.php" class="w3-bar-item w3-button">USER CENTER</a>
@@ -191,10 +185,10 @@
                     <img src="homepage_pic/pic_07.jpg" alt="2" style="width:auto;max-width:2000px"/>
                 </div>
         </header>
-        
+
         <!-- Add a background color and large text to the whole page *w3-sand w3-grayscale-->
         <br><br><br><br><br><br><br><br><br><br><br><br>
-        <div class="w3-large"> 
+        <div class="w3-large">
             <!-- About Container -->
             <div class="w3-container" id="about">
                 <div class="w3-content" style="max-width:700px">
@@ -225,7 +219,7 @@
                     <br>
                 </div>
             </div>
-            
+
             <!--google map function-->
             <script async defer
                      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmUgkZNoNZFbzGUBRVKoPL2vYJPSwhr5c&callback=initMap">
@@ -291,9 +285,9 @@ Suggestions or customer service please contact-->
                 }
                 document.getElementById("myLink").click();
             </script-->
-            
+
         </div>
-        
+
     </body>
-    
+
 </html>
