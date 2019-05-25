@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include("head_line.inc.php");
+    include("./include/head_line.inc.php");
 ?>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
