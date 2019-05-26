@@ -1,21 +1,31 @@
 <?php
     session_start();
     require_once "./include/commonFunction.php";
+    require_once "./include/db/db_func.php";
+    require_once "./include/db/configure.php";
+    require_once "./include/oauth/goauth_api_client/vendor/autoload.php"; // use for google Oauth 2.0 api
+    require_once "./include/oauth/goauthData.php";
 
     /* Input:
-     *     name: user name
+     *     token: id token
+     *     pwd: user password
      *     email: user email
      *     mode: goauth, normal
      * Output:
      *     code: 0( success ), 1( fail )
+     *     msg: error message
      */
 
     $modeArray = Array("goauth", "normal");
-    $returnValue = Array("code" => 0);
+    $returnValue = Array("code" => 0, "msg" => NULL);
+    $validation = FALSE;
 
     // fetch data
-    if (isset($_POST["name"]) && !empty($_POST["name"])) {
-        $name = getData($_POST["name"]);
+    if (isset($_POST["token"]) && !empty($_POST["token"])) {
+        $token = getData($_POST["token"]);
+    }
+    if (isset($_POST["pwd"]) && !empty($_POST["pwd"])) {
+        $pwd = getData($_POST["pwd"]);
     }
     if (isset($_POST["email"]) && !empty($_POST["email"])) {
         $email = getData($_POST["email"]);
@@ -24,16 +34,51 @@
         $mode = getData($_POST["mode"]);
     }
 
-    // check data
-        // check email valid or not
-        // check mode is in modeArray
+    // for each login way, do the proper measure
+    switch ($mode) {
+        case "normal":
+            // use email and pwd to verify user
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $returnValue["code"] = 1;
+                $returnValue["msg"] = "Invalid email format.";
+            }
+            else {
+                $db_conn = connect2db($dbhost, $dbuser, $dbpwd, $dbname);
+                $sqlcmd = "SELECT * FROM ts_account WHERE Email = $email AND Password = $pwd AND valid = '0'";
+                $rs = querydb($sqlcmd, $db_conn);
+                if (count($rs) == 1) {
+                    $uid = $rs[0]["UserIndex"];
+                }
+                $returnValue["code"] = 0;
+            }
+            break;
+
+        case "goauth":
+            // use google api to verify user
+            $goauth = new Google_Client(["client_id" => $goauthClientId]);
+            $payload = $goauth->verifyIdToken($token);
+            if (!$payload) {
+                $returnValue["code"] = 1;
+                $returnValue["msg"] = "Invalid ID token.";
+            }
+            else {
+                $returnValue["code"] = 0;
+                $uid = $token;
+            }
+            break;
+
+        default:
+            $returnValue["code"] = 1;
+            $returnValue["msg"] = "Something went wrong, please try again.";
+            break;
+    }
 
     // set session data
-    $_SESSION["name"] = $name;
-    $_SESSION["email"] = $email;
-    $_SESSION["mode"] = $mode;
+    if ($returnValue["code"] == 0) {
+        $_SESSION["uid"] = $uid;
+        $_SESSION["email"] = $email;
+        $_SESSION["mode"] = $mode;
+    }
 
-    // set json data
-    $returnValue["code"] = 0;
     echo json_encode($returnValue);
  ?>

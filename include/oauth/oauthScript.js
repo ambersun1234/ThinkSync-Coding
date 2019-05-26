@@ -14,7 +14,7 @@ function googleOnSignIn(googleUser) {
           */
          $.post(
              "./login_finish.php",
-             {"name": profile.getName(), "email": profile.getEmail(), "mode": "goauth"}, function(data) {
+             {"token": googleUser.getAuthResponse().id_token, "email": profile.getEmail(), "mode": "goauth"}, function(data) {
                  if (data.code == 0) {
                      window.location = "./home.php";
                  }
