@@ -151,7 +151,7 @@
             <!--detect the state of login or out, and change the function that they can use-->
             <?php if(empty($_SESSION['ID'])) {?>
                 <div id = "pic" class="w3-right w3-hide-small">
-                    <a href="./index.php" class="w3-bar-item w3-button">LOGIN</a>
+                    <a href="./login.php" class="w3-bar-item w3-button">LOGIN</a>
                     <a href="./register.php" class="w3-bar-item w3-button">SIGNUP</a>
                 </div>
             <?php }?>
