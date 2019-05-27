@@ -8,8 +8,7 @@ after_success:
 - export SSHPASS=$PSPwd
 - sshpass -e ssh -o PubkeyAuthentication=no -o StrictHostKeyChecking=no -v -p $port
   $PSUser@$remote "rm -rf /home/$PSUser/web/ThinkSync/* && mkdir -vp /home/$PSUser/web/ThinkSync"
-- sshpass -e scp -o PubkeyAuthentication=no -o StrictHostKeyChecking=no -v -P $port
-  -r $TRAVIS_BUILD_DIR/* $PSUser@$remote:/home/$PSUser/web/ThinkSync/.
+- sshpass -e rsync -avz --exclude='.git' -e "ssh -p 6561" $TRAVIS_BUILD_DIR/ $PSUser@$remote:/home/$PSUser/web/ThinkSync/
 notifications:
   email:
     recipients:
