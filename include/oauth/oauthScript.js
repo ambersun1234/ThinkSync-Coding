@@ -1,5 +1,6 @@
 var jQueryScript = document.createElement('script');
 jQueryScript.setAttribute('src','https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js');
+// jQueryScript.setAttribute('src2', 'https://apis.google.com/js/platform.js');
 document.head.appendChild(jQueryScript);
 
 function googleOnSignIn(googleUser) {
@@ -22,9 +23,28 @@ function googleOnSignIn(googleUser) {
      }
 }
 
+function googleOnSignUp(googleUser) {
+    if (profile.getEmail()) {
+        $.post(
+            "./register_finish.php",
+            {"token": googleUser.getAuthResponse().id_token, "email": profile.getEmail(), "mode": "goauth"}, function(data) {
+                if (data.code == 0) {
+                    window.location = "./home.php";
+                }
+            }, "json");
+    }
+}
+
 function googleSignOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-        alert("Sign out");
+    gapi.load('auth2', function() {
+        gapi.auth2.init().then(function() {
+            var client = gapi.auth2.getAuthInstance();
+            client.signOut().then(function() {
+                // loaded
+            }, function() {
+                // failed
+                alert("Sign out failed.");
+            });
+        });
     });
 }

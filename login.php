@@ -2,7 +2,7 @@
     session_start();
     require_once "./include/commonFunction.php";
     require_once "./include/oauth/goauthData.php";
-    // include("./include/head_line.inc.php");
+    include("./include/head_line.inc.php");
 ?>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -43,7 +43,6 @@
 
                 <div class="g-signin2" style="margin: 0 auto;" data-onsuccess="googleOnSignIn"></div>
                 <input type="hidden" value="normal" name="mode">
-                <a href="#" onclick="googleSignOut();">Sign out</a>
             </form>
         </div>
          <script>
