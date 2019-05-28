@@ -1,7 +1,7 @@
 <?php
     session_start();
     session_unset();
-
+    include("./include/head_line.inc.php");
     require_once "./include/commonFunction.php";
     require_once "./include/oauth/goauthData.php";
     //echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />";
@@ -26,15 +26,16 @@
 
     <body>
         <!-- show logout success img -->
-        <div id="showImg"></div>
+        <div id="showImg">
+            <img src="./homepage_pic/logoutSuccess_en.png" width="90%">
+        </div>
     </body>
 
     <script type="text/javascript">
-        googleSignOut();
-        var imgDiv = document.getElementById("showImg");
-        var imgTag = document.createElement("img");
-        imgTag.setAttribute("src", "./pic/logoutSuccess.png");
-        imgTag.setAttribute("width", "90%");
-        imgDiv.appendChild(imgTag);
+        googleOnSignOut(function() {
+            setTimeout(function() {
+                window.location.href = "./home.php";
+            }, 500);
+        });
     </script>
 </html>

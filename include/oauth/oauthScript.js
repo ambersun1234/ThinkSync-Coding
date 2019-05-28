@@ -24,6 +24,8 @@ function googleOnSignIn(googleUser) {
 }
 
 function googleOnSignUp(googleUser) {
+    var profile = googleUser.getBasicProfile();
+
     if (profile.getEmail()) {
         $.post(
             "./register_finish.php",
@@ -35,12 +37,13 @@ function googleOnSignUp(googleUser) {
     }
 }
 
-function googleSignOut() {
+function googleOnSignOut(callback) {
     gapi.load('auth2', function() {
         gapi.auth2.init().then(function() {
             var client = gapi.auth2.getAuthInstance();
             client.signOut().then(function() {
                 // loaded
+                callback();
             }, function() {
                 // failed
                 alert("Sign out failed.");
