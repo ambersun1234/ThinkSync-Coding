@@ -35,7 +35,7 @@
         googleOnSignOut(function() {
             setTimeout(function() {
                 window.location.href = "./home.php";
-            }, 500);
+            }, 300);
         });
     </script>
 </html>
