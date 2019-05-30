@@ -237,7 +237,68 @@
         document.body.appendChild(anchor);
         anchor.click();
         document.body.removeChild(anchor);
-     }
+    }
+    </script>
+    <script>
+        /*function postToPub() {
+            
+        }*/
+    </script>
+    <script>
+    /*function postToPub() {
+        var getcode = editor.getValue();
+        window.location.href= "javascript:$.post('post.php', {code: 'getcode'})";
+        /*$.post('post.php', {postcode: getcode}, function(data) {
+            window.location.href = 'post.php';//$('#result').html(data);
+        }).fail(function() {
+            alert("ajax failed");
+        });*/
+        //
+        /*$.ajax({
+            data: getcode,
+            url: 'post.php',
+            method: 'POST', // or GET
+            success: function(data) {
+                var getcode = editor.getValue();
+                alert(getcode);
+                window.location.href= "javascript:$.post('post.php', {code: 'getcode'})";
+                //window.location.href = 'post.php';
+            },
+            fail: function(msg) {
+                alert("NO!" + msg);
+            }
+        });
+    }*/
+    /*function postToPub() {
+        var getcode = editor.getValue();
+        window.location.href= "javascript:$.post('post.php', {code: ".getcode."})";
+    }*/
+    /*
+    function postToPub() {
+        var getcode = editor.getValue();
+        var sJson = JSON.stringify
+        ({
+            code: getcode
+        });
+        var obj = '[{"code":getcode}]';
+        var stringify = JSON.parse(obj);
+        alert(stringify[0]['code']);
+        $.ajax({
+            data: stringify,
+            url: './post.php',
+            method: 'POST', // or GET
+            datatype: 'json',
+            contentType: 'application/json; charset=UTF-8',
+            success: function(data) {
+                //alert(sJson[0]['code']);
+                //var getcode = editor.getValue();
+                //var code_package = $.ajax({code:getcode});
+                //alert(getcode);
+                window.location.href= "./post.php";
+                //window.location.href = 'post.php';
+            }
+        });
+    }*/
     </script>
 </head>
 
@@ -319,19 +380,18 @@
             </select>
         </div>
         
-        <div style="margin:10px 45px 10px 45px;"> <!--top right bottom left-->
+        <!--div style="margin:10px 45px 10px 45px;">
             <input type="checkbox" name="-Wall" value="-Wall">Compile Wall&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="checkbox" name="-Werror" value="-Werror">Compile Werror
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <input class="postButton" type="button" name="post" value="post to public" style="margin-left:20px">
+            
             <input class="saveasButton" type="button" name="saveas" value="save as file" style="margin-left:20px" onclick="download()">
             <input class="saveButton" type="button" name="save" value="save as private" style="margin-left:20px">
             <input class="runButton" type="button" name="run" value="run" style="margin-left:20px">
-            <!--onclick="sendToCompile()"-->
-        </div>
+        </div-->
     </div>
     <!--/*compile message*/-->
-    <div class="compileMsg" style="margin:0px 3% 0px 0px;">
+    <div class="compileMsg" style="margin:72px 3% 0px 0px;">
         <form>
             <textarea id="compile_msg" name="compile_msg" style="display: none;">
 
@@ -340,10 +400,19 @@
     </div>
     <!--/*code area*/-->
     <div class="codearea" style="margin:0px 0px 0px 3%;">
-        <form>
-            <textarea id="code" name="code" style="display: none;">
+        <form action="post.php" method="post"><br>
+            <input type="checkbox" name="-Wall" value="-Wall">Compile Wall&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="checkbox" name="-Werror" value="-Werror">Compile Werror
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <input class="postButton" type="submit" id="postButton" name="post" value="post" style="margin-left:20px">
+            <input class="saveasButton" type="button" name="saveas" value="save as file" style="margin-left:20px" onclick="download()">
+            <!--input class="saveButton" type="button" name="save" value="save as private" style="margin-left:20px"-->
+            <input class="runButton" type="button" name="run" value="run" style="margin-left:20px">
+            <br><br>
+            <textarea id="code" name="postcode" style="display: none;">
 <?php echo "//test\n#inlcude <stdio.h>\n#include <stdlib.h>\n\nint add(int a, int b) {\n    return a+b;\n}\nint main() {\n   int a = 1, b = 2, c;\n   c = add(a, b);\n   printf(\"%d\", c);\n   return 0;\n}"; ?>
             </textarea>
+            
         </form>
     </div>
     
@@ -450,9 +519,9 @@
             myFunc();
 
             //either this
-            $("#code").keyup(function(){
+            /*$("#code").keyup(function(){
                 $("#code").html($(this).val());
-            });
+            });*/
 
             //or this
             $("#code").keyup(function(){
@@ -494,6 +563,46 @@
                 $("#code").text("出現錯誤").addClass("incorrect");
             });
         });
+        
+        /*var URL_post="./post.php";
+        var data_code_pots = {
+            language: substr[0].toLowerCase(),
+            code:editor.getValue()
+        }
+        $(".postButton").click(function(){
+            $.post("./post.php", { "language": substr[0].toLowerCase(), "code":editor.getValue() }, function(data){
+                alert(data.code);
+                window.location.href = './post.php';
+            }, "json").fail(function(){
+                $("#code").text("出現錯誤").addClass("incorrect");
+            });
+        });*/
+         /*$(document).ready(function(){
+            //var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            $(".postButton").click(function(){
+                    $.ajax({
+                        url: "./post.php",
+                        type: 'POST',
+                        data: editor.getValue(),
+                        dataType: 'JSON',
+                        success: function (data) { 
+                            alert(data);
+                            window.location.href = "./post.php";
+                        }
+                    }); 
+                });
+        });*/
+        
+        /*$(document).ready(function(){
+            $(".postButton").click(function(){
+                $.post("post.php", getcode, function(data){
+                    // Display the returned data in browser
+                    //$("#result").html(data);
+                    var getcode = editor.getValue();
+                    window.location.href= "javascript:$.post('./post.php',{code:'getcode'})";//"./post.php";
+                });
+            });
+        });*/
     </script>
     <script type="text/javascript">
         
