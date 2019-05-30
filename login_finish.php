@@ -44,12 +44,18 @@
             }
             else {
                 $db_conn = connect2db($dbhost, $dbuser, $dbpwd, $dbname);
-                $sqlcmd = "SELECT * FROM ts_account WHERE Email = $email AND Password = $pwd AND valid = '0'";
+                $sqlcmd = "SELECT * FROM tsc_account WHERE Email = '$email' AND valid = '0'";
                 $rs = querydb($sqlcmd, $db_conn);
-                if (count($rs) == 1) {
+
+                $encryptedPassword = $rs[0]["Password"];
+                if (password_verify($pwd, $encryptedPassword)) {
                     $uid = $rs[0]["UserIndex"];
+                    $returnValue["code"] = 0;
                 }
-                $returnValue["code"] = 0;
+                else {
+                    $returnValue["code"] = 1;
+                    $returnValue["msg"] = "Incorrect password.";
+                }
             }
             break;
 
