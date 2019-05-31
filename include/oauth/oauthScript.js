@@ -19,6 +19,11 @@ function googleOnSignIn(googleUser) {
                  if (data.code == 0) {
                      window.location = "./home.php";
                  }
+                 else {
+                     alert("User not found in ThinkSync-Coding.\nPlease register to continue.");
+                     googleOnSignOut();
+                     window.location = "./register.php";
+                 }
          }, "json");
      }
 }

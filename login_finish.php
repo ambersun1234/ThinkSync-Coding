@@ -44,7 +44,7 @@
             }
             else {
                 $db_conn = connect2db($dbhost, $dbuser, $dbpwd, $dbname);
-                $sqlcmd = "SELECT * FROM tsc_account WHERE Email = '$email' AND valid = '0'";
+                $sqlcmd = "SELECT * FROM tsc_account WHERE Email = '$email' AND Valid = '0'";
                 $rs = querydb($sqlcmd, $db_conn);
 
                 $encryptedPassword = $rs[0]["Password"];
@@ -60,16 +60,25 @@
             break;
 
         case "goauth":
-            // use google api to verify user
-            $goauth = new Google_Client(["client_id" => $goauthClientId]);
-            $payload = $goauth->verifyIdToken($token);
-            if (!$payload) {
-                $returnValue["code"] = 1;
-                $returnValue["msg"] = "Invalid ID token.";
+            $db_conn = connect2db($dbhost, $dbuser, $dbpwd, $dbname);
+            $sqlcmd = "SELECT * FROM tsc_account WHERE Email = '$email' AND Valid = '0'";
+            $rs = querydb($sqlcmd, $db_conn);
+            if (count($rs) == 1) {
+                // use google api to verify user
+                $goauth = new Google_Client(["client_id" => $goauthClientId]);
+                $payload = $goauth->verifyIdToken($token);
+                if (!$payload) {
+                    $returnValue["code"] = 1;
+                    $returnValue["msg"] = "Invalid ID token.";
+                }
+                else {
+                    $returnValue["code"] = 0;
+                    $uid = $token;
+                }
             }
             else {
-                $returnValue["code"] = 0;
-                $uid = $token;
+                $returnValue["code"] = 1;
+                $returnValue["msg"] = "No user found in ThinkSync-Coding.";
             }
             break;
 
