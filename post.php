@@ -1,10 +1,10 @@
 <?php
     session_start();
-    //include("./include/head_line.inc.php");
+    include("./include/head_line.inc.php");
     include("./include/db/configure.php");
     include("./include/commonFunction.php");
 
-    checkLogin();
+    //checkLogin();
 
     if (isset($_POST["postcode"]) && !empty($_POST["postcode"])) {
         $code = getData($_POST['postcode']);
@@ -17,7 +17,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta charset="UTF-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
         <title>Post</title>
         <style>
             table {
@@ -152,6 +152,16 @@
                             <input type="radio" name="category" value="private"/>&nbsp;&nbsp;private
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <input type="radio" name="category" value="public"/>&nbsp;&nbsp;public
+                        <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td><br>Language：</td>
+                    <td>
+                        <br>&nbsp;
+                            <input type="radio" name="lang" value="c"/>&nbsp;&nbsp;C
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="lang" value="cpp"/>&nbsp;&nbsp;C++
                         <br>
                     </td>
                 </tr>
