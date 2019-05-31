@@ -1,14 +1,18 @@
-<?php session_start(); ?>
 <?php
-    include("./include/head_line.inc.php");
-    include("./include/db/configure.php"); //mysql_connect.inc.php
+    session_start();
+    //include("./include/head_line.inc.php");
+    include("./include/db/configure.php");
+    include("./include/commonFunction.php");
+
+    checkLogin();
+
     if (isset($_POST["postcode"]) && !empty($_POST["postcode"])) {
-        $code = $_POST['postcode'];   
+        $code = getData($_POST['postcode']);
     }
     if (isset($_SESSION["uid"]) && !empty($_SESSION["uid"])) {
-        $uid = $_SESSION["uid"];   
+        $uid = $_SESSION["uid"];
     }
-    //if(!empty($_SESSION['admin'])) include("./include/head_admin.inc.php");
+
 ?>
 <html>
     <head>
@@ -224,7 +228,7 @@
     function CheckNot() {
         if(confirm("When you leave this page the content all you type will disappear, do you want to leave?")){
             window.location.href="./index_new.php#C#default"; 
-        }
+        } 
     }
     function CheckFunc() {
         msg = "";

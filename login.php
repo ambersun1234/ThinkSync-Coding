@@ -2,7 +2,7 @@
     session_start();
     require_once "./include/commonFunction.php";
     require_once "./include/oauth/goauthData.php";
-    include("./include/head_line.inc.php");
+    include ("./include/head_line.inc.php");
 ?>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -26,7 +26,7 @@
               -webkit-filter:brightness(.6);
 
               /* Full height */
-              height: 100%; 
+              height: 100%;
 
               /* Center and scale the image nicely */
               background-position: center;
@@ -37,7 +37,7 @@
                 margin: 10px;
             }
             .mylogin {
-                
+
                 text-align: center;
                 margin: 0 auto;
                 background-color: #cccccc;
@@ -69,24 +69,42 @@
     <body>
         <div class="bg-image"></div>
         <div class="mylogin" style="text-align: center;margin: 0 auto;">
-            <form class="log_form" name="form" method="post" action="./login_finish.php"><br>
+            <form class="log_form" name="form" method="post"><br>
                 Email: &nbsp;&nbsp;&nbsp;<input type="text" name="email" /><br>
-                Password: <input type="password" name="pwd" /><br><br><br>
+                Password: <input type="password" name="pwd" /><br><br>
                 <a href="register.php">New to ThinkSync? Click me to create new account.</a><br><br>
-                <input type="submit" value="Sing in" name="button" style="width:100px;height:35px;border:2px blue none;color:#fff;background: #000; margin-left: 60%;"  onclick="return CheckFunc();"><div class="g-signin2" style="margin: 0 auto; margin-left:30%;margin-top:-45px;" data-onsuccess="googleOnSignIn"></div>
-                <input type="hidden" value="normal" name="mode"><br>
+                <input type="button" value="Sing in" name="lala" style="width:100px;height:35px;border:2px blue none;color:#fff;background: #000; margin-left: 60%;"  onclick="checkFunc();">
+                <div class="g-signin2" style="margin: 0 auto; margin-left:30%;margin-top:-45px;" data-onsuccess="googleOnSignIn"></div><br>
             </form>
         </div>
          <script>
-            function CheckFunc() {
-                msg = "";
-                if(document.forms[0].email.value == "") msg = "Please enter your Email";
-                else if(document.forms[0].pw.value == "") msg = "Please enter your password";
-                else return true;
-                alert(msg);
-                return false;
+            function checkFunc() {
+                var msg = "";
+                if(document.forms[0].email.value == "") {
+                    alert("Please enter your Email");
+                }
+                else if(document.forms[0].pwd.value == "") {
+                    alert("Please enter your password");
+                }
+                else {
+                    var signinData = {
+                        "email": document.querySelector("input[name=email]").value,
+                        "pwd": document.querySelector("input[name=pwd]").value,
+                        "mode": "normal"
+                    };
+
+                    $.post("./login_finish.php", signinData, function(data) {
+                        if (data.code == 0) {
+                            window.location = "./home.php";
+                        }
+                        else {
+                            alert(data.msg);
+                            document.querySelector("input[name=pwd]").value = "";
+                        }
+                    }, "json");
+                }
             }
         </script>
-        
+
     </body>
 </html>

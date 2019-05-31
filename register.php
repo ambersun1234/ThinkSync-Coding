@@ -10,35 +10,70 @@
         <meta name="google-signin-client_id" content="667132850870-99fts3leulmub66qp55otlarpe9cdnei.apps.googleusercontent.com">
         <script src="./include/oauth/oauthScript.js"></script>
         <script src="https://apis.google.com/js/platform.js?hl=en"></script>
+        <style>
+        .bg-image {
+            /* The image used */
+            background-image: url(./homepage_pic/link_6.png);
+            -webkit-filter:grayscale(1);
+            filter: blur(8px);
+            -webkit-filter:saturate(0.5);
+            -webkit-filter: blur(4px);
+            -webkit-filter:opacity(.3);
+            -webkit-filter:brightness(.6);
 
-        <!-- jquery cdn -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+            /* Full height */
+            height: 100%;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .log_form{
+                border: 15px solid rgb(85, 85, 85);
+                border: 15px solid rgba(123, 123, 123, 0.5);
+                -webkit-background-clip: padding-box; /* for Safari */
+                background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+                background: #ffffff;
+                text-align: center;
+                width:450px;
+                position:absolute;
+                top:40%;
+                left:40%;
+                border-radius:10px;
+                margin: -80px 0 0 -80px;
+                vertical-align: middle;
+            }
+        </style>
     </head>
 
     <body>
+        <div class="bg-image"></div>
         <form class="log_form" name="form" method="post" action="register_finish.php">
-            Username：
+            <br>
+            Username：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="text" name="username" onblur="validateUsername()" />
             <span id="usernameValidate"></span>
             <br><br>
 
-            Email:
+            Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="text" name="email" onblur="validateEmail()"/>
             <span id="emailValidate"></span>
             <br><br>
 
-            Password：
-            <input type="password" id='pw' name="pw"/><br><br>
-
+            Password：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="password" id='pw' name="pw"/>
             <input type="hidden" name="mode" value="normal">
-
-            Enter your password again：
-            <input type="password" id='pw2' name="pw2" onblur="validatePwd()"/>
-            <span id="pwdValidate"></span>
             <br><br>
 
-            <div id="g-signin2" class="g-signin2" style="margin: 0 auto;" data-onsuccess="googleOnSignUp"></div>
-            <input id='submit' name="button" type="submit" disabled value="Register" style="width:120px;height:40px;border:2px blue none;color:#fff;background: #000;position:absolute;right:10px; ">
+            Confirm password：
+            <input type="password" id='pw2' name="pw2" onblur="validatePwd()"/>
+            <span id="pwdValidate"></span>
+            <br><br><br>
+            
+            <div class="g-signin2" style="margin: 0 auto; margin-left:30%;" data-onsuccess="googleOnSignUp"></div>
+            <input id='submit' name="button" type="submit" disabled value="Register" style="width:120px;height:35px;border:2px blue none;color:#fff;background: #000;position:absolute;right:20px;margin-top:-35px">
+            <br>
         </form>
 
         <script>

@@ -1,12 +1,18 @@
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <?php
-    include('./include/db/configure.php');
+    session_start();
+    include_once('./include/db/configure.php');
+    include_once("./include/db/db_func.php");
+    include_once("./include/commonFunction.php");
     //if(!empty($_SESSION['admin'])) include("head_admin.inc.php");
+    //echo $_SESSION['uid'];
+    //exit();
+    $db_conn = connect2db($dbhost, $dbuser, $dbpwd, $dbname);
 ?>
 <html>
     <head>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <style>
             body, html {
                 height: 100%;
@@ -61,18 +67,21 @@
             </div-->
             <?php if(empty($_SESSION['uid'])) {?>
                 <div id = "pic" class="w3-right w3-hide-small">
-                  <a href="../ThinkSync/login.php" class="w3-bar-item w3-button">SIGNIN</a>
-                  <a href="../ThinkSync/register.php" class="w3-bar-item w3-button">SIGNUP</a>
+                    <a href="../ThinkSync/login.php" class="w3-bar-item w3-button">SIGNIN</a>
+                    <a href="../ThinkSync/register.php" class="w3-bar-item w3-button">SIGNUP</a>
                 </div>
             <?php }?>
             <?php if(!empty($_SESSION['uid'])) { ?>
                 <div id = "pic" class="w3-right w3-hide-small">
                    <?php
-                        /*$ID = $_SESSION['uid'];
-                        $sql = "SELECT * FROM user WHERE '$ID' = user.UserIndex";
-                        $r = mysqli_query($conn, $sql);
-                        $result =  mysqli_fetch_array($r);
-                        echo "<font class='w3-bar-item' style='position:center;padding:0px 5px;'align='center' valign='center' face='Inconsolata' size='3'>Hi! ".$result['Fname']."!&nbsp;&nbsp;&nbsp;&nbsp;</font>";*/
+                        //$ID = $_SESSION['uid'];
+                        $email = $_SESSION['email'];
+                        $sql = "SELECT * FROM tsc_account WHERE '$email' = tsc_account.Email";
+                        $result = querydb($sql, $db_conn);
+                        $pic = $result[0]['Picture'];  
+                        echo '<img src="data:image/jpeg;base64,'.base64_encode( $pic ).'" width="30" height="30"/>';
+                        echo "<font class='w3-bar-item' style='position:center;padding:8px 16px;vertical-align: middle;' align='center' valign='center' face='Inconsolata' size='3'>Hi! ".$result[0]['Username']."!&nbsp;&nbsp;</font>";
+                        
                     ?>
                   <a href="../ThinkSync/logout.php" class="w3-bar-item w3-button">LOGOUT</a>
                   <!--a href="../ThinkSync/post.php" class="w3-bar-item w3-button">POST</a-->
