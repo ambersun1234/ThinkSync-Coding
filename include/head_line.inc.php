@@ -76,10 +76,12 @@
                    <?php
                         //$ID = $_SESSION['uid'];
                         $email = $_SESSION['email'];
-                        $sql = "SELECT * FROM tsc_account WHERE '$email' = tsc_account.Email";
+                        $sql = "SELECT * FROM tsc_account WHERE Email = '$email' AND Valid = '0'";
                         $result = querydb($sql, $db_conn);
                         $pic = $result[0]['Picture'];  
-                        echo '<img src="data:image/jpeg;base64,'.base64_encode( $pic ).'" width="30" height="30"/>';
+                    ?>
+                    <img src="data:image/jpeg;base64,<?php echo base64_encode($pic);?>" width="30" height="30"/>
+                    <?php
                         echo "<font class='w3-bar-item' style='position:center;padding:8px 16px;vertical-align: middle;' align='center' valign='center' face='Inconsolata' size='3'>Hi! ".$result[0]['Username']."!&nbsp;&nbsp;</font>";
                         
                     ?>

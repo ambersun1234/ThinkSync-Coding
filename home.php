@@ -1,20 +1,30 @@
 <?php
-    session_start();
- ?>
+    session_start(); 
+    //$_SESSION['Category'] = 'All';
+?>
+<?php
+    //include("head_line.inc.php");
+    include('action_page.php');
+    include('./include/mysql_connect.inc.php');
+    include_once('./include/db/configure.php');
+    include_once("./include/db/db_func.php");
+    include_once("./include/commonFunction.php");
+    $db_conn = connect2db($dbhost, $dbuser, $dbpwd, $dbname);
+?>
 <!DOCTYPE html>
 <html>
     <head>
         <title>HOME</title>
-
+    
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
-
-        <script type="text/javascript" src="http://cherne.net/brian/resources/jquery.hoverIntent.js"></script>
-        <script type="text/javascript" src="https://raw.githubusercontent.com/douglascrockford/JSON-js/master/json2.js"></script>
-        <script type="text/javascript" src="./jquery.cycle.all.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <!--script type="text/javascript" src="http://cherne.net/brian/resources/jquery.hoverIntent.js"></script>
+        <script type="text/javascript" src="https://raw.githubusercontent.com/douglascrockford/JSON-js/master/json2.js"></script-->
+        <!--script type="text/javascript" src="./jquery.cycle.all.js"></script-->
         <!--google map style-->
         <style>
           /* Always set the map height explicitly to define the size of the div
@@ -58,16 +68,16 @@
         <style type="text/css">
             #slideshow {
                 width:   1600px;
-                height:  900px;
-                padding: 0;
+                height:  900px; 
+                padding: 0;  
                 margin:  0;
-                overflow:hidden;
+                overflow:hidden;  
             }
-            #slideshow img {
-                background-color: #eee;
-                width:  1600px;
-                height: 900px;
-                top:  0;
+            #slideshow img {  
+                background-color: #eee;  
+                width:  1600px; 
+                height: 900px; 
+                top:  0; 
                 left: 0;
             }
             .flex-caption {
@@ -86,7 +96,7 @@
             }
 
         </style>
-
+        
         <!--"Script" have scroll function for better experience-->
         <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
@@ -106,7 +116,7 @@
 
             });
         </script>
-
+      
         <!--"Script" About visual-pic-->
         <script type="text/javascript">
             $(document).ready(function() {
@@ -121,21 +131,17 @@
         </script>
     </head>
     <!--end of head-->
-
+    
     <body>
         <!-- Links (sit on top) -->
         <div class="w3-top">
             <div class="w3-row w3-padding w3-black">
-            <?php //echo "<script>console.log($_SESSION[Category])</script>"?>
             <div class="w3-col s1">
                 <a href="#home" class="w3-button w3-block w3-black scroll">HOME</a>
             </div>
             <div class="w3-col s1">
                 <a href="#about" class="w3-button w3-block w3-black scroll">ABOUT</a>
             </div>
-            <!--div class="w3-col s1">
-                <a href="#menu" class="w3-button w3-block w3-black scroll">COMMENT</a>
-            </div-->
             <div class="w3-col s1">
                 <a href="#where" class="w3-button w3-block w3-black scroll">WHERE</a>
             </div>
@@ -149,35 +155,41 @@
                 <a href="prizeTest.php" class="w3-button w3-block scroll">LOTTERY</a>
             </div-->
             <!--detect the state of login or out, and change the function that they can use-->
-            <?php if(empty($_SESSION['ID'])) {?>
+            <?php if(empty($_SESSION['uid'])) {?>
                 <div id = "pic" class="w3-right w3-hide-small">
-                    <a href="./login.php" class="w3-bar-item w3-button">LOGIN</a>
+                    <a href="./login.php" class="w3-bar-item w3-button">SIGNIN</a>
                     <a href="./register.php" class="w3-bar-item w3-button">SIGNUP</a>
                 </div>
             <?php }?>
-            <?php if(!empty($_SESSION['ID'])) {?>
-                <div id = "pic" class="w3-right w3-hide-small" align="center" valign="center">
-                    <?php
-                        $ID = $_SESSION['ID'];
-                        $sql = "SELECT * FROM user WHERE '$ID' = user.ID";
-                        $r = mysqli_query($conn, $sql);
-                        $result =  mysqli_fetch_array($r);
-                        echo "<font class='w3-bar-item' style='position:center;padding:0px 5px;'align='center' valign='center' face='Inconsolata' size='3'>Hi! ".$result['Fname']." 歡迎回來!&nbsp;&nbsp;&nbsp;&nbsp;</font>";
+            <?php if(!empty($_SESSION['uid'])) { ?>
+                <div id = "pic" class="w3-right w3-hide-small">
+                   <?php
+                        //$ID = $_SESSION['uid'];
+                        $email = $_SESSION['email'];
+                        $sql = "SELECT * FROM tsc_account WHERE Email = '$email' AND Valid = '0'";
+                        $result = querydb($sql, $db_conn);
+                        $pic = $result[0]['Picture'];  
                     ?>
-
-                    <a href="./logout.php" class="w3-bar-item w3-button">LOGOUT</a>
-                    <a href="./post.php" class="w3-bar-item w3-button">POST</a>
-                    <a href="./update.php" class="w3-bar-item w3-button">USER CENTER</a>
-                    <?php if(!empty($_SESSION['admin'])) echo "<a href='./delete.php' class='w3-bar-item w3-button'>ADMIN CENTER</a>";?>
+                    <img src="data:image/jpeg;base64,<?php echo base64_encode($pic);?>" width="30" height="30"/>
+                    <?php
+                        echo "<font class='w3-bar-item' style='position:center;padding:8px 16px;vertical-align: middle;' align='center' valign='center' face='Inconsolata' size='3'>Hi! ".$result[0]['Username']."!&nbsp;&nbsp;</font>";
+                        
+                    ?>
+                  <a href="../ThinkSync/logout.php" class="w3-bar-item w3-button">LOGOUT</a>
+                  <!--a href="../ThinkSync/post.php" class="w3-bar-item w3-button">POST</a-->
+                  <a href="../ThinkSync/update.php" class="w3-bar-item w3-button">USER CENTER</a>
                 </div>
             <?php }?>
+            <!--?php if(!empty($_SESSION['admin'])) echo "<a href='./delete.php' class='w3-bar-item w3-button'>ADMIN CENTER</a>";?-->
+                
             </div>
         </div>
 
         <!-- Header with image bgimg -->
         <header class="bgimg w3-display-container w3-grayscale-min w3-center" id="home">
-                <div style="position: relative;text-align: center;font-size: 80pt;color: aliceblue;font-weight: 200;top:170px;">
-                    ThinkSync.<br><p style="font-size:30pt">———————————————————————————————————————————————</p><p style="font-size:20pt">We are devoted to building a complete online IDE platform</p>
+                <div style="position: relative;text-align: center;font-size: 80pt;color: aliceblue;font-weight: 200;top:200px;">
+                    ThinkSync.<br><p style="font-size:30pt">———————————————————————————————————————————————</p>
+                    <p style="font-size:20pt;margin-top:20px;">We are devoted to building a complete online IDE platform</p>
                 </div>
 
                 <div class="bg" id= "slideshow">
@@ -185,10 +197,10 @@
                     <img src="homepage_pic/pic_07.jpg" alt="2" style="width:auto;max-width:2000px"/>
                 </div>
         </header>
-
+        
         <!-- Add a background color and large text to the whole page *w3-sand w3-grayscale-->
         <br><br><br><br><br><br><br><br><br><br><br><br>
-        <div class="w3-large">
+        <div class="w3-large"> 
             <!-- About Container -->
             <div class="w3-container" id="about">
                 <div class="w3-content" style="max-width:700px">
@@ -219,7 +231,7 @@
                     <br>
                 </div>
             </div>
-
+            
             <!--google map function-->
             <script async defer
                      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmUgkZNoNZFbzGUBRVKoPL2vYJPSwhr5c&callback=initMap">
@@ -285,9 +297,9 @@ Suggestions or customer service please contact-->
                 }
                 document.getElementById("myLink").click();
             </script-->
-
+            
         </div>
-
+        
     </body>
-
+    
 </html>
