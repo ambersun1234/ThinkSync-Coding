@@ -73,7 +73,7 @@
                 }
                 else {
                     $returnValue["code"] = 0;
-                    $uid = $token;
+                    $uid = $rs[0]["UserIndex"];
                 }
             }
             else {
@@ -93,6 +93,7 @@
         $_SESSION["uid"] = $uid;
         $_SESSION["email"] = $email;
         $_SESSION["mode"] = $mode;
+        $_SESSION["token"] = $token;
     }
 
     echo json_encode($returnValue);

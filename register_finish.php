@@ -146,9 +146,11 @@
                     // insert new user into database
                     $sqlcmd = "INSERT INTO tsc_account(Username, Email, Password, Valid, Mode)
                                VALUES ('$username', '$email', '', '0', 'goauth')";
-
                     $rs = querydb($sqlcmd, $db_conn);
-                    $uid = $token;
+
+                    $sqlcmd = "SELECT LAST_INSERT_ID() as uid";
+                    $rs = querydb($sqlcmd, $db_conn);
+                    $uid = $rs[0]["uid"];
                     $returnArray["code"] = 0;
                     $returnArray["msg"] = "";
                 }
@@ -166,6 +168,7 @@
         $_SESSION["uid"] = $uid;
         $_SESSION["email"] = $email;
         $_SESSION["mode"] = $mode;
+        $_SESSION["token"] = $token;
     }
 
     echo json_encode($returnArray);
