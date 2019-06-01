@@ -38,6 +38,11 @@ function googleOnSignUp(googleUser) {
                 if (data.code == 0) {
                     window.location = "./home.php";
                 }
+                else {
+                    // sign up failed, need to revoke google signin
+                    googleOnSignOut();
+                    alert(data.msg);
+                }
             }, "json");
     }
 }
