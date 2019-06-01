@@ -52,42 +52,42 @@
         <form class="log_form" name="form" method="post" action="register_finish.php">
             <br>
             Username：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="text" name="username" onblur="validateUsername()" />
+            <input type="text" name="username" onblur="validateUsername()" /><br>
             <span id="usernameValidate"></span>
-            <br><br>
+            <br>
 
             Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="text" name="email" onblur="validateEmail()"/>
+            <input type="text" name="email" onblur="validateEmail()"/><br>
             <span id="emailValidate"></span>
-            <br><br>
+            <br>
 
             Password：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="password" id='pw' name="pw"/>
+            <input type="password" id='pw' name="pw"/><br>
             <input type="hidden" name="mode" value="normal">
-            <br><br>
+            <br>
 
             Confirm password：
-            <input type="password" id='pw2' name="pw2" onblur="validatePwd()"/>
+            <input type="password" id='pw2' name="pw2" onblur="validatePwd()"/><br>
             <span id="pwdValidate"></span>
-            <br><br><br>
-            
+            <br><br>
+
             <div class="g-signin2" style="margin: 0 auto; margin-left:30%;" data-onsuccess="googleOnSignUp"></div>
-            <input id='submit' name="button" type="submit" disabled value="Register" style="width:120px;height:35px;border:2px blue none;color:#fff;background: #000;position:absolute;right:20px;margin-top:-35px">
+            <input id='submit' name="button" onclick="signUp();" type="button" disabled value="Register" style="width:120px;height:35px;border:2px blue none;color:#fff;background: #000;position:absolute;right:20px;margin-top:-35px">
             <br>
         </form>
 
         <script>
-            var vp = false, vu = false, ve = false;
+            var vp = true, vu = true, ve = true;
             function validatePwd() {
                 var pw1 = document.getElementById("pw").value;
                 var pw2 = document.getElementById("pw2").value;
                 if(pw1 == pw2) {
-                    vp = true;
+                    vp = false;
                     document.getElementById("submit").disabled = vp & ve & vu;
                     document.getElementById("pwdValidate").innerHTML = ""; // clear error
                 }
                 else {
-                    vp = false;
+                    vp = true;
                     document.getElementById("submit").disabled = vp & ve & vu;
                     document.getElementById("pwdValidate").innerHTML = "<font color='red'>Invalid password.</font>";
                 }
@@ -108,7 +108,7 @@
                             document.getElementById("usernameValidate").innerHTML = "<font color='red'>Username had been registerd.</font>"; // clear error
                         }
                         else {
-                            vu = true;
+                            vu = false;
                             document.getElementById("submit").disabled = vp & ve & vu;
                             document.getElementById("usernameValidate").innerHTML = ""; // clear error
                         }
@@ -127,12 +127,12 @@
                 else {
                     $.post("./register_email.php", {"email": email}, function(data) {
                         if (data.code != 0) {
-                            ve = false;
+                            ve = true;
                             document.getElementById("submit").disabled = vp & ve & vu;
                             document.getElementById("emailValidate").innerHTML = "<font color='red'>Email had been registered.</font>";
                         }
                         else {
-                            ve = true;
+                            ve = false;
                             document.getElementById("submit").disabled = vp & ve & vu;
                             document.getElementById("emailValidate").innerHTML = ""; // clear error
                         }

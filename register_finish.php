@@ -7,19 +7,6 @@
     require_once "./include/oauth/goauthData.php";
     require_once "./include/commonFunction.php";
 
-    function userExists($email) {
-        // $db_conn = connect2db($dbhost, $dbuser, $dbpwd, $dbname);
-        // $sqlcmd = "SELECT * FROM tsc_account WHERE Email = '$email' AND Valid = '0'";
-        // $rs = querydb($sqlcmd, $db_conn);
-        // if (count($rs) > 0) {
-        //     return TRUE;
-        // }
-        // else {
-        //     return FALSE;
-        // }
-        // return FALSE;
-    }
-
     function passwordValidation($pw, $pw2) {
         $check = FALSE;
 
@@ -140,21 +127,15 @@
                 $username = getData($payload["name"]);
                 $imgUrl = getData($payload["picture"]);
 
-                if (userExists($email)) {
-                    $returnArray["code"] = 1;
-                    $returnArray["msg"] = "Email $email had been registered, please try another one.";
-                }
-                else {
-                    // insert new user into database
-                    $db_conn = connect2db($dbhost, $dbuser, $dbpwd, $dbname);
-                    $sqlcmd = "INSERT INTO tsc_account(Username, Email, Password, Valid, Mode)
-                               VALUES ('$username', '$email', '', '0', 'goauth')";
+                // insert new user into database
+                $db_conn = connect2db($dbhost, $dbuser, $dbpwd, $dbname);
+                $sqlcmd = "INSERT INTO tsc_account(Username, Email, Password, Valid, Mode)
+                           VALUES ('$username', '$email', '', '0', 'goauth')";
 
-                    $rs = querydb($sqlcmd, $db_conn);
-                    $uid = $token;
-                    $returnArray["code"] = 0;
-                    $returnArray["msg"] = "";
-                }
+                $rs = querydb($sqlcmd, $db_conn);
+                $uid = $token;
+                $returnArray["code"] = 0;
+                $returnArray["msg"] = "";
             }
             break;
 
