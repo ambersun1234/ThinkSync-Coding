@@ -62,7 +62,7 @@
             <br>
 
             Password：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="password" id='pw' name="pw"/><br>
+            <input type="password" id='pw' name="pw" onblur="validatePwd()"/><br>
             <input type="hidden" name="mode" value="normal">
             <br>
 
@@ -81,14 +81,19 @@
             function validatePwd() {
                 var pw1 = document.getElementById("pw").value;
                 var pw2 = document.getElementById("pw2").value;
-                if(pw1 == pw2) {
+                if (pw1 == "" || pw2 == "") {
+                    vp = true;
+                    document.getElementById("submit").disabled = vp | ve | vu;
+                    document.getElementById("pwdValidate").innerHTML = "<font color='red'>Invalid password.</font>";
+                }
+                else if(pw1 == pw2) {
                     vp = false;
-                    document.getElementById("submit").disabled = vp & ve & vu;
+                    document.getElementById("submit").disabled = vp | ve | vu;
                     document.getElementById("pwdValidate").innerHTML = ""; // clear error
                 }
                 else {
                     vp = true;
-                    document.getElementById("submit").disabled = vp & ve & vu;
+                    document.getElementById("submit").disabled = vp | ve | vu;
                     document.getElementById("pwdValidate").innerHTML = "<font color='red'>Invalid password.</font>";
                 }
             }
@@ -96,20 +101,25 @@
             function validateUsername() {
                 var username = document.querySelector("input[name=username]").value;
                 if (username.length > 20) {
-                    vu = false;
-                    document.getElementById("submit").disabled = vp & ve & vu;
+                    vu = true;
+                    document.getElementById("submit").disabled = vp | ve | vu;
                     document.getElementById("usernameValidate").innerHTML = "<font color='red'>Username must be less than 20 characters.</font>"; // clear error
+                }
+                else if (username.length == 0) {
+                    vu = true;
+                    document.getElementById("submit").disabled = vp | ve | vu;
+                    document.getElementById("usernameValidate").innerHTML = "<font color='red'>Username cannot be empty.</font>"; // clear error
                 }
                 else {
                     $.post("./register_username.php", {"username": username}, function(data) {
                         if (data.code != 0) {
                             vu = true;
-                            document.getElementById("submit").disabled = vp & ve & vu;
+                            document.getElementById("submit").disabled = vp | ve | vu;
                             document.getElementById("usernameValidate").innerHTML = "<font color='red'>Username had been registerd.</font>"; // clear error
                         }
                         else {
                             vu = false;
-                            document.getElementById("submit").disabled = vp & ve & vu;
+                            document.getElementById("submit").disabled = vp | ve | vu;
                             document.getElementById("usernameValidate").innerHTML = ""; // clear error
                         }
                     }, "json");
@@ -120,7 +130,7 @@
                 var email = document.querySelector("input[name=email]").value;
                 var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
                 if (!re.test(String(email).toLowerCase())) {
-                    ve = false;
+                    ve = true;
                     document.getElementById("submit").disabled = vp & ve & vu;
                     document.getElementById("emailValidate").innerHTML = "<font color='red'>Invalid email format.</font>";
                 }
@@ -128,12 +138,12 @@
                     $.post("./register_email.php", {"email": email}, function(data) {
                         if (data.code != 0) {
                             ve = true;
-                            document.getElementById("submit").disabled = vp & ve & vu;
+                            document.getElementById("submit").disabled = vp | ve | vu;
                             document.getElementById("emailValidate").innerHTML = "<font color='red'>Email had been registered.</font>";
                         }
                         else {
                             ve = false;
-                            document.getElementById("submit").disabled = vp & ve & vu;
+                            document.getElementById("submit").disabled = vp | ve | vu;
                             document.getElementById("emailValidate").innerHTML = ""; // clear error
                         }
                     }, "json");
@@ -149,13 +159,26 @@
                     "mode": "normal"
                 };
 
-                $.post(
-                    "./register_finish.php",
-                    signUpData, function(data) {
-                        if (data.code == 0) {
-                            window.location = "./home.php";
-                        }
-                    }, "json");
+                $.post("./register_finish.php", signUpData, function(data) {
+                    if (data.code == 0) {
+                        // upload img to user
+                        $.post("./uploadImg.php", {"mode": "normal", "method": "path"}, function(data) {
+                            if (data.code == 0) {
+                                window.location = "./home.php";
+                            }
+                            else {
+                                alert(data.msg);
+                                document.querySelector("input[name=pw]").value = "";
+                                document.querySelector("input[name=pw2]").value = "";
+                            }
+                        }, "json");
+                    }
+                    else {
+                        alert(data.msg);
+                        document.querySelector("input[name=pw]").value = "";
+                        document.querySelector("input[name=pw2]").value = "";
+                    }
+                }, "json");
             }
       </script>
     </body>

@@ -121,6 +121,7 @@
                         $rs = querydb($sqlcmd, $db_conn);
                         $uid = $rs[0]["uid"];
                         $returnArray["code"] = 0;
+                        $returnArray["msg"] = "";
                     }
                 }
             }
