@@ -5,8 +5,6 @@
     require_once "./include/db/db_func.php";
     require_once "./include/oauth/goauthData.php";
     require_once "./include/commonFunction.php";
-    require_once "./include/check_email.php";
-    require_once "./include/check_username.php";
 
     // head line
     require_once "./include/head_line.inc.php";
@@ -66,77 +64,55 @@
                 border-color: #bababa;
                 border-width: 2px;
             }
-            .warning {
-                background-color: #ffdce0;
-                padding: 27px;
-                color: #86181d;
-                font-size: 17px;
+            .jump {
+                color: #0366d6;
+            }
+            .attention {
+                color: #24292e;
+                font-weight: 600;
             }
             button {
                 padding: 5px;
-                margin: 10px;
             }
         </style>
 
         <script type="text/javascript">
-            function checkUsername() {
-                var username = document.querySelector("input[name=username]").value;
-                var thisUsername = "<?php echo $username; ?>";
+            $(document).ready(function() {
+                $(".ps").on("click", function() {
+                    var location = $(this).text();
+                    var current = $("iframe").attr("src");
 
-                $.post("./include/check_username.php", {"username": username}, function(data) {
-                    if (data.code == 0) {
-                        document.querySelector("div.usernameErrMsg").innerHTML = "";
-                    }
-                    else {
-                        // user enter new username is the same as the original username
-                        if (username != thisUsername) {
-                            document.querySelector("div.usernameErrMsg").innerHTML = "<font color='red'>Invalid username, it has been registered.</font>";
-                        }
-                        else {
-                            document.querySelector("div.usernameErrMsg").innerHTML = "";
-                        }
-                    }
-                }, "json");
-            }
+                    // remove parent
+                    current = current.replace("./include/account/", "");
+                    current = current.replace(".php", "");
+                    // capitalize
+                    current = current.charAt(0).toUpperCase() + current.slice(1);
 
-            function checkEmail() {
-                var email = document.querySelector("input[name=email]").value;
-                var thisEmail = "<?php echo $email; ?>";
+                    // remove attention css to previous
+                    $(".attention:contains('" + current + "')").removeClass("attention");
+                    $(".ps:contains('" + current + "')").addClass("jump");
 
-                $.post("./include/check_email.php", {"email": email}, function(data) {
-                    if (data.code == 0) {
-                        document.querySelector("div.emailErrMsg").innerHTML = "";
-                    }
-                    else {
-                        if (email != thisEmail) {
-                            document.querySelector("div.emailErrMsg").innerHTML = "<font color='red'>Invalid email address, it has been registered.</font>";
-                        }
-                        else {
-                            document.querySelector("div.emailErrMsg").innerHTML = "";
-                        }
-                    }
-                }, "json");
-            }
+                    // add attention to next
+                    $(".jump:contains('" + location + "')").removeClass("jump");
+                    $(".ps:contains('" + location + "')").addClass("attention");
 
-            function checkPassword() {
-                var pwd1 = document.querySelector("input[name=newPassword]").value;
-                var pwd2 = document.querySelector("input[name=new2Password]").value;
-
-                if (pwd1 == "" || pwd2 == "") {
-                    document.querySelector("div.passwordErrMsg").innerHTML = "<font color='red'>Password cannot be empty.</font>";
-                }
-                else if (pwd1 != pwd2){
-                    document.querySelector("div.passwordErrMsg").innerHTML = "<font color='red'>Password validation failed.</font>";
-                }
-            }
+                    // redirect iframe
+                    $("iframe").attr("src", "./include/account/" + location.toLowerCase() + ".php");
+                });
+            });
         </script>
     </head>
 
     <body>
         <br><br><br><br>
         <div class="w3-row">
-            <div class="w3-col m4 w3-center">
-                <img src="data:image/jpeg;base64,<?php echo base64_encode($image);?>" width="300" height="300"/>
+            <!-- empty column -->
+            <div class="w3-col m1 w3-container">
+            </div>
+
+            <div class="w3-col m3 w3-center">
+                <h2>Profile Picture</h2>
+                <img src="data:image/jpeg;base64,<?php echo base64_encode($image);?>" width="150" height="150"/>
                 <br><br>
                 <form method="post" action="#" enctype="multipart/form-data">
                     <input type="file" name="image" value="">
@@ -144,53 +120,16 @@
             </div>
 
             <div class="w3-col m4">
-                <h2>Profile</h2>
-                <hr>
-                Username: <br>
-                <input type="text" name="username" value="<?php echo $username; ?>" onblur="checkUsername();"><br>
-                <div class="usernameErrMsg"></div>
-                Email: <br>
-                <input type="text" name="email" value="<?php echo $email; ?>" onblur="checkEmail();"><br>
-                <div class="emailErrMsg"></div><br>
-                Total <strong>Public</strong> post number = <a href="#"><?php echo $publicPostCount; ?></a><br>
-                Total <strong>Private</strong> post number = <a href="#"><?php echo $privatePostCount; ?></a>
+                <iframe src="./include/account/profile.php" frameborder="0" scrolling="no" height="100%" width="100%"></iframe>
+            </div>
 
-                <?php
-                    if ($_mode == "normal") {
-                 ?>
-                     <h2>Change Password</h2>
-                     <hr>
-                     Old password:<br>
-                     <input type="password" name="oldPassword" value="" placeholder="Your old password"><br>
-                     New password:<br>
-                     <input type="password" name="newPassword" value="" placeholder="Your New password" onblur="checkPassword();"><br>
-                     Confirm new password:<br>
-                     <input type="password" name="new2Password" value="" placeholder="Enter your new password again" onblur="checkPassword();"><br>
-                     <div class="passwordErrMsg"></div><br>
-                     <button class="w3-btn w3-round-large w3-gray" name="updateBtn" value="">Update</button><br>
-                <?php
-                    }
-                 ?>
-
-                <!-- delete account -->
-                <h2 style="color: red;">Delete your account</h2>
-                <hr>
-                Once you delete your account, there is no going back.<br><br>
-                <div class="warning">
-                    You will lose all your account, post and code, please think carefully before you delete your account.
-                    <br><br>
-                    Your username and email will be available to anyone on ThinkSync-Coding
+            <div class="w3-col m2" style="margin: 0px 20px;">
+                <div class="w3-bar-block">
+                    <span class="w3-bar-item w3-light-gray">Personal Settings</span>
+                    <button class="w3-bar-item w3-button ps jump attention">Profile</button>
+                    <button class="w3-bar-item w3-button ps jump">Account</button>
+                    <button class="w3-bar-item w3-button ps jump">Password</button>
                 </div>
-                <br>
-                <strong>Your username:</strong><br>
-                <input type="text" name="deleteUsername" value="" placeholder="Your username"><br>
-                <strong>Your email:</strong><br>
-                <input type="text" name="deleteEmail" value="" placeholder="Your email"><br>
-                <strong>To verify, type</strong> delete my account <strong>below:</strong><br>
-                <input type="text" name="deleteCheck" value="" placeholder="delete my account"><br>
-                <strong>Confirm your password:</strong><br>
-                <input type="password" name="deletePassword" value="" placeholder="Your account password"><br>
-                <button class="w3-btn w3-round-large" name="deleteBtn" style="background-color: red; color: white; border-color: black; border-radius: 5px;">Delete your account</button>
             </div>
         </div>
     </body>
