@@ -1,9 +1,9 @@
 <?php
     session_start();
 
-    require_once "./include/db/configure.php";
-    require_once "./include/db/db_func.php";
-    require_once "./include/commonFunction.php";
+    require_once "db/configure.php";
+    require_once "db/db_func.php";
+    require_once "commonFunction.php";
 
     /* Input:
      *    username: user input username

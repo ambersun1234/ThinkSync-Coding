@@ -111,7 +111,7 @@
                     document.getElementById("usernameValidate").innerHTML = "<font color='red'>Username cannot be empty.</font>"; // clear error
                 }
                 else {
-                    $.post("./register_username.php", {"username": username}, function(data) {
+                    $.post("./include/check_username.php", {"username": username}, function(data) {
                         if (data.code != 0) {
                             vu = true;
                             document.getElementById("submit").disabled = vp | ve | vu;
@@ -135,7 +135,7 @@
                     document.getElementById("emailValidate").innerHTML = "<font color='red'>Invalid email format.</font>";
                 }
                 else {
-                    $.post("./register_email.php", {"email": email}, function(data) {
+                    $.post("./check_email.php", {"email": email}, function(data) {
                         if (data.code != 0) {
                             ve = true;
                             document.getElementById("submit").disabled = vp | ve | vu;

@@ -5,6 +5,8 @@
     require_once "./include/db/db_func.php";
     require_once "./include/oauth/goauthData.php";
     require_once "./include/commonFunction.php";
+    require_once "./include/check_email.php";
+    require_once "./include/check_username.php";
 
     // head line
     require_once "./include/head_line.inc.php";
@@ -51,6 +53,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
         <title>Account Center</title>
         <style>
             input[type=text], input[type=password]{
@@ -73,6 +76,47 @@
                 margin: 10px;
             }
         </style>
+
+        <script type="text/javascript">
+            function checkUsername() {
+                var username = document.querySelector("input[name=username]").value;
+                var thisUsername = "<?php echo $username; ?>";
+
+                $.post("./include/check_username.php", {"username": username}, function(data) {
+                    if (data.code == 0) {
+                        document.querySelector("div.usernameErrMsg").innerHTML = "";
+                    }
+                    else {
+                        // user enter new username is the same as the original username
+                        if (username != thisUsername) {
+                            document.querySelector("div.usernameErrMsg").innerHTML = "<font color='red'>Invalid username, it has been registered.</font>";
+                        }
+                        else {
+                            document.querySelector("div.usernameErrMsg").innerHTML = "";
+                        }
+                    }
+                }, "json");
+            }
+
+            function checkEmail() {
+                var email = document.querySelector("input[name=email]").value;
+                var thisEmail = "<?php echo $email; ?>";
+
+                $.post("./include/check_email.php", {"email": email}, function(data) {
+                    if (data.code == 0) {
+                        document.querySelector("div.emailErrMsg").innerHTML = "";
+                    }
+                    else {
+                        if (email != thisEmail) {
+                            document.querySelector("div.emailErrMsg").innerHTML = "<font color='red'>Invalid email address, it has been registered.</font>";
+                        }
+                        else {
+                            document.querySelector("div.emailErrMsg").innerHTML = "";
+                        }
+                    }
+                }, "json");
+            }
+        </script>
     </head>
 
     <body>
@@ -90,21 +134,29 @@
                 <h2>Profile</h2>
                 <hr>
                 Username: <br>
-                <input type="text" name="username" value="<?php echo $username; ?>"><br>
+                <input type="text" name="username" value="<?php echo $username; ?>" onblur="checkUsername();"><br>
+                <div class="usernameErrMsg"></div>
                 Email: <br>
-                <input type="text" name="email" value="<?php echo $email; ?>"><br>
+                <input type="text" name="email" value="<?php echo $email; ?>" onblur="checkEmail();"><br>
+                <div class="emailErrMsg"></div><br>
                 Total <strong>Public</strong> post number = <a href="#"><?php echo $publicPostCount; ?></a><br>
                 Total <strong>Private</strong> post number = <a href="#"><?php echo $privatePostCount; ?></a>
 
-                <h2>Change Password</h2>
-                <hr>
-                Old password:<br>
-                <input type="password" name="oldPassword" value="" placeholder="Your old password"><br>
-                New password:<br>
-                <input type="password" name="newPassword" value="" placeholder="Your New password"><br>
-                Confirm new password:<br>
-                <input type="password" name="new2Password" value="" placeholder="Enter your new password again"><br>
-                <button class="w3-btn w3-round-large w3-gray" name="updateBtn" value="">Update</button><br>
+                <?php
+                    if ($_mode == "normal") {
+                 ?>
+                     <h2>Change Password</h2>
+                     <hr>
+                     Old password:<br>
+                     <input type="password" name="oldPassword" value="" placeholder="Your old password"><br>
+                     New password:<br>
+                     <input type="password" name="newPassword" value="" placeholder="Your New password"><br>
+                     Confirm new password:<br>
+                     <input type="password" name="new2Password" value="" placeholder="Enter your new password again"><br>
+                     <button class="w3-btn w3-round-large w3-gray" name="updateBtn" value="">Update</button><br>
+                <?php
+                    }
+                 ?>
 
                 <!-- delete account -->
                 <h2 style="color: red;">Delete your account</h2>
