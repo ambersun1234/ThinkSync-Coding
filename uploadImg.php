@@ -138,5 +138,9 @@
          $returnArray["msg"] = "Invalid user found.";
      }
 
+     if ($returnArray["code"] == 1) {
+         session_unset();
+     }
+
      echo json_encode($returnArray);
  ?>

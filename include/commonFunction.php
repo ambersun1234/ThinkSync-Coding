@@ -26,24 +26,43 @@
                 $rs = querydb($sqlcmd, $GLOBALS["db_conn"]);
                 if (count($rs) != 1) {
                     // not login
-                    header("Location: ./login.php");
+                    // header("Location: ./login.php");
+ ?>
+                    <script type="text/javascript">
+                        window.location = "./login.php";
+                    </script>
+<?php
                 }
                 break;
 
             case "goauth":
                 if ($token == NULL) {
-                    header("Location: ./home.php");
+                    // header("Location: ./home.php");
+ ?>
+                   <script type="text/javascript">
+                        window.location = "./login.php";
+                   </script>
+<?php
                 }
                 $goauth = new Google_Client(["client_id" => $goauthClientId]);
                 $payload = $goauth->verifyIdToken($token);
                 if (!$payload) {
                     // not login
-                    header("Location: ./login.php");
+                    // header("Location: ./login.php");
+ ?>
+                   <script type="text/javascript">
+                       window.location = "./login.php";
+                   </script>
+<?php
                 }
                 break;
 
             default:
-                header("Location: ./home.php");
+ ?>
+                   <script type="text/javascript">
+                        window.location = "./login.php";
+                   </script>
+<?php
                 break;
         }
     }
