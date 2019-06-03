@@ -31,6 +31,7 @@
         $mode = $rs[0]["Mode"];
         $image = $rs[0]["Picture"];
         $username = $rs[0]["Username"];
+        $password = $rs[0]["Password"];
     }
 
     // query user's all public post
@@ -116,6 +117,18 @@
                     }
                 }, "json");
             }
+
+            function checkPassword() {
+                var pwd1 = document.querySelector("input[name=newPassword]").value;
+                var pwd2 = document.querySelector("input[name=new2Password]").value;
+
+                if (pwd1 == "" || pwd2 == "") {
+                    document.querySelector("div.passwordErrMsg").innerHTML = "<font color='red'>Password cannot be empty.</font>";
+                }
+                else if (pwd1 != pwd2){
+                    document.querySelector("div.passwordErrMsg").innerHTML = "<font color='red'>Password validation failed.</font>";
+                }
+            }
         </script>
     </head>
 
@@ -150,9 +163,10 @@
                      Old password:<br>
                      <input type="password" name="oldPassword" value="" placeholder="Your old password"><br>
                      New password:<br>
-                     <input type="password" name="newPassword" value="" placeholder="Your New password"><br>
+                     <input type="password" name="newPassword" value="" placeholder="Your New password" onblur="checkPassword();"><br>
                      Confirm new password:<br>
-                     <input type="password" name="new2Password" value="" placeholder="Enter your new password again"><br>
+                     <input type="password" name="new2Password" value="" placeholder="Enter your new password again" onblur="checkPassword();"><br>
+                     <div class="passwordErrMsg"></div><br>
                      <button class="w3-btn w3-round-large w3-gray" name="updateBtn" value="">Update</button><br>
                 <?php
                     }
