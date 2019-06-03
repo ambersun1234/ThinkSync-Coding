@@ -4,8 +4,8 @@
 ?>
 <?php
     //include("head_line.inc.php");
-    include('action_page.php');
-    include('./include/mysql_connect.inc.php');
+    include_once('action_page.php');
+    include_once('./include/mysql_connect.inc.php');
     include_once('./include/db/configure.php');
     include_once("./include/db/db_func.php");
     include_once("./include/commonFunction.php");
