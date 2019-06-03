@@ -81,7 +81,7 @@
         $codeid = $rs_code[0]['CodeIndex'];
         //echo "CodeIndex : ".$codeid."<br>";
         
-        $sql_insertpost = "INSERT INTO tsc_post (UserIndex, CodeIndex, Date, Title, PostContent, Category, Stars, Valid) VALUES ('$id', '$codeid', '$date', '$title', '$content', '$programlanguage', '$stars', '$permission')";
+        $sql_insertpost = "INSERT INTO tsc_post (UserIndex, CodeIndex, Date, Title, PostContent, Category, Stars, Permission, Valid) VALUES ('$id', '$codeid', '$date', '$title', '$content', '$programlanguage', '$stars', '$permission', '0')";
         $result_insertpost = updatedb($sql_insertpost, $db_conn);
         
         if($result_insertpost == TRUE) {
