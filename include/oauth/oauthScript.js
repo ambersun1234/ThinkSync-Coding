@@ -36,7 +36,21 @@ function googleOnSignUp(googleUser) {
             "./register_finish.php",
             {"token": googleUser.getAuthResponse().id_token, "email": profile.getEmail(), "mode": "goauth"}, function(data) {
                 if (data.code == 0) {
-                    window.location = "./home.php";
+                    $.post("./uploadImg.php", {"mode": "normal", "method": "url", "imgUrl": profile.getImageUrl()}, function(data) {
+                        if (data.code == 0) {
+                            window.location = "./home.php";
+                        }
+                        else {
+                            // upload img failed, revoke google signin
+                            googleOnSignOut();
+                            alert(data.msg);
+                        }
+                    }, "json");
+                }
+                else {
+                    // sign up failed, need to revoke google signin
+                    googleOnSignOut();
+                    alert(data.msg);
                 }
             }, "json");
     }
