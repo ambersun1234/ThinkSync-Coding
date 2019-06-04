@@ -10,20 +10,18 @@
     if (isset($_SESSION["uid"]) && !empty($_SESSION["uid"])) {
         $uid = $_SESSION["uid"];
     }
+    //echo $uid;
     if (isset($_SESSION["email"]) && !empty($_SESSION["email"])) {
         $email = $_SESSION["email"];
     }
-
-    include("./include/db/configure.php");
-    include("./include/db/db_func.php");
-    include("./include/commonFunction.php");
-    include("./include/head_line.inc.php");
+    //echo $email;
+    include_once("./include/db/configure.php");
+    include_once("./include/db/db_func.php");
+    include_once("./include/commonFunction.php");
+    //include("./include/head_line.inc.php");
 ?>
 <?php    
     $db_conn = connect2db($dbhost, $dbuser, $dbpwd, $dbname);
-
-    $sqlcmd = "SELECT * FROM namelist ORDER BY cid";
-    $StdInfo = querydb($sqlcmd, $db_conn);
 
     //if(!empty($_SESSION['admin'])) include("head_admin.inc.php");
     $title = getData($_POST["title"]);
@@ -60,7 +58,7 @@
         $programlanguage = '1';
     }
 
-    /*echo "Title : ".$title."<br>";
+    echo "Title : ".$title."<br>";
     echo "Content : ".$content."<br>";
     echo "Stars : ".$stars."<br>";
     echo "Category : ".$cat."<br>";
@@ -69,19 +67,22 @@
     echo "Lang : ".$lang."<br>";
     echo "UserIndex : ".$id."<br>";
     echo "Program Language : ".$programlanguage."<br>";
-    echo "Date : ".$date."<br>";*/
+    echo "Date : ".$date."<br>";
+    echo "Permission : ".$permission."<br>";
 
-    $sql = "INSERT INTO tsc_code (UserIndex, CodeContent, Date, Permission) VALUES ('$id', '$getcode', '$date' ,'$permission')";
+    $new_getcode = str_replace("'", "......",$getcode);
+    echo "new_getcode : ".$new_getcode."<br>";
+    $sql = "INSERT INTO tsc_code (UserIndex, CodeContent, Date, Permission) VALUES ('$uid', '$new_getcode', '$date' ,'$permission')";
     $result_sql = updatedb($sql, $db_conn);
-
+    echo $sql;
     if($result_sql == TRUE) {
         //echo "*";
-        $codeIndexSql = "SELECT * FROM tsc_code WHERE CodeContent = '$getcode' AND Date = '$date'";
+        $codeIndexSql = "SELECT * FROM tsc_code WHERE CodeContent = '$new_getcode' AND Date = '$date'";
         $rs_code = querydb($codeIndexSql, $db_conn);
         $codeid = $rs_code[0]['CodeIndex'];
         //echo "CodeIndex : ".$codeid."<br>";
         
-        $sql_insertpost = "INSERT INTO tsc_post (UserIndex, CodeIndex, Date, Title, PostContent, Category, Stars, Permission, Valid) VALUES ('$id', '$codeid', '$date', '$title', '$content', '$programlanguage', '$stars', '$permission', '0')";
+        $sql_insertpost = "INSERT INTO tsc_post (UserIndex, CodeIndex, Date, Title, PostContent, Category, Stars, Permission, Valid) VALUES ('$uid', '$codeid', '$date', '$title', '$content', '$programlanguage', '$stars', '$permission', '0')";
         $result_insertpost = updatedb($sql_insertpost, $db_conn);
         
         if($result_insertpost == TRUE) {

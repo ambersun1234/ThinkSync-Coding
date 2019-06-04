@@ -1,10 +1,10 @@
 <?php
     session_start();
-    include("./include/head_line.inc.php");
-    include("./include/db/configure.php");
-    include("./include/commonFunction.php");
+    include_once("./include/head_line.inc.php");
+    include_once("./include/db/configure.php");
+    include_once("./include/commonFunction.php");
 
-    //checkLogin();
+    checkLogin();
 
     if (isset($_POST["postcode"]) && !empty($_POST["postcode"])) {
         $code = getData($_POST['postcode']);
