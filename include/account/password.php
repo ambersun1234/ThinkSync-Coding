@@ -51,22 +51,31 @@
      </head>
 
      <body>
+         <h2>Change Password</h2>
+         <hr>
          <?php
-             if ($_mode == "normal") {
+            if ($_mode == "normal") {
           ?>
-              <h2>Change Password</h2>
-              <hr>
-              Old password:<br>
-              <input type="password" name="oldPassword" value="" placeholder="Your old password"><br>
-              New password:<br>
-              <input type="password" name="newPassword" value="" placeholder="Your New password" onblur="checkPassword();"><br>
-              Confirm new password:<br>
-              <input type="password" name="new2Password" value="" placeholder="Enter your new password again" onblur="checkPassword();">
-              <div class="passwordErrMsg"></div>
-         <?php
-             }
-          ?>
-         <br>
-         <button class="w3-btn w3-round-large w3-green" name="updateBtn" value="">Update Password</button><br>
+                Old password:<br>
+                <input type="password" name="oldPassword" value="" placeholder="Your old password"><br>
+                New password:<br>
+                <input type="password" name="newPassword" value="" placeholder="Your New password" onblur="checkPassword();"><br>
+                Confirm new password:<br>
+                <input type="password" name="new2Password" value="" placeholder="Enter your new password again" onblur="checkPassword();">
+                <div class="passwordErrMsg"></div>
+                <br>
+                <button class="w3-btn w3-round-large w3-green" name="updatePwdBtn" value="">Update Password</button><br>
+        <?php
+            }
+            else {
+         ?>
+                <h5>
+                    Your are currently sign in via <strong>Google account</strong>.<br>
+                    You cannot change your ThinkSync-Coding account password.<br><br>
+                    Change your <strong>Google account password</strong> via <a style="color: #0366d6;" href="https://myaccount.google.com/" target="_blank">Google Account</a>.
+                </h5>
+        <?php
+            }
+         ?>
      </body>
 </html>

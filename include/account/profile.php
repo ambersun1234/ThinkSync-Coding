@@ -105,6 +105,30 @@
                      }
                  }, "json");
              }
+
+             function redirectIframe(premission) {
+                 var current = $(parent.document).find("iframe").attr("src");
+                 var locationName = premission.charAt(0).toUpperCase() + premission.slice(1) + " Posts";
+                 var locationPath = "./include/account/" + premission + "Posts.php";
+
+                 // remove parent
+                 current = current.replace("./include/account/", "");
+                 current = current.replace("Posts", " Posts");
+                 current = current.replace(".php", "");
+                 // capitalize
+                 current = current.charAt(0).toUpperCase() + current.slice(1);
+
+                 // add jump class to previous
+                 $(parent.document).find(".attention:contains('" + current + "')").removeClass("attention");
+                 $(parent.document).find(".ps:contains('" + current + "')").addClass("jump");
+
+                 // add attention to next
+                 $(parent.document).find(".jump:contains('" + locationName + "')").removeClass("jump");
+                 $(parent.document).find(".ps:contains('" + locationName + "')").addClass("attention");
+
+                 // set parent iframe src url
+                 $(parent.document).find("iframe").attr("src", locationPath);
+             }
          </script>
      </head>
 
@@ -117,13 +141,14 @@
          Email: <br>
          <input type="text" name="email" value="<?php echo $email; ?>" onblur="checkEmail();"><br>
          <div class="emailErrMsg"></div><br>
+         <button class="w3-btn w3-round-large w3-green" name="updateProfileBtn" value="">Update Profile</button><br>
 
          <h3>Public post</h3>
          <hr>
-         Total <a href="#"><?php echo $publicPostCount; ?></a> post<?php echo $publicPostCount <= 1 ? "" : "s"; ?> found.<br>
+         Total <a style="color: #0366d6;" href="#" onclick="redirectIframe('public');"><?php echo $publicPostCount; ?></a> post<?php echo $publicPostCount <= 1 ? "" : "s"; ?> found.<br>
 
          <h3>Private post</h3>
          <hr>
-         Total <a href="#"><?php echo $privatePostCount; ?></a> post<?php echo $privatePostCount <= 1 ? "" : "s"; ?> found.<br>
+         Total <a style="color: #0366d6;" href="#" onclick="redirectIframe('private');"><?php echo $privatePostCount; ?></a> post<?php echo $privatePostCount <= 1 ? "" : "s"; ?> found.<br>
      </body>
 </html>

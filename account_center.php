@@ -82,8 +82,12 @@
                     var location = $(this).text();
                     var current = $("iframe").attr("src");
 
+                    var newLocation = location.replace(/\s+/g, "");
+                    newLocation = newLocation.charAt(0).toLowerCase() + newLocation.slice(1);
+
                     // remove parent
                     current = current.replace("./include/account/", "");
+                    current = current.replace("Posts", " Posts");
                     current = current.replace(".php", "");
                     // capitalize
                     current = current.charAt(0).toUpperCase() + current.slice(1);
@@ -97,7 +101,7 @@
                     $(".ps:contains('" + location + "')").addClass("attention");
 
                     // redirect iframe
-                    $("iframe").attr("src", "./include/account/" + location.toLowerCase() + ".php");
+                    $("iframe").attr("src", "./include/account/" + newLocation + ".php");
                 });
             });
         </script>
@@ -120,7 +124,7 @@
             </div>
 
             <div class="w3-col m4">
-                <iframe src="./include/account/profile.php" frameborder="0" scrolling="no" height="100%" width="100%"></iframe>
+                <iframe src="./include/account/profile.php" style="position: relative;" frameborder="0" scrolling="no" height="100%" width="100%"></iframe>
             </div>
 
             <div class="w3-col m2" style="margin: 0px 20px;">
@@ -129,6 +133,8 @@
                     <button class="w3-bar-item w3-button ps jump attention">Profile</button>
                     <button class="w3-bar-item w3-button ps jump">Account</button>
                     <button class="w3-bar-item w3-button ps jump">Password</button>
+                    <button class="w3-bar-item w3-button ps jump">Public Posts</button>
+                    <button class="w3-bar-item w3-button ps jump">Private Posts</button>
                 </div>
             </div>
         </div>
