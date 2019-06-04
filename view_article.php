@@ -50,7 +50,10 @@
                 width: 880px;
                 border-top: 3px #333333 solid;
                 border-bottom: 3px #333333 solid;
+                border-left: 3px #EEE solid;
+                border-right: 3px #EEE solid;
                 border-collapse: collapse;
+                border-spacing: 0;
             }
             thead th {
                 background: #555555;
@@ -69,7 +72,6 @@
                 /*border-collapse: collapse;*/
                 width: 880px;
                 margin-bottom: 5px;
-                
             }
             th,
             td {
@@ -82,6 +84,22 @@
                 padding: 8px;
                 color:#333333;
                 border-bottom: 1px solid #ddd;
+            }
+            /*第一欄第一列：左上*/
+            tr:first-child td:first-child th:first-child thead:first-child{
+              border-top-left-radius: 10px;
+            }
+            /*第一欄最後列：左下*/
+            tr:last-child td:first-child th:first-child thead:first-child{
+              border-bottom-left-radius: 10px;
+            }
+            /*最後欄第一列：右上*/
+            tr:first-child td:last-child th:last-child thead:last-child{
+              border-top-right-radius: 10px;
+            }
+            /*最後欄第一列：右下*/
+            tr:last-child td:last-child th:last-child thead:last-child{
+              border-bottom-right-radius: 10px;
             }
             a {
                 outline: none;
@@ -128,7 +146,7 @@
               position: relative;
               bottom: 500px;
               top: 10px;
-              left : 400px;
+              left : 650px;
               height: 25px;
               width: 400px;
               line-height: 25px;
@@ -376,7 +394,7 @@
                             </th>
                         </thead>
                         <tr>
-                            <td colspan="2" style="text-align: left;"><!--Username-->
+                            <td colspan="2" style="text-align: left;border-left: 1px solid #ddd;border-right: 1px solid #ddd;"><!--Username-->
                                 <?php
                                     //$db_conn = connect2db($dbhost, $dbuser, $dbpwd, $dbname);
                                     $userid = $v['UserIndex'];
@@ -392,20 +410,20 @@
                             
                         </tr>
                         <tr>
-                            <td style="width:10%;">
+                            <td style="width:10%;border-left: 1px solid #ddd;">
                                 <?php
                                     $date_post = $v['Date'];
                                     if($v['Category'] == 0) echo "<div style='background-color:#555;color:#fff;border-radius: 10px;text-align:center;width:50px;'>C</div>";
                                     else if($v['Category'] == 1) echo "<div style='background-color:#555;color:#fff;border-radius: 10px;text-align:center;width:50px;'>C++</div>";
                                 ?>
                             </td>
-                            <td style="width:90%;">
+                            <td style="width:90%;border-right: 1px solid #ddd;">
                                 <?php echo "<div style='text-align:left;'>".nl2br($v['PostContent'])."</div>";?>
                             </td>
                         </tr>
                         <tr>
-                            <td>Code</td>
-                            <td>
+                            <td style="border-left: 1px solid #ddd;">Code</td>
+                            <td style="border-right: 1px solid #ddd;">
                                 <?php
                                     
                                     $db_conn2 = connect2db($dbhost, $dbuser, $dbpwd, $dbname);
@@ -419,13 +437,13 @@
                         </tr>
                         <?php if(empty($_SESSION['uid'])) { ?>
                         <tr>
-                            <td colspan="2">
+                            <td colspan="2" style="border-left: 1px solid #ddd;border-right: 1px solid #ddd;">
                                 <?php echo "<a href = 'login.php'><h6 style = 'color:#f86a6a;display:inline;text-align:center;width:100%;'>Login for leave your comment！</h6></a>"; ?>
                             </td>
                         </tr>
                         <?php }?>
                         <tr>
-                            <th colspan="2" style="text-align: left;">
+                            <th colspan="2" style="text-align: left;border-left: 1px solid #ddd;border-right: 1px solid #ddd;">
                             <?php
                                 $require = "SELECT * FROM tsc_comment ORDER BY Time DESC";
                                 $ret = querydb($require, $db_conn);
@@ -466,12 +484,12 @@
                                         <?php if(isset($_SESSION['uid'])) {?>
                                             <form>
                                                 <input type="text" name="commentReply" id="<?php echo "commentReply_".$c['CommentIndex']; ?>"
-                                                          style="width:450px;height:40px;color:rgb(159, 180, 214);padding:20px;border:0px blue none; text-align: left; display: none">
+                                                          style="width:450px;height:40px;background-color:#666;color:#FFF;padding:20px;border:0px blue none; text-align: left; display: none;border-radius:5px;" placeholder="  Enter your reply！">
                                                 <input type="button" name="replyButton" id="<?php echo "replyButton_".$c['CommentIndex']; ?>"
-                                                       value="回覆"  data-id="<?php echo $c['CommentIndex']; ?>" class="reply"
+                                                       value="Reply"  data-id="<?php echo $c['CommentIndex']; ?>" class="reply"
                                                        style="width:60px;height:30px;border:0px blue none;color:#fff;background: #a4b0c6;position:relative;float: right;">
                                                 <input type="button" name="trueReplyButton" id="<?php echo "trueReplyButton_".$c['CommentIndex']; ?>" data-id="<?php echo $c['CommentIndex']; ?>" class="trueReply"
-                                                       value="留言" 
+                                                       value="Reply" 
                                                        style="width:60px;height:30px;border:0px blue none;color:#fff;background: #a4b0c6;position:relative;float: right; display: none;">
                                                 <br><br>
                                             </form>
@@ -485,12 +503,12 @@
                         </tr>
                         <?php if(!empty($_SESSION["uid"])) { ?>
                         <tr>
-                            <th colspan="2" style="text-align: right;">
+                            <th colspan="2" style="text-align: right;border-left: 1px solid #ddd;border-right: 1px solid #ddd;">
                                 <form>
-                                    <input type="text" style="width:450px;height:40px;color:rgb(159, 180, 214);padding:20px;border:0px blue none; text-align: left;" name="comment" id="<?php echo "comment".$v["PostIndex"]; ?>" placeholder="  來留個言吧！" />&nbsp;&nbsp;&nbsp;
+                                    <input type="text" style="background-color:#666;width:450px;height:40px;color:#FFF;padding:20px;border:0px blue none; text-align: left;border-radius:5px;" name="comment" id="<?php echo "comment".$v["PostIndex"]; ?>" placeholder="  Enter your comment！" />&nbsp;&nbsp;&nbsp;
                                     <input type="hidden" name="post_id" id="<?php echo "post_id".$v["PostIndex"]; ?>" value='<?php echo $v["PostIndex"]?>' />
                                     <input type="hidden" name="myid" id="<?php echo "myid".$v["PostIndex"]; ?>" value='<?php echo $_SESSION["uid"] ?>' />
-                                    <input type="submit" name="submit" id="<?php echo "commentButton".$v["PostIndex"]; ?>" class="commentButton" data-id="<?php echo $v['PostIndex']; ?>" value="留言" style="width:100px;height:40px;border:0px blue none;color:#fff;background: #a4b0c6;position:relative;right:0px;" />
+                                    <input type="submit" name="submit" id="<?php echo "commentButton".$v["PostIndex"]; ?>" class="commentButton" data-id="<?php echo $v['PostIndex']; ?>" value="Comment" style="width:100px;height:40px;border:0px blue none;color:#fff;background: #a4b0c6;position:relative;right:0px;" />
                                 </form>
                             </th>
                         </tr>
