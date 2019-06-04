@@ -64,6 +64,12 @@
                 border-color: #bababa;
                 border-width: 2px;
             }
+            button {
+                padding: 5px;
+            }
+            label {
+                margin-top: 5px;
+            }
             .jump {
                 color: #0366d6;
             }
@@ -71,26 +77,49 @@
                 color: #24292e;
                 font-weight: 600;
             }
-            button {
-                padding: 5px;
+            .custom {
+                border: 1px solid #ccc;
+                display: inline-block;
+                padding: 6px 12px;
+                cursor: pointer;
             }
         </style>
 
         <script type="text/javascript">
+            var premission = 2;
+            var premissionArray = {0: "Public ", 1: "Private ", 2: ""};
+            // premission var is used for checking
+            // 0 => public, 1 => private, 2 => none of the above
+
             $(document).ready(function() {
                 $(".ps").on("click", function() {
                     var location = $(this).text();
                     var current = $("iframe").attr("src");
+                    var attentionText = $("attention").text();
 
-                    var newLocation = location.replace(/\s+/g, "");
+                    if (attentionText.includes("Public")) {
+                        premission = 0;
+                    }
+                    else if (attentionText.includes("Private")){
+                        premission = 1;
+                    }
+                    else {
+                        premission = 2;
+                    }
+
+                    var newLocation = location.replace("Public ", "");
+                    newLocation = newLocation.replace("Private ", "");
                     newLocation = newLocation.charAt(0).toLowerCase() + newLocation.slice(1);
 
                     // remove parent
                     current = current.replace("./include/account/", "");
                     current = current.replace("Posts", " Posts");
                     current = current.replace(".php", "");
-                    // capitalize
+                    // assign premission
+                    current = premissionArray[premission] + current;
                     current = current.charAt(0).toUpperCase() + current.slice(1);
+
+                    // alert("premission" + premission + "location: " + location + "\ncurrent: " + current + "\nnewlocation: " + newLocation);
 
                     // remove attention css to previous
                     $(".attention:contains('" + current + "')").removeClass("attention");
@@ -108,23 +137,29 @@
     </head>
 
     <body>
-        <br><br><br><br>
+        <br><br><br>
         <div class="w3-row">
             <!-- empty column -->
-            <div class="w3-col m1 w3-container">
+            <div class="w3-col m2 w3-container">
             </div>
 
-            <div class="w3-col m3 w3-center">
+            <div class="w3-col m2" style="margin: 0px 20px;">
                 <h2>Profile Picture</h2>
-                <img src="data:image/jpeg;base64,<?php echo base64_encode($image);?>" width="150" height="150"/>
-                <br><br>
-                <form method="post" action="#" enctype="multipart/form-data">
-                    <input type="file" name="image" value="">
-                </form>
+                <img src="data:image/jpeg;base64,<?php echo base64_encode($image);?>" style="width: 200px; height: 200px; display: inline-block;"/>
+                <br>
+                <label for="file-upload" class="custom w3-btn w3-round-large w3-light-gray w3-small">
+                    Upload picture
+                </label>
+                <input id="file-upload" type="file" style="display: none;"/>
+                <br>
+                <label for"remove-picture" class="custom w3-btn w3-round-large w3-light-gray w3-small">
+                    Remove picture
+                </label>
+                <input id="remove-picture" type="button" style="display: none;">
             </div>
 
             <div class="w3-col m4">
-                <iframe src="./include/account/profile.php" style="position: relative;" frameborder="0" scrolling="no" height="100%" width="100%"></iframe>
+                <iframe src="./include/account/profile.php" style="height: 90%;" frameborder="0" scrolling="no" height="100%" width="100%"></iframe>
             </div>
 
             <div class="w3-col m2" style="margin: 0px 20px;">

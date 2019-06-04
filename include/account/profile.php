@@ -109,7 +109,7 @@
              function redirectIframe(premission) {
                  var current = $(parent.document).find("iframe").attr("src");
                  var locationName = premission.charAt(0).toUpperCase() + premission.slice(1) + " Posts";
-                 var locationPath = "./include/account/" + premission + "Posts.php";
+                 var locationPath = "./include/account/posts.php";
 
                  // remove parent
                  current = current.replace("./include/account/", "");
@@ -145,10 +145,10 @@
 
          <h3>Public post</h3>
          <hr>
-         Total <a style="color: #0366d6;" href="#" onclick="redirectIframe('public');"><?php echo $publicPostCount; ?></a> post<?php echo $publicPostCount <= 1 ? "" : "s"; ?> found.<br>
+         Total <a style="color: #0366d6;" href="#" onclick="redirectIframe('Public');"><?php echo $publicPostCount; ?></a> post<?php echo $publicPostCount <= 1 ? "" : "s"; ?> found.<br>
 
          <h3>Private post</h3>
          <hr>
-         Total <a style="color: #0366d6;" href="#" onclick="redirectIframe('private');"><?php echo $privatePostCount; ?></a> post<?php echo $privatePostCount <= 1 ? "" : "s"; ?> found.<br>
+         Total <a style="color: #0366d6;" href="#" onclick="redirectIframe('Private');"><?php echo $privatePostCount; ?></a> post<?php echo $privatePostCount <= 1 ? "" : "s"; ?> found.<br>
      </body>
 </html>
