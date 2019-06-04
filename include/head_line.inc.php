@@ -62,6 +62,9 @@
             <div class="w3-col s1">
                 <a href="../ThinkSync/index_new.php#C#default" class="w3-button w3-block w3-black scroll">START</a>
             </div>
+            <div class="w3-col s1">
+                <a href="../ThinkSync/view_article.php" class="w3-button w3-block w3-black scroll">ARTICLE</a>
+            </div>
             <!--div class="w3-col s1">
                 <a href="prizeTest.php" class="w3-button w3-block scroll">LOTTERY</a>
             </div-->
