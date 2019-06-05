@@ -40,6 +40,33 @@
                  padding: 5px;
              }
          </style>
+
+         <script type="text/javascript">
+            function deleteAccount() {
+                var username = document.querySelector("input[name=deleteUsername]").value;
+                var email = document.querySelector("input[name=deleteEmail]").value;
+                var check = document.querySelector("input[name=deleteCheck]").value;
+                var password = document.querySelector("input[name=deletePassword]").value;
+
+                var arr = {
+                    "username": username,
+                    "email": email,
+                    "check": check,
+                    "password": password
+                };
+
+                $.post("./updateAccount.php", arr, function(data) {
+                    if (data.code == 0) {
+                        alert("Your account has been successfully deleted.");
+                        window.top.location = "../../home.php";
+                    }
+                    else {
+                        alert(data.msg);
+                        document.querySelector("input[name=deletePassword]").value = "";
+                    }
+                }, "json");
+            }
+        </script>
      </head>
 
      <body>
@@ -61,6 +88,6 @@
          <input type="text" name="deleteCheck" value="" placeholder="delete my account"><br>
          <strong>Confirm your password:</strong><br>
          <input type="password" name="deletePassword" value="" placeholder="Your account password"><br>
-         <button class="w3-btn w3-round-large" name="deleteBtn" style="background-color: red; color: white; border-color: black; border-radius: 5px;">Delete your account</button>
+         <button class="w3-btn w3-round-large" name="deleteBtn" onclick="deleteAccount();" style="background-color: red; color: white; border-color: black; border-radius: 5px;">Delete your account</button>
      </body>
 </html>

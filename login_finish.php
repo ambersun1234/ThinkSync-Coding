@@ -47,14 +47,20 @@
                 $sqlcmd = "SELECT * FROM tsc_account WHERE Email = '$email' AND Valid = '0'";
                 $rs = querydb($sqlcmd, $db_conn);
 
-                $encryptedPassword = $rs[0]["Password"];
-                if (password_verify($pwd, $encryptedPassword)) {
-                    $uid = $rs[0]["UserIndex"];
-                    $returnValue["code"] = 0;
+                if (count($rs) == 0) {
+                    $returnValue["code"] = 1;
+                    $returnValue["msg"] = "Invalid user.";
                 }
                 else {
-                    $returnValue["code"] = 1;
-                    $returnValue["msg"] = "Incorrect password.";
+                    $encryptedPassword = $rs[0]["Password"];
+                    if (password_verify($pwd, $encryptedPassword)) {
+                        $uid = $rs[0]["UserIndex"];
+                        $returnValue["code"] = 0;
+                    }
+                    else {
+                        $returnValue["code"] = 1;
+                        $returnValue["msg"] = "Incorrect password.";
+                    }
                 }
             }
             break;
