@@ -58,7 +58,7 @@
         $programlanguage = '1';
     }
 
-    echo "Title : ".$title."<br>";
+    /*echo "Title : ".$title."<br>";
     echo "Content : ".$content."<br>";
     echo "Stars : ".$stars."<br>";
     echo "Category : ".$cat."<br>";
@@ -68,13 +68,15 @@
     echo "UserIndex : ".$id."<br>";
     echo "Program Language : ".$programlanguage."<br>";
     echo "Date : ".$date."<br>";
-    echo "Permission : ".$permission."<br>";
+    echo "Permission : ".$permission."<br>";*/
 
     $new_getcode = str_replace("'", "......",$getcode);
-    echo "new_getcode : ".$new_getcode."<br>";
+    //echo "new_getcode : ".$new_getcode."<br>";
+    $new_getcode = str_replace("\n", "++++++",$new_getcode);
+    
     $sql = "INSERT INTO tsc_code (UserIndex, CodeContent, Date, Permission) VALUES ('$uid', '$new_getcode', '$date' ,'$permission')";
     $result_sql = updatedb($sql, $db_conn);
-    echo $sql;
+    //echo $sql;
     if($result_sql == TRUE) {
         //echo "*";
         $codeIndexSql = "SELECT * FROM tsc_code WHERE CodeContent = '$new_getcode' AND Date = '$date'";

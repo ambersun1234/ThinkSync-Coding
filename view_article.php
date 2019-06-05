@@ -5,7 +5,7 @@
     include_once("./include/db/configure.php");
     include_once("./include/db/db_func.php");
     include_once("./include/commonFunction.php");
-    echo "<br><br><br><br>";
+    echo "<br><br><br><br><br>";
     include_once("userRating.php");
     include_once("./include/mysql_connect.inc.php");
     
@@ -27,6 +27,9 @@
         <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <link rel="stylesheet" type="text/css" href="prism.css">
         <!--link rel="stylesheet" type="text/css" href="main.css"-->
+        <link rel="stylesheet" type="text/css" href="prism.css">
+        
+        <script type="text/javascript" src="prism.js"></script>
 
         <style>
             .out {
@@ -422,7 +425,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="border-left: 1px solid #ddd;">Code</td>
+                            <td style="border-left: 1px solid #ddd;"></td>
                             <td style="border-right: 1px solid #ddd;">
                                 <?php
                                     
@@ -431,8 +434,11 @@
                                     $sql_getCode = "SELECT * FROM tsc_code WHERE CodeIndex = '$codeid'";
                                     $ret_getCode = querydb($sql_getCode, $db_conn2);
                                     //echo "<pre><div style='text-align:left;'>".$ret_getCode[0]['CodeContent']."</div><pre>";
+                                    $ret_getCode = str_replace("......", "'",$ret_getCode[0]['CodeContent']);
+                                    $ret_getCode = str_replace("++++++", "\n",$ret_getCode);
+                                    
                                 ?>
-                                <figure class="ce ce-lift ce-twist" width="880px;"><!--figcaption class="ce_caption">CODE CAPTION</figcaption--><pre class="ce_pre"><code spellcheck="false" class="language-clike"><?php echo str_replace("......", "'",$ret_getCode[0]['CodeContent']);?></code></pre></figure>
+                                <figure class="ce ce-lift ce-twist"><!--figcaption class="ce_caption">CODE CAPTION</figcaption--><pre class="line-number" ><code spellcheck="false" class="language-clike" style="display:inline-block;width:880px;"><?php echo $ret_getCode;?></code></pre></figure>
                             </td>
                         </tr>
                         <?php if(empty($_SESSION['uid'])) { ?>
