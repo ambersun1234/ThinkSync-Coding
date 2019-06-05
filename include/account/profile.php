@@ -64,9 +64,20 @@
              button {
                  padding: 5px;
              }
+             .w3-modal {
+                 background-color: transparent;
+             }
          </style>
 
          <script type="text/javascript">
+            function escapeHtml(text) {
+                return text
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
              function checkUsername() {
                  var username = document.querySelector("input[name=username]").value;
                  var thisUsername = "<?php echo $username; ?>";
@@ -129,19 +140,65 @@
                  // set parent iframe src url
                  $(parent.document).find("iframe").attr("src", locationPath);
              }
+
+             function updateProfile() {
+                 var username = document.querySelector("input[name=username]").value;
+                 var email = document.querySelector("input[name=email]").value;
+
+                 if (username == "<?php echo $username; ?>" && email == "<?php echo $email; ?>") {
+                     alert("Nothing to update");
+                 }
+                 else {
+                     $.post("./updateProfile.php", {"username": username, "email": email}, function(data) {
+                         if (data.code == 0) {
+                             // modify head line username
+                             parent.document.getElementById("headLineUsername").textContent = escapeHtml(username);
+                             alert("Update profile successfully");
+                         }
+                         else {
+                             alert(data.msg);
+                             // document.getElementById("profileModal").style.display = "block";
+                             // $(parent.document).css({"backgroundColor": "red"});
+                         }
+                     }, "json");
+                 }
+             }
+
+             // window.onclick = function(event) {
+             //     var modal = document.getElementById("profileModal");
+             //     if (event.target = modal) {
+             //         modal.style.display = "none";
+             //         // document.body.style.background = "transparent";
+             //         $(parent.document).css({"backgroundColor": "transparent"});
+             //     }
+             // }
          </script>
      </head>
 
      <body>
+        <div id="profileModal" class="w3-modal">
+            <div class="w3-modal-content w3-animate-top w3-card-4">
+                <header class="w3-container w3-teal">
+                    <h2>Update profile</h2>
+                </header>
+                <div class="w3-container">
+                    <p></p>
+                </div>
+            </div>
+        </div>
+
          <h2>Profile</h2>
          <hr>
          Username: <br>
          <input type="text" name="username" value="<?php echo $username; ?>" onblur="checkUsername();"><br>
          <div class="usernameErrMsg"></div>
          Email: <br>
-         <input type="text" name="email" value="<?php echo $email; ?>" onblur="checkEmail();"><br>
+         <input type="text" name="email" value="<?php echo $email; ?>"
+          onblur="checkEmail();" <?php echo $mode == "goauth" ? "readonly" : "";?>
+          <?php if ($mode == "goauth") {echo "style='background-color: #b2b2b2;'";}?>
+          ><br>
          <div class="emailErrMsg"></div><br>
-         <button class="w3-btn w3-round-large w3-green" name="updateProfileBtn" value="">Update Profile</button><br>
+         <button class="w3-btn w3-round-large w3-green" name="updateProfileBtn" value="" onclick="updateProfile();">Update Profile</button><br>
 
          <h3>Public post</h3>
          <hr>
