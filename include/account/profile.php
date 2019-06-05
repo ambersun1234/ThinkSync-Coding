@@ -16,17 +16,26 @@
 
     // query user's basic data
     $db_conn = connect2db($dbhost, $dbuser, $dbpwd, $dbname);
-    $sqlcmd = "SELECT * FROM tsc_account
-               WHERE Email = '$_email' AND UserIndex = '$_uid'
-               AND Mode = '$_mode' AND Valid = '0'";
-    $rs = querydb($sqlcmd, $db_conn);
-    if (count($rs) == 1) {
-        $email = $rs[0]["Email"];
-        $uid = $rs[0]["UserIndex"];
-        $mode = $rs[0]["Mode"];
-        $image = $rs[0]["Picture"];
-        $username = $rs[0]["Username"];
-        $password = $rs[0]["Password"];
+    update();
+
+    function update() {
+        $ve = $GLOBALS["_email"];
+        $vu = $GLOBALS["_uid"];
+        $vt = $GLOBALS["_token"];
+        $vm = $GLOBALS["_mode"];
+
+        $sqlcmd = "SELECT * FROM tsc_account
+                   WHERE Email = '$ve' AND UserIndex = '$vu'
+                   AND Mode = '$vm' AND Valid = '0'";
+        $rs = querydb($sqlcmd, $GLOBALS["db_conn"]);
+        if (count($rs) == 1) {
+            $GLOBALS["email"] = $rs[0]["Email"];
+            $GLOBALS["uid"] = $rs[0]["UserIndex"];
+            $GLOBALS["mode"] = $rs[0]["Mode"];
+            $GLOBALS["image"] = $rs[0]["Picture"];
+            $GLOBALS["username"] = $rs[0]["Username"];
+            $GLOBALS["password"] = $rs[0]["Password"];
+        }
     }
 
     // query user's all public post
@@ -70,6 +79,9 @@
          </style>
 
          <script type="text/javascript">
+             var thisUsername = "<?php echo $username; ?>";
+             var thisEmail = "<?php echo $email; ?>";
+
             function escapeHtml(text) {
                 return text
                     .replace(/&/g, "&amp;")
@@ -145,7 +157,7 @@
                  var username = document.querySelector("input[name=username]").value;
                  var email = document.querySelector("input[name=email]").value;
 
-                 if (username == "<?php echo $username; ?>" && email == "<?php echo $email; ?>") {
+                 if (username == thisUsername && email == thisEmail) {
                      alert("Nothing to update");
                  }
                  else {
@@ -153,6 +165,9 @@
                          if (data.code == 0) {
                              // modify head line username
                              parent.document.getElementById("headLineUsername").textContent = escapeHtml(username);
+                             thisUsername = username;
+                             thisEmail = email;
+                             <?php update(); ?>
                              alert("Update profile successfully");
                          }
                          else {
