@@ -131,11 +131,11 @@
                 var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
                 if (!re.test(String(email).toLowerCase())) {
                     ve = true;
-                    document.getElementById("submit").disabled = vp & ve & vu;
+                    document.getElementById("submit").disabled = vp | ve | vu;
                     document.getElementById("emailValidate").innerHTML = "<font color='red'>Invalid email format.</font>";
                 }
                 else {
-                    $.post("./check_email.php", {"email": email}, function(data) {
+                    $.post("./include/check_email.php", {"email": email}, function(data) {
                         if (data.code != 0) {
                             ve = true;
                             document.getElementById("submit").disabled = vp | ve | vu;
