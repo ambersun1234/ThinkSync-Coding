@@ -46,6 +46,28 @@
                  else if (pwd1 != pwd2){
                      document.querySelector("div.passwordErrMsg").innerHTML = "<font color='red'>Password validation failed.</font>";
                  }
+                 else {
+                     document.querySelector("div.passwordErrMsg").innerHTML = "";
+                 }
+             }
+
+             function updatePassword() {
+                 var oldPassword = document.querySelector("input[name=oldPassword]").value;
+                 var newPassword = document.querySelector("input[name=newPassword]").value;
+                 var new2Password = document.querySelector("input[name=new2Password]").value;
+
+                 $.post("./updatePassword.php", {"oldPassword": oldPassword, "newPassword": newPassword, "new2Password": new2Password}, function(data) {
+                     if (data.code == 0) {
+                         alert("Update successfully");
+                     }
+                     else {
+                         alert(data.msg);
+                     }
+
+                     document.querySelector("input[name=oldPassword]").value = "";
+                     document.querySelector("input[name=newPassword]").value = "";
+                     document.querySelector("input[name=new2Password]").value = "";
+                 }, "json");
              }
          </script>
      </head>
@@ -64,7 +86,7 @@
                 <input type="password" name="new2Password" value="" placeholder="Enter your new password again" onblur="checkPassword();">
                 <div class="passwordErrMsg"></div>
                 <br>
-                <button class="w3-btn w3-round-large w3-green" name="updatePwdBtn" value="">Update Password</button><br>
+                <button class="w3-btn w3-round-large w3-green" name="updatePwdBtn" value="" onclick="updatePassword();">Update Password</button><br>
         <?php
             }
             else {
