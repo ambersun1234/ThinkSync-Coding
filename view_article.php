@@ -435,7 +435,7 @@
                                     $ret_getCode = querydb($sql_getCode, $db_conn2);
                                     //echo "<pre><div style='text-align:left;'>".$ret_getCode[0]['CodeContent']."</div><pre>";
                                     $ret_getCode = str_replace("......", "'",$ret_getCode[0]['CodeContent']);
-                                    $ret_getCode = str_replace("++++++", "\n",$ret_getCode);
+                                    $ret_getCode = str_replace("++++++", "\\n",$ret_getCode);
                                     
                                 ?>
                                 <figure class="ce ce-lift ce-twist"><!--figcaption class="ce_caption">CODE CAPTION</figcaption--><pre class="line-number" ><code spellcheck="false" class="language-clike" style="display:inline-block;width:880px;"><?php echo $ret_getCode;?></code></pre></figure>
