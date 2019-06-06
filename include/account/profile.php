@@ -129,19 +129,19 @@
                  }, "json");
              }
 
-             function redirectIframe(premission) {
+             function redirectIframe(permission) {
                  var current = $(parent.document).find("iframe").attr("src");
-                 var locationName = premission.charAt(0).toUpperCase() + premission.slice(1) + " Posts";
+                 var locationName = permission.charAt(0).toUpperCase() + permission.slice(1) + " Posts";
                  var locationPath = "./include/account/posts.php";
 
-                 locationPath = locationPath + "?premission=" + (premission == "Public" ? "0" : "1");
+                 locationPath = locationPath + "?permission=" + (permission == "Public" ? "0" : "1");
 
                  // remove parent
                  current = current.replace("./include/account/", "");
                  current = current.replace("Posts", " Posts");
                  current = current.replace(".php", "");
-                 current = current.replace("?premission=0", "");
-                 current = current.replace("?premission=1", "");
+                 current = current.replace("?permission=0", "");
+                 current = current.replace("?permission=1", "");
                  // capitalize
                  current = current.charAt(0).toUpperCase() + current.slice(1);
 
