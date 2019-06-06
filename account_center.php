@@ -137,8 +137,11 @@
             function uploadPicture(event) {
                 var customForm = new FormData();
 
-                customForm.append("picture", $("#file-upload").prop("files")[0]);
+                if (event == "new") {
+                    customForm.append("picture", $("#file-upload").prop("files")[0]);
+                }
                 customForm.append("event", event);
+
                 $.ajax({
                     url: "./include/account/updatePicture.php",
                     type: "POST",
@@ -176,7 +179,7 @@
                 </label>
                 <input id="file-upload" type="file" style="display: none;" accept="image/*" onchange="uploadPicture('new');"/>
                 <br>
-                <label for"remove-picture" class="custom w3-btn w3-round-large w3-light-gray w3-small">
+                <label for"remove-picture" class="custom w3-btn w3-round-large w3-light-gray w3-small" onclick="uploadPicture('clear');">
                     Remove picture
                 </label>
                 <input id="remove-picture" type="button" style="display: none;">

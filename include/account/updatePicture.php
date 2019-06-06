@@ -82,8 +82,39 @@
             break;
 
         case "clear":
-            $returnArray["code"] = 1;
-            $returnArray["msg"] = "Something went wrong, please try again.";
+            $picturePath = "../../tmp/default.png";
+            $fsize = filesize("$picturePath");
+
+            if ($fsize > 0) {
+                $fd = fopen($picturePath, "rb");
+                $image = fread($fd, $fsize);
+                $image = addslashes($image);
+
+                $sqlcmd = "UPDATE tsc_account SET Picture = '$image'
+                           WHERE UserIndex = '$suid' AND Email = '$semail' AND Mode = '$smode' AND Valid = '0'";
+                $rs = updatedb($sqlcmd, $db_conn);
+                if ($rs == TRUE) {
+                    $image = stripslashes($image);
+                    /* need to remove slashes from early added
+                     * otherwise it'll fail in front end
+                     */
+
+                    $returnArray["code"] = 0;
+                    $returnArray["msg"] = "";
+                    $returnArray["image"] = base64_encode($image);
+                    /* Notice that $image is binary data, it need to use base64_encode
+                     * otherwise front end json will fail
+                     */
+                }
+                else {
+                    $returnArray["code"] = 1;
+                    $returnArray["msg"] = "Something went wrong, please try again.";
+                }
+            }
+            else {
+                $returnArray["code"] = 1;
+                $returnArray["msg"] = "Something went wrong, please try again.";
+            }
             break;
 
         default:
