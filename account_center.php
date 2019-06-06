@@ -88,6 +88,7 @@
         <script type="text/javascript">
             var premission = 2;
             var premissionArray = {0: "Public ", 1: "Private ", 2: ""};
+            var premissionVar = {0: "?premission=0", 1: "?premission=1", 2: ""};
             // premission var is used for checking
             // 0 => public, 1 => private, 2 => none of the above
 
@@ -96,7 +97,20 @@
                     var location = $(this).text();
                     var current = $("iframe").attr("src");
                     var attentionText = $("attention").text();
+                    var variableCheck = 2;
 
+                    // check jumping page
+                    if (location.includes("Public")) {
+                        variableCheck = 0;
+                    }
+                    else if (location.includes("Private")) {
+                        variableCheck = 1;
+                    }
+                    else {
+                        variableCheck = 2;
+                    }
+
+                    // store previous status
                     if (attentionText.includes("Public")) {
                         premission = 0;
                     }
@@ -115,11 +129,11 @@
                     current = current.replace("./include/account/", "");
                     current = current.replace("Posts", " Posts");
                     current = current.replace(".php", "");
+                    current = current.replace("?premission=0", "");
+                    current = current.replace("?premission=1", "");
                     // assign premission
                     current = premissionArray[premission] + current;
                     current = current.charAt(0).toUpperCase() + current.slice(1);
-
-                    // alert("premission" + premission + "location: " + location + "\ncurrent: " + current + "\nnewlocation: " + newLocation);
 
                     // remove attention css to previous
                     $(".attention:contains('" + current + "')").removeClass("attention");
@@ -130,7 +144,7 @@
                     $(".ps:contains('" + location + "')").addClass("attention");
 
                     // redirect iframe
-                    $("iframe").attr("src", "./include/account/" + newLocation + ".php");
+                    $("iframe").attr("src", "./include/account/" + newLocation + ".php" + premissionVar[variableCheck]);
                 });
             });
 

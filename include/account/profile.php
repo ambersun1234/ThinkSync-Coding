@@ -134,10 +134,14 @@
                  var locationName = premission.charAt(0).toUpperCase() + premission.slice(1) + " Posts";
                  var locationPath = "./include/account/posts.php";
 
+                 locationPath = locationPath + "?premission=" + (premission == "Public" ? "0" : "1");
+
                  // remove parent
                  current = current.replace("./include/account/", "");
                  current = current.replace("Posts", " Posts");
                  current = current.replace(".php", "");
+                 current = current.replace("?premission=0", "");
+                 current = current.replace("?premission=1", "");
                  // capitalize
                  current = current.charAt(0).toUpperCase() + current.slice(1);
 
