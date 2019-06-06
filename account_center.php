@@ -133,6 +133,30 @@
                     $("iframe").attr("src", "./include/account/" + newLocation + ".php");
                 });
             });
+
+            function uploadPicture(event) {
+                var customForm = new FormData();
+
+                customForm.append("picture", $("#file-upload").prop("files")[0]);
+                customForm.append("event", event);
+                $.ajax({
+                    url: "./include/account/updatePicture.php",
+                    type: "POST",
+                    processData: false, // important
+                    contentType: false, // important
+                    dataType: "json",
+                    data: customForm
+                }).done(function(data) {
+                    if (data.code == 0) {
+                        document.getElementById("pic").querySelector("img").setAttribute("src", "data:image/jpeg;base64," + data.image);
+                        document.getElementById('profilePic').setAttribute("src", "data:image/jpeg;base64," + data.image);
+                        alert("Update profile picture done.");
+                    }
+                    else {
+                        alert(data.msg);
+                    }
+                });
+            }
         </script>
     </head>
 
@@ -145,12 +169,12 @@
 
             <div class="w3-col m2" style="margin: 0px 20px;">
                 <h2>Profile Picture</h2>
-                <img src="data:image/jpeg;base64,<?php echo base64_encode($image);?>" style="width: 200px; height: 200px; display: inline-block;"/>
+                <img id="profilePic" src="data:image/jpeg;base64,<?php echo base64_encode($image);?>" style="width: 200px; height: 200px; display: inline-block;"/>
                 <br>
                 <label for="file-upload" class="custom w3-btn w3-round-large w3-light-gray w3-small">
                     Upload picture
                 </label>
-                <input id="file-upload" type="file" style="display: none;"/>
+                <input id="file-upload" type="file" style="display: none;" accept="image/*" onchange="uploadPicture('new');"/>
                 <br>
                 <label for"remove-picture" class="custom w3-btn w3-round-large w3-light-gray w3-small">
                     Remove picture
