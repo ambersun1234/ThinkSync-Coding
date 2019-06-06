@@ -16,14 +16,14 @@
         $smode = getData($_SESSION["mode"]);
     }
 
-    // fetch premission
-    if (isset($_GET["premission"]) && !empty($_GET["premission"])) {
-        $premission = getData($_GET["premission"]);
+    // fetch permission
+    if (isset($_GET["permission"]) && !empty($_GET["permission"])) {
+        $permission = getData($_GET["permission"]);
     }
 
     $db_conn = connect2db($dbhost, $dbuser, $dbpwd, $dbname);
     $sqlcmd = "SELECT * FROM tsc_post
-               WHERE UserIndex = '$suid' AND Valid = '0' AND Permission = '$premission'";
+               WHERE UserIndex = '$suid' AND Valid = '0' AND Permission = '$permission'";
     $rs = querydb($sqlcmd, $db_conn);
  ?>
 

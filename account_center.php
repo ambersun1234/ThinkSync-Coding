@@ -86,13 +86,65 @@
         </style>
 
         <script type="text/javascript">
-            var premission = 2;
-            var premissionArray = {0: "Public ", 1: "Private ", 2: ""};
-            var premissionVar = {0: "?premission=0", 1: "?premission=1", 2: ""};
-            // premission var is used for checking
+            var permission = 2;
+            var permissionArray = {0: "Public ", 1: "Private ", 2: ""};
+            var permissionVar = {0: "?permission=0", 1: "?permission=1", 2: ""};
+            // permission var is used for checking
             // 0 => public, 1 => private, 2 => none of the above
 
             $(document).ready(function() {
+                function getCookie(name) {
+                    var value = "; " + document.cookie;
+                    var parts = value.split("; " + name + "=");
+                    if (parts.length == 2) return parts.pop().split(";").shift();
+                }
+
+                /* set browser cookie in account center
+                 * prevent user from reloading the page and jump to another iframe
+                 * if user's visit previous page is still account_center
+                 *     instead of clearing cookie, just set iframe location to cookie location
+                 * otherwise
+                 *     clear cookie first, and setting it to default page( profile.php )
+                 */
+                 var iframeLocation = null;
+                 var cookieLocation = getCookie("iframeLocation");
+                 if (cookieLocation == null) {
+                     iframeLocation = "profile.php";
+                     document.cookie = "iframeLocation=" + iframeLocation;
+                 }
+                 else {
+                     iframeLocation = cookieLocation;
+                 }
+                 // set iframe page
+                 window.onload = function() {
+                     var temp = "./include/account/" + iframeLocation;
+                     var prefix = null;
+                     var showText = null;
+
+                     document.querySelector("iframe").setAttribute("src", temp);
+
+                     // restore prefix
+                     if (temp.includes("?permission=0")) {
+                         prefix = 0;
+                     }
+                     else if (temp.includes("?permission=1")) {
+                         prefix = 1;
+                     }
+                     else {
+                         prefix = 2;
+                     }
+
+                     temp = temp.replace("./include/account/", "");
+                     temp = temp.replace("Posts", " Posts");
+                     temp = temp.replace(".php", "");
+                     temp = temp.replace("?permission=0", "");
+                     temp = temp.replace("?permission=1", "");
+                     temp = temp.charAt(0).toUpperCase() + temp.slice(1);
+
+                     showText = permissionArray[prefix] + temp;
+                     $(".ps:contains('" + showText + "')").addClass("attention");
+                 }
+
                 $(".ps").on("click", function() {
                     var location = $(this).text();
                     var current = $("iframe").attr("src");
@@ -112,28 +164,30 @@
 
                     // store previous status
                     if (attentionText.includes("Public")) {
-                        premission = 0;
+                        permission = 0;
                     }
                     else if (attentionText.includes("Private")){
-                        premission = 1;
+                        permission = 1;
                     }
                     else {
-                        premission = 2;
+                        permission = 2;
                     }
 
                     var newLocation = location.replace("Public ", "");
                     newLocation = newLocation.replace("Private ", "");
-                    newLocation = newLocation.charAt(0).toLowerCase() + newLocation.slice(1);
+                    newLocation = newLocation.charAt(0).toLowerCase() + newLocation.slice(1) + ".php";
 
                     // remove parent
                     current = current.replace("./include/account/", "");
                     current = current.replace("Posts", " Posts");
                     current = current.replace(".php", "");
-                    current = current.replace("?premission=0", "");
-                    current = current.replace("?premission=1", "");
-                    // assign premission
-                    current = premissionArray[premission] + current;
+                    current = current.replace("?permission=0", "");
+                    current = current.replace("?permission=1", "");
+                    // assign permission
+                    current = permissionArray[permission] + current;
                     current = current.charAt(0).toUpperCase() + current.slice(1);
+
+                    // alert("pre current: " + $("iframe").attr("src") + "\ncurrent: " + current + "\nlocation: " + location);
 
                     // remove attention css to previous
                     $(".attention:contains('" + current + "')").removeClass("attention");
@@ -144,7 +198,9 @@
                     $(".ps:contains('" + location + "')").addClass("attention");
 
                     // redirect iframe
-                    $("iframe").attr("src", "./include/account/" + newLocation + ".php" + premissionVar[variableCheck]);
+                    // set url to cookie first
+                    document.cookie = "iframeLocation=" + newLocation + permissionVar[variableCheck];
+                    $("iframe").attr("src", "./include/account/" + newLocation + permissionVar[variableCheck]);
                 });
             });
 
@@ -200,13 +256,13 @@
             </div>
 
             <div class="w3-col m4">
-                <iframe src="./include/account/profile.php" style="height: 90%;" frameborder="0" scrolling="no" height="100%" width="100%"></iframe>
+                <iframe src="about:blank" style="height: 90%;" frameborder="0" scrolling="no" height="100%" width="100%"></iframe>
             </div>
 
             <div class="w3-col m2" style="margin: 0px 20px;">
                 <div class="w3-bar-block">
                     <span class="w3-bar-item w3-light-gray">Personal Settings</span>
-                    <button class="w3-bar-item w3-button ps jump attention">Profile</button>
+                    <button class="w3-bar-item w3-button ps jump ">Profile</button>
                     <button class="w3-bar-item w3-button ps jump">Account</button>
                     <button class="w3-bar-item w3-button ps jump">Password</button>
                     <button class="w3-bar-item w3-button ps jump">Public Posts</button>
