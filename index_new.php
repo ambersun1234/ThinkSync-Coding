@@ -89,19 +89,19 @@
 
     <script src="./codemirror-5.46.0/addon/edit/matchbrackets.js"></script>
     <script src="./codemirror-5.46.0/addon/hint/show-hint.js"></script>
-    
+
     <script src="http://codemirror.net/mode/xml/xml.js"></script>
     <script src="https://rawgithub.com/angular-ui/ui-codemirror/bower/ui-codemirror.min.js"></script>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
-        
+
     <style>
         a{
             color: white;
             text-decoration: none;
         }
         a:link, a:visited, a:hover { color:white; }
-        
+
         .CodeMirror {
             border: 1px solid #CCCCCC;
             font-size: 16px;
@@ -130,7 +130,7 @@
           background-color: #4f6c9e;
           transform: translateY(4px);
         }
-        
+
         .runButton {
           display: inline-block;
           padding: 2px 30px;
@@ -152,7 +152,7 @@
           background-color: #3e8e41;
           transform: translateY(4px);
         }
-        
+
         .saveasButton {
           display: inline-block;
           padding: 2px 30px;
@@ -174,7 +174,7 @@
           background-color: #ffa700;
           transform: translateY(4px);
         }
-        
+
         .postButton {
           display: inline-block;
           padding: 2px 30px;
@@ -207,12 +207,19 @@
         /*compile message*/
         .compileMsg{
             float: right;
-            height: 910px;
+            height: 600px;
             width: 28%;
             margin-right: 10px;
             background: #ffffff;
             border: 1px solid #CCCCCC;
         }
+		/**/
+		.compileInput{
+			float: right;
+			height: 300px;
+			background: #ffffff;
+			border: 1px solid #CCCCCC;
+		}
     </style>
     <script>
     function download(){
@@ -220,7 +227,7 @@
         text = text.replace(/\n/g, "\r\n"); // To retain the Line breaks.
         var blob = new Blob([text], { type: "text/plain"});
         var anchor = document.createElement("a");
-        
+
         //anchor.download = "my-filename.txt";
         var choosePL = document.getElementById("selectPL");
         programlanguage = choosePL.options[choosePL.selectedIndex].textContent;
@@ -230,7 +237,7 @@
         else if (programlanguage == "C++"){
             anchor.download = "my-code-by-thinksync.cpp"
         }
-        
+
         anchor.href = window.URL.createObjectURL(blob);
         anchor.target ="_blank";
         anchor.style.display = "none"; // just to be safe!
@@ -241,7 +248,7 @@
     </script>
     <script>
         /*function postToPub() {
-            
+
         }*/
     </script>
     <script>
@@ -379,25 +386,31 @@
                 <option>-o3</option>
             </select>
         </div>
-        
+
         <!--div style="margin:10px 45px 10px 45px;">
             <input type="checkbox" name="-Wall" value="-Wall">Compile Wall&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="checkbox" name="-Werror" value="-Werror">Compile Werror
             &nbsp;&nbsp;&nbsp;&nbsp;
-            
+
             <input class="saveasButton" type="button" name="saveas" value="save as file" style="margin-left:20px" onclick="download()">
             <input class="saveButton" type="button" name="save" value="save as private" style="margin-left:20px">
             <input class="runButton" type="button" name="run" value="run" style="margin-left:20px">
         </div-->
     </div>
     <!--/*compile message*/-->
-    <div class="compileMsg" style="margin:72px 3% 0px 0px;">
-        <form>
-            <textarea id="compile_msg" name="compile_msg" style="display: none;">
+    <div class="compileMsg" style="margin:72px 4% 0px 0px; padding: 5px 10px;">
+        <form style="height:100%;margin:3%;width:100%;">
+            <span id="compiler_version" name="compiler_version" style="height: 100%; width: 100%;">
+            </span>
+            <br><br><br>
 
-            </textarea>
+            <span id="compile_msg" name="compile_msg" style="height: 100%; width: 100%;">
+            </span>
         </form>
-    </div>
+		
+		<textarea class="compileInput" name="input" style="width:100%" col="50"></textarea>
+
+	</div>
     <!--/*code area*/-->
     <div class="codearea" style="margin:0px 0px 0px 3%;">
         <form action="post.php" method="post"><br>
@@ -412,10 +425,10 @@
             <textarea id="code" name="postcode" style="display: none;">
 <?php echo "//test\n#inlcude <stdio.h>\n#include <stdlib.h>\n\nint add(int a, int b) {\n    return a+b;\n}\nint main() {\n   int a = 1, b = 2, c;\n   c = add(a, b);\n   printf(\"%d\", c);\n   return 0;\n}"; ?>
             </textarea>
-            
+
         </form>
     </div>
-    
+
     <script>
         //mdn-like nord
 
@@ -426,13 +439,13 @@
             tabSize: 4,
             mode: "text/x-csrc"
         });
-        
+
         var choosePL = document.getElementById("selectPL");
         var input = document.getElementById("select");
-        
+
         var theme = input.options[input.selectedIndex].textContent;
         var programlanguage = choosePL.options[choosePL.selectedIndex].textContent;
-        
+
         //-----------------------------------------------------------
         function selectPL() {
             programlanguage = choosePL.options[choosePL.selectedIndex].textContent;
@@ -454,25 +467,25 @@
             }
             location.hash = "#" + programlanguage + "#" + theme;
         }
-        
+
         //----------------------------------------------------------
         function selectTheme() {
             theme = input.options[input.selectedIndex].textContent;
             editor.setOption("theme", theme);
             location.hash = "#" + programlanguage + "#" + theme;//"#" + programlanguage +
         }
-        
+
         //---------------------------------------------------------
         var choice = (location.hash && location.hash.slice(1)) ||
             (document.location.search &&
                 decodeURIComponent(document.location.search.slice(1)));
-        
+
         if (choice) {
             var substr = choice.split("#");
-            
+
             choosePL.value = substr[0];
             input.value = substr[1];
-            
+
             if(substr[0] == "Java") {
                 editor.setOption("mode", "text/x-java");
             }
@@ -485,7 +498,7 @@
             }
             editor.setOption("theme", substr[1]);
         }
-        
+
         CodeMirror.on(window, "hashchange", function() {
             var str = location.hash.slice(1);
             var substr = str.split("#");
@@ -504,7 +517,7 @@
             }
             if (substr[1]) {
                 editor.setOption("theme", substr[1]);
-            
+
                 input.value = substr[1];
                 selectTheme();
             }
@@ -515,7 +528,7 @@
             function myFunc(){
                 var input = $("#code").val();
                 $("#code").text(input);
-            }       
+            }
             myFunc();
 
             //either this
@@ -543,10 +556,10 @@
                 OtherItemValue = "";
             }
           });*/
-        var choice = (location.hash && location.hash.slice(1)) ||
-            (document.location.search &&
-                decodeURIComponent(document.location.search.slice(1)));
-        var substr = choice.split("#");
+        // var choice = (location.hash && location.hash.slice(1)) ||
+        //     (document.location.search &&
+        //         decodeURIComponent(document.location.search.slice(1)));
+        // var substr = choice.split("#");
         //alert(substr[0].toLowerCase() + "\n" + editor.getValue());
 
         var URLs="./compile.php";
@@ -557,13 +570,20 @@
         }
 
         $(".runButton").on("click", function(){
-            $.post("./compile.php", { "language": substr[0].toLowerCase(), "code":editor.getValue() }, function(data){
-                alert(data.code);
-            }, "json").fail(function(){
-                $("#code").text("出現錯誤").addClass("incorrect");
-            });
+            var choosePL = document.getElementById("selectPL");
+            var lang = choosePL.options[choosePL.selectedIndex].textContent.toLowerCase();
+
+            $.post("./compile.php", { "language": lang, "code":editor.getValue() }, function(data){
+                if (data.code != 0) {
+                    alert(data.msg);
+                }
+                else {
+                    document.getElementById("compile_msg").innerHTML = data.msg;
+                    document.getElementById("compiler_version").innerHTML = data.version;
+                }
+            }, "json");
         });
-        
+
         /*var URL_post="./post.php";
         var data_code_pots = {
             language: substr[0].toLowerCase(),
@@ -585,14 +605,14 @@
                         type: 'POST',
                         data: editor.getValue(),
                         dataType: 'JSON',
-                        success: function (data) { 
+                        success: function (data) {
                             alert(data);
                             window.location.href = "./post.php";
                         }
-                    }); 
+                    });
                 });
         });*/
-        
+
         /*$(document).ready(function(){
             $(".postButton").click(function(){
                 $.post("post.php", getcode, function(data){
@@ -605,10 +625,10 @@
         });*/
     </script>
     <script type="text/javascript">
-        
+
         /*function sendToCompile(){
 
-            
+
             //alert(data_code.language); //check
             /*$.ajax({
                 type:"POST",
@@ -621,7 +641,7 @@
                 contentType: 'application/json',
                 success: function(receive){
                     alert("-" + receive.code + "-" + receive.msg + "-" + receive.version + "-");
-                }, 
+                },
                 error:function(jqXHR, exception){
                     alert(jqXHR.status + " " + exception);
                 }
@@ -632,12 +652,11 @@
     <div class="output" style="margin:10px 0px 0px 3%;">
         <form>
             <textarea id="compile_output" name="compile_output" style="display: none;">
-            
+
             </textarea>
         </form>
     </div>
     <br><br>
-    
+
 </body>
 </html>
-

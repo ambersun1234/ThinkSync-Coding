@@ -1,24 +1,21 @@
 <?php
+    session_start();
+
     require_once "./include/compileConfig.php"; // color, defaultLanguage declaration, function
     require_once "./include/commonFunction.php"; // function: getData
 
     /* Input:
-     * POST method
-     * 1. language
-     * 2. code
+     *     language: c, c++
+     *     code: origin program code
+     *
+     * Output:
+     *     code: 0( success ), 1( fail )
+     *     msg: string( compile error message )
+     *     version: string( specific compiler version )
      */
-
-    /* Output:
-     * return JSON data
-     * code: 0( success ), 1( fail )
-     * msg: string( compile error message )
-     * version: string( specific compiler version )
-     */
-
-    $compiler = Array("c" => "gcc", "c++" => "g++");
 
     // get post data
-    if (isset($_POST["language"])) {
+    if (isset($_POST["language"]) && !empty($_POST["language"])) {
         $language = getData($_POST["language"]);
 
         // check if input language is in default language or not
@@ -26,10 +23,9 @@
             $language = NULL;
         }
         else {
-            $ret = getVersion($language);
+            $ret = getVersion($compiler[$language]);
             if ($ret["ret"] == 1) {
-                echo error();
-                exit();
+                echo error("Something went wrong, please try again.");
             }
             else {
                 $version = $ret["version"];
@@ -37,68 +33,71 @@
         }
     }
     if (isset($_POST["code"])) {
-        $code = getData($_POST["code"]);
+        /* $_POST["code"] cannot use getData
+         * since in source code there are a lot of escape characters such as <>&*
+         * function getData will change those to something like &lt &gt
+         * which will cause compiler error
+         */
+        $code = $_POST["code"];
     }
 
     // check session
-    if (!isset($_SESSION["id"])) {
-        // echo error();
-        // exit();
-        $id = 1;
+    if (!isset($_SESSION["uid"])) {
+        // generate random string for distinct filename
+        $id = "lalaland";
     }
     else {
-        $id = $_SESSION["id"];
-    }
-
-    if ($language === NULL) {
-        echo error();
-        exit();
+        // use user's session id as filename
+        $id = $_SESSION["uid"];
     }
 
     // write code to flie
     $subName = $language == "c++" ? "cpp" : "c";
-
-    // get user home directory. e.g. /home/john/
-    $path = "/home/ui3a11";
+    $currentPath = dirname(__FILE__);
+    // store code in writeable path
+    $path = $currentPath . "/tmp";
     $fp = fopen("$path/$id.$subName", "w") or die("unable to write file");
     fwrite($fp, $code);
     fclose($fp);
 
-    // compile source code
     $selectCompiler = $compiler[$language];
-    exec(
-        "script -qc
-        \"$selectCompiler -fdiagnostics-color=always $path/$id.$subName -o $path/$id &> $path/$id.log
-        \" > /dev/null",
-        $output,
-        $ret
-    );
+    $selectColor = $color[$selectCompiler];
 
-    if ($ret != 0) {
-        echo error();
-        exit();
-    }
-    else {
-        $fp = fopen("$path/$id.$subName", "r") or die("unable to read file");
-        $content = fread($fp, filesize("log"));
+    shell_exec("script -qfc \"$selectCompiler $selectColor $path/$id.$subName -o $path/$id &> $path/$id.log 2>&1\"");
 
-        // shell code 2 color hex
-        foreach ($shellCode2Color as $key => $value) {
-            str_replace($key, $value, $content); // shell code 2 color name
+    $content = file_get_contents("$path/$id.log");
+    $content = str_replace($path, ".", $content); // remove absolute path for security concern
+    $content = str_replace("\n", "<br>", $content); // replace new line with html new line
+    $content = preg_replace('/[\x00-\x1F\x7F]/u', '', $content); // remove escape characters
 
-            if ($value != "clear") {
-                $first = $value == "bold" ? "font-weight: " : "color: ";
-                $last = ";\"";
-                str_replace($value, "<span style=\"" . $first . $color2Hex[$value] . $last, $content); // color name 2 hex
-            }
-            else {
-                str_replace($value, "</span>", $content); // replace clear 2 </span>
-            }
-        } // end foreach
+    // shell code 2 color hex, $shellCode2Color is defined at ./include/compileConfig.php
+    $choose = $shellCode2Color[$pick[$selectCompiler]];
+    foreach ($choose as $key => $value) {
+        // $content = str_replace($key, $value, $content); // shell code 2 color name
 
-        // remove temp file
-        exec("rm -f $path/$id.$subName", $output, $ret);
-        echo success($content, $version);
-        exit();
-    }
+        if ($value != "clear") {
+            $first = $value == "bold" ? "<span style='font-weight: " : "<span style='color: ";
+            $last = ";'>";
+
+            $content = str_replace(
+                $key,
+                $first . $color2Hex[$value] . $last,
+                $content,
+                $count
+            ); // color name 2 hex
+        }
+        else {
+            $content = str_replace(
+                $key,
+                "</span>",
+                $content,
+                $count
+            ); // replace clear 2 </span>
+        }
+    } // end foreach
+    if ($content === FALSE) $content = "";
+
+    // remove temp file
+    exec("rm -f $path/$id.$subName", $output, $ret);
+    echo success($content, $version);
  ?>
