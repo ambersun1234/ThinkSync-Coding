@@ -15,6 +15,7 @@
      *     code: 0( success ), 1( fail )
      *     msg: string( compile error message )
      *     version: string( specific compiler version )
+     *     path: executable file path
      */
 
     // get post data
@@ -117,6 +118,7 @@
     if ($content == "") $content = "<span style='font-weight: bold;'>No error.</span>";
 
     // remove temp file
-    exec("rm -f $path/$id.$subName", $output, $ret);
-    echo success($content, $version);
+    exec("rm -f $path/$id.$subName", $output, $ret); // remove original source code file
+    exec("rm - $path/$id.log", $output, $ret); // remove orgianl source code compilation error
+    echo success($content, $version, "$path/$id");
  ?>

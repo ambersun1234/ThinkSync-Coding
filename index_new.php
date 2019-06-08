@@ -153,6 +153,28 @@
           transform: translateY(4px);
         }
 
+        .compileButton {
+          display: inline-block;
+          padding: 2px 30px;
+          font-size: 16px;
+          cursor: pointer;
+          text-align: center;
+          text-decoration: none;
+          outline: none;
+          color: #fff;
+          background-color: #add8e6;
+          border: none;
+          border-radius: 15px;
+          /*box-shadow: 0 9px #999;*/
+        }
+
+        .compileButton:hover {background-color: #8aacb8}
+
+        .compileButton:active {
+          background-color: #8aacb8;
+          transform: translateY(4px);
+        }
+
         .saveasButton {
           display: inline-block;
           padding: 2px 30px;
@@ -433,7 +455,7 @@
             &nbsp;&nbsp;&nbsp;&nbsp;
             <input class="postButton" type="submit" id="postButton" name="post" value="post" style="margin-left:20px">
             <input class="saveasButton" type="button" name="saveas" value="save as file" style="margin-left:20px" onclick="download()">
-            <!--input class="saveButton" type="button" name="save" value="save as private" style="margin-left:20px"-->
+            <input class="compileButton" type="button" name="compile" value="compile" style="margin-left:20px">
             <input class="runButton" type="button" name="run" value="run" style="margin-left:20px">
             <br><br>
             <textarea id="code" name="postcode" style="display: none;">
@@ -583,7 +605,45 @@
             code:editor.getValue()
         }
 
-        $(".runButton").on("click", function(){
+        $(".runButton").on("click", function() {
+            var choosePL = document.getElementById("selectPL");
+            var lang = choosePL.options[choosePL.selectedIndex].textContent.toLowerCase();
+
+            var chooseOptimize = document.getElementById("selectOptimize");
+            var optimize = chooseOptimize.options[chooseOptimize.selectedIndex].textContent;
+
+            var chooseStandard = document.getElementById("selectStandard");
+            var standard = chooseStandard.options[chooseStandard.selectedIndex].textContent;
+
+            var jsonData = {
+                "language": lang,
+                "code": editor.getValue(),
+                "flag": {
+                    "optimize": optimize,
+                    "standard": standard
+                }
+            };
+
+            $.post("./compile.php", jsonData, function(data){
+                if (data.msg == "<span style='font-weight: bold;'>No error.</span>") {
+                    // which indicates that the code have no error
+                    // send to execute.php to run program
+                    var executable = data.path;
+                    var input = $("textarea.compileInput").val();
+
+                    $.post("./execute.php", {"executable": executable, "input": input}, function(data) {
+
+                    });
+                }
+                else {
+                    var now = new Date();
+                    document.getElementById("compile_msg").innerHTML = data.msg;
+                    document.getElementById("compiler_version").innerHTML = data.version + "<br><br>" + now;
+                }
+            }, "json");
+        });
+
+        $(".compileButton").on("click", function(){
             var choosePL = document.getElementById("selectPL");
             var lang = choosePL.options[choosePL.selectedIndex].textContent.toLowerCase();
 
@@ -607,8 +667,9 @@
                     alert(data.msg);
                 }
                 else {
+                    var now = new Date();
                     document.getElementById("compile_msg").innerHTML = data.msg;
-                    document.getElementById("compiler_version").innerHTML = data.version;
+                    document.getElementById("compiler_version").innerHTML = data.version + "<br><br>" + now;
                 }
             }, "json");
         });

@@ -104,11 +104,12 @@
         return $returnVal;
     }
 
-    function success($content, $version) {
+    function success($content, $version, $path) {
         $returnVal = Array("code" => NULL, "msg" => NULL, "version" => NULL);
         $returnVal["code"] = 0;
         $returnVal["msg"] = $content;
         $returnVal["version"] = $version;
+        $returnVal["path"] = $path;
         return json_encode($returnVal);
     }
 
