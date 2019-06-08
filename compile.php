@@ -7,6 +7,9 @@
     /* Input:
      *     language: c, c++
      *     code: origin program code
+     *     flag:
+     *         optimize: -O0, -O1, -O2, -O3
+     *         standard: c89, c90, c99, c11, c++98, c++03, c++11
      *
      * Output:
      *     code: 0( success ), 1( fail )
@@ -32,13 +35,29 @@
             }
         }
     }
-    if (isset($_POST["code"])) {
+    if (isset($_POST["code"]) && !empty($_POST["code"])) {
         /* $_POST["code"] cannot use getData
          * since in source code there are a lot of escape characters such as <>&*
          * function getData will change those to something like &lt &gt
          * which will cause compiler error
          */
         $code = $_POST["code"];
+    }
+    if (isset($_POST["flag"]["optimize"]) && !empty($_POST["flag"]["optimize"])) {
+        if (in_array($_POST["flag"]["optimize"], $defaultOptimize)) {
+            $optimize = getData($_POST["flag"]["optimize"]);
+        }
+        else {
+            echo error("Something went wrong, please try again.");
+        }
+    }
+    if (isset($_POST["flag"]["standard"]) && !empty($_POST["flag"]["standard"])) {
+        if (in_array($_POST["flag"]["standard"], $defaultStandard)) {
+            $standard = getData($_POST["flag"]["standard"]);
+        }
+        else {
+            echo error("Something went wrong, please try again.");
+        }
     }
 
     // check session
@@ -63,7 +82,7 @@
     $selectCompiler = $compiler[$language];
     $selectColor = $color[$selectCompiler];
 
-    shell_exec("script -qfc \"$selectCompiler $selectColor $path/$id.$subName -o $path/$id &> $path/$id.log 2>&1\"");
+    shell_exec("script -qfc \"$selectCompiler $selectColor $path/$id.$subName -std=$standard $optimize -o $path/$id &> $path/$id.log 2>&1\"");
 
     $content = file_get_contents("$path/$id.log");
     $content = str_replace($path, ".", $content); // remove absolute path for security concern
@@ -95,7 +114,7 @@
             ); // replace clear 2 </span>
         }
     } // end foreach
-    if ($content === FALSE) $content = "";
+    if ($content == "") $content = "<span style='font-weight: bold;'>No error.</span>";
 
     // remove temp file
     exec("rm -f $path/$id.$subName", $output, $ret);

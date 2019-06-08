@@ -378,13 +378,27 @@
                 <option>yeti</option>
                 <option>yonce</option>
                 <option>zenburn</option>
-            </select>&nbsp;&nbsp;
-        Select optimise option
-            <select id="selectComFlag"><!--//onchange="selectPL()"-->
-                <option selected="">-o1</option>
-                <option>-o2</option>
-                <option>-o3</option>
             </select>
+            <br>
+            <div style="padding: 10px 0px;">
+                Select optimize option
+                <select id="selectOptimize"><!--//onchange="selectPL()"-->
+                    <option selected="selected">-O0</option>
+                    <option>-O1</option>
+                    <option>-O2</option>
+                    <option>-O3</option>
+                </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Select language standard
+                <select id="selectStandard">
+                    <option selected="selected">c89</option>
+                    <option>c90</option>
+                    <option>c99</option>
+                    <option>c11</option>
+                    <option>c++98</option>
+                    <option>c++03</option>
+                    <option>c++11</option>
+                </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
         </div>
 
         <!--div style="margin:10px 45px 10px 45px;">
@@ -407,15 +421,15 @@
             <span id="compile_msg" name="compile_msg" style="height: 100%; width: 100%;">
             </span>
         </form>
-		
+
 		<textarea class="compileInput" name="input" style="width:100%" col="50"></textarea>
 
 	</div>
     <!--/*code area*/-->
     <div class="codearea" style="margin:0px 0px 0px 3%;">
         <form action="post.php" method="post"><br>
-            <input type="checkbox" name="-Wall" value="-Wall">Compile Wall&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="checkbox" name="-Werror" value="-Werror">Compile Werror
+            <!-- <input type="checkbox" name="-Wall" value="-Wall">Compile Wall&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="checkbox" name="-Werror" value="-Werror">Compile Werror -->
             &nbsp;&nbsp;&nbsp;&nbsp;
             <input class="postButton" type="submit" id="postButton" name="post" value="post" style="margin-left:20px">
             <input class="saveasButton" type="button" name="saveas" value="save as file" style="margin-left:20px" onclick="download()">
@@ -573,7 +587,22 @@
             var choosePL = document.getElementById("selectPL");
             var lang = choosePL.options[choosePL.selectedIndex].textContent.toLowerCase();
 
-            $.post("./compile.php", { "language": lang, "code":editor.getValue() }, function(data){
+            var chooseOptimize = document.getElementById("selectOptimize");
+            var optimize = chooseOptimize.options[chooseOptimize.selectedIndex].textContent;
+
+            var chooseStandard = document.getElementById("selectStandard");
+            var standard = chooseStandard.options[chooseStandard.selectedIndex].textContent;
+
+            var jsonData = {
+                "language": lang,
+                "code": editor.getValue(),
+                "flag": {
+                    "optimize": optimize,
+                    "standard": standard
+                }
+            };
+
+            $.post("./compile.php", jsonData, function(data){
                 if (data.code != 0) {
                     alert(data.msg);
                 }

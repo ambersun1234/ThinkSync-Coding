@@ -8,6 +8,15 @@
         "c++" => "clang++"
     );
 
+    $defaultStandard = Array(
+        "c89", "c90", "c99", "c11",
+        "c++98", "c++03", "c++11"
+    );
+
+    $defaultOptimize = Array(
+        "-O0", "-O1", "-O2", "-O3"
+    );
+
     $color = Array(
         "gcc" => "-diagnostics-color=always",
         "g++" => "-diagnostics-color=always",
