@@ -254,10 +254,10 @@
         var choosePL = document.getElementById("selectPL");
         programlanguage = choosePL.options[choosePL.selectedIndex].textContent;
         if(programlanguage == "C") {
-            anchor.download = "my-code-by-thinksync.c";
+            anchor.download = "my-code-by-thinksyncCoding.c";
         }
         else if (programlanguage == "C++"){
-            anchor.download = "my-code-by-thinksync.cpp"
+            anchor.download = "my-code-by-thinksyncCoding.cpp"
         }
 
         anchor.href = window.URL.createObjectURL(blob);
@@ -334,7 +334,7 @@
 <body>
     <div>
         <div style="margin:60px 45px 0px 45px; ">
-            <p style="font-size:40px;height:40px;"><strong>ThinkSync.</strong></p>
+            <p style="font-size:40px;height:40px;"><strong>ThinkSync-Coding.</strong></p>
         </div>
         <div style="margin:0px 45px 10px 45px;">
             Select program language

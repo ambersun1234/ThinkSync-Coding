@@ -1,5 +1,5 @@
 <?php
-    session_start(); 
+    session_start();
     //$_SESSION['Category'] = 'All';
 ?>
 <?php
@@ -15,7 +15,7 @@
 <html>
     <head>
         <title>HOME</title>
-    
+
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -68,16 +68,16 @@
         <style type="text/css">
             #slideshow {
                 width:   1600px;
-                height:  900px; 
-                padding: 0;  
+                height:  900px;
+                padding: 0;
                 margin:  0;
-                overflow:hidden;  
+                overflow:hidden;
             }
-            #slideshow img {  
-                background-color: #eee;  
-                width:  1600px; 
-                height: 900px; 
-                top:  0; 
+            #slideshow img {
+                background-color: #eee;
+                width:  1600px;
+                height: 900px;
+                top:  0;
                 left: 0;
             }
             .flex-caption {
@@ -96,7 +96,7 @@
             }
 
         </style>
-        
+
         <!--"Script" have scroll function for better experience-->
         <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
@@ -116,7 +116,7 @@
 
             });
         </script>
-      
+
         <!--"Script" About visual-pic-->
         <script type="text/javascript">
             $(document).ready(function() {
@@ -131,7 +131,7 @@
         </script>
     </head>
     <!--end of head-->
-    
+
     <body>
         <!-- Links (sit on top) -->
         <div class="w3-top">
@@ -171,12 +171,12 @@
                         $email = $_SESSION['email'];
                         $sql = "SELECT * FROM tsc_account WHERE Email = '$email' AND Valid = '0'";
                         $result = querydb($sql, $db_conn);
-                        $pic = $result[0]['Picture'];  
+                        $pic = $result[0]['Picture'];
                     ?>
                     <img src="data:image/jpeg;base64,<?php echo base64_encode($pic);?>" width="30" height="30"/>
                     <?php
                         echo "<font class='w3-bar-item' style='position:center;padding:8px 16px;vertical-align: middle;' align='center' valign='center' face='Inconsolata' size='3'>Hi! ".$result[0]['Username']."!&nbsp;&nbsp;</font>";
-                        
+
                     ?>
                   <a href="../ThinkSync/logout.php" class="w3-bar-item w3-button">LOGOUT</a>
                   <!--a href="../ThinkSync/post.php" class="w3-bar-item w3-button">POST</a-->
@@ -184,14 +184,14 @@
                 </div>
             <?php }?>
             <!--?php if(!empty($_SESSION['admin'])) echo "<a href='./delete.php' class='w3-bar-item w3-button'>ADMIN CENTER</a>";?-->
-                
+
             </div>
         </div>
 
         <!-- Header with image bgimg -->
         <header class="bgimg w3-display-container w3-grayscale-min w3-center" id="home">
                 <div style="position: relative;text-align: center;font-size: 80pt;color: aliceblue;font-weight: 200;top:200px;">
-                    ThinkSync.<br><p style="font-size:30pt">———————————————————————————————————————————————</p>
+                    ThinkSync-Coding.<br><p style="font-size:30pt">———————————————————————————————————————————————</p>
                     <p style="font-size:20pt;margin-top:20px;">We are devoted to building a complete online IDE platform</p>
                 </div>
 
@@ -200,16 +200,16 @@
                     <img src="homepage_pic/pic_07.jpg" alt="2" style="width:auto;max-width:2000px"/>
                 </div>
         </header>
-        
+
         <!-- Add a background color and large text to the whole page *w3-sand w3-grayscale-->
         <br><br><br><br><br><br><br><br><br><br><br><br>
-        <div class="w3-large"> 
+        <div class="w3-large">
             <!-- About Container -->
             <div class="w3-container" id="about">
                 <div class="w3-content" style="max-width:700px">
-                    <h4 class="w3-center w3-padding-64"><span class="w3-wide" style = "border-bottom-style: solid;padding : 10px">ABOUT THE THINKSYNC.</span></h4>
+                    <h4 class="w3-center w3-padding-64"><span class="w3-wide" style = "border-bottom-style: solid;padding : 10px">ABOUT THE THINKSYNC-CODING.</span></h4>
                     <p style="font-size:20pt;">This site was established on 2019/05/07 </p><!--成立於 2019/05/07 的小組專題。-->
-                    <p>Why we name this project "ThinkSync." ?</p><br><!--為什麼要取名為 ThinkSync. 呢-->
+                    <p>Why we name this project "ThinkSync-Coding." ?</p><br><!--為什麼要取名為 ThinkSync-Coding. 呢-->
                     <p>　　　　Its main purpose is :<strong>Synchronize your Think with the world!</strong></p><br>
                     <p>Let's <strong>coding everywhere!</strong></p><br><!--其主旨在於：讓你的想法與世界同步！來跟大家分享你的想法吧-->
                     <div class="w3-panel w3-leftbar w3-light-grey"><br>
@@ -234,7 +234,7 @@
                     <br>
                 </div>
             </div>
-            
+
             <!--google map function-->
             <script async defer
                      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmUgkZNoNZFbzGUBRVKoPL2vYJPSwhr5c&callback=initMap">
@@ -300,9 +300,9 @@ Suggestions or customer service please contact-->
                 }
                 document.getElementById("myLink").click();
             </script-->
-            
+
         </div>
-        
+
     </body>
-    
+
 </html>
