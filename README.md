@@ -1,16 +1,29 @@
 # ThinkSync-Coding
 [![Build Status](https://travis-ci.com/ambersun1234/ThinkSync-Coding.svg?token=e57vJgMEsZsXRodR9BkR&branch=master)](https://travis-ci.com/ambersun1234/ThinkSync-Coding)
 <br>
-Online IDE for developing( C, C++, java )
+![](https://i.imgur.com/EfPXDzj.png)
+
+## Build for everyone
++ Online IDE for developing( C, C++ )
++ We are devoted to build a complete online IDE platform
 
 ## Features
-+ syntax highlight
-+ account system
-+ real time compile for error checking
-+ simple message board to give other developers your precious opinion
-+ run your program on our website
-+ custom compile instruction
-+ various compiler for your choose
++ Code syntax highlight
+    + Provide various ***theme*** for you to choose
++ Login and Logout
+    + Normal login or ***Google Oauth 2.0 login***
++ Custom account system
+    + Change your username, email, password
+    + Delete your account
+    + Modify or remove your ***profile picture***
++ Simple message board to give other developers your precious opinion
+    + Post to article
+    + Comment & reply
+    + ***Rating***
++ Real time compile for error checking
++ Run your program on our website
++ Custom compile instruction
+    + You can select ***different compile flag*** to fit your requirement
 
 ## Clone Repo
 ```=1
