@@ -459,7 +459,7 @@
             <input class="runButton" type="button" name="run" value="run" style="margin-left:20px">
             <br><br>
             <textarea id="code" name="postcode" style="display: none;">
-<?php echo "//test\n#inlcude <stdio.h>\n#include <stdlib.h>\n\nint add(int a, int b) {\n    return a+b;\n}\nint main() {\n   int a = 1, b = 2, c;\n   c = add(a, b);\n   printf(\"%d\", c);\n   return 0;\n}"; ?>
+<?php echo "//test\n#include <stdio.h>\n#include <stdlib.h>\n\nint add(int a, int b) {\n    return a+b;\n}\nint main() {\n   int a = 1, b = 2, c;\n   c = add(a, b);\n   printf(\"%d\", c);\n   return 0;\n}"; ?>
             </textarea>
 
         </form>
@@ -489,12 +489,12 @@
             if(programlanguage == "C") {
                 choice_lang = "text/x-csrc";
                 editor.setOption("mode", choice_lang);
-                editor.setValue("//test\n#inlcude <stdio.h>\n#include <stdlib.h>\n\nint add(int a, int b) {\n    return a+b;\n}\nint main() {\n   int a = 1, b = 2, c;\n   c = add(a, b);\n   printf(\"%d\", c);\n   return 0;\n}");
+                editor.setValue("//test\n#include <stdio.h>\n#include <stdlib.h>\n\nint add(int a, int b) {\n    return a+b;\n}\nint main() {\n   int a = 1, b = 2, c;\n   c = add(a, b);\n   printf(\"%d\", c);\n   return 0;\n}");
             }
             else if(programlanguage == "C++") {
                 choice_lang = "text/x-c++src";
                 editor.setOption("mode", choice_lang);
-                editor.setValue("//test\n#inlcude <iostream>\n#include <sstring>\n\nusing namespase std;\n\nint add(int a, int b) {\n    return a+b;\n}\nint main() {\n   int a = 1, b = 2, c;\n   c = add(a, b);\n   cout << c << endl;\n   return 0;\n}");
+                editor.setValue("//test\n#include <iostream>\n#include <sstring>\n\nusing namespase std;\n\nint add(int a, int b) {\n    return a+b;\n}\nint main() {\n   int a = 1, b = 2, c;\n   c = add(a, b);\n   cout << c << endl;\n   return 0;\n}");
             }
             else if(programlanguage == "Java") {
                 choice_lang = "text/x-java";
@@ -618,6 +618,7 @@
             var jsonData = {
                 "language": lang,
                 "code": editor.getValue(),
+                "wipe": 1,
                 "flag": {
                     "optimize": optimize,
                     "standard": standard
@@ -626,14 +627,24 @@
 
             $.post("./compile.php", jsonData, function(data){
                 if (data.msg == "<span style='font-weight: bold;'>No error.</span>") {
+                    var now = new Date();
+                    var basicInformation = data.version + "<br><br>" + now;
+                    document.getElementById("compile_msg").innerHTML = data.msg;
+                    document.getElementById("compiler_version").innerHTML = basicInformation;
+
                     // which indicates that the code have no error
                     // send to execute.php to run program
                     var executable = data.path;
                     var input = $("textarea.compileInput").val();
 
                     $.post("./execute.php", {"executable": executable, "input": input}, function(data) {
-
-                    });
+                        if (data.code == 0) {
+                            document.getElementById("compile_output").innerHTML = basicInformation + "<br><br>" + data.output;
+                        }
+                        else {
+                            alert(data.msg);
+                        }
+                    }, "json");
                 }
                 else {
                     var now = new Date();
@@ -656,6 +667,7 @@
             var jsonData = {
                 "language": lang,
                 "code": editor.getValue(),
+                "wipe": 0,
                 "flag": {
                     "optimize": optimize,
                     "standard": standard
@@ -740,11 +752,7 @@
     </script>
     <!--/*compile output*/-->
     <div class="output" style="margin:10px 0px 0px 3%;">
-        <form>
-            <textarea id="compile_output" name="compile_output" style="display: none;">
-
-            </textarea>
-        </form>
+        <span id="compile_output" style="padding: 5px 10px; color: white; display: inline-block; white-space:nowrap;"></span>
     </div>
     <br><br>
 

@@ -7,6 +7,7 @@
     /* Input:
      *     language: c, c++
      *     code: origin program code
+     *     wipe: wipe out executable file, 0( true ), 1( false )
      *     flag:
      *         optimize: -O0, -O1, -O2, -O3
      *         standard: c89, c90, c99, c11, c++98, c++03, c++11
@@ -19,6 +20,9 @@
      */
 
     // get post data
+    if (isset($_POST["wipe"]) && !empty($_POST["wipe"])) {
+        $wipe = getData($_POST["wipe"]);
+    }
     if (isset($_POST["language"]) && !empty($_POST["language"])) {
         $language = getData($_POST["language"]);
 
@@ -120,5 +124,9 @@
     // remove temp file
     exec("rm -f $path/$id.$subName", $output, $ret); // remove original source code file
     exec("rm - $path/$id.log", $output, $ret); // remove orgianl source code compilation error
+    if ($wipe == 0) {
+        exec("rm -f $path/$id");
+    }
+
     echo success($content, $version, "$path/$id");
  ?>
