@@ -215,24 +215,24 @@
         //echo $_SESSION['Category']."<br>";
         if(!isset($_GET['kind']) && isset($_SESSION['Category'])) {
             if($_SESSION['Category'] == 'c') {
-                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Category = '0' AND tsc_post.Permisseion = '0'";
+                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Category = '0' AND tsc_post.Permisseion = '0' AND Valid = '0'";
             }
             else if($_SESSION['Category'] == 'cpp') {
-                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Category = '1' AND tsc_post.Permission = '0'";
+                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Category = '1' AND tsc_post.Permission = '0' AND Valid = '0'";
             }
             else { 
-                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Permission = '0'";
+                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Permission = '0' AND Valid = '0'";
             }
         }
         else {
             if($_GET['kind'] == 'c') {
-                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Category = '0' AND tsc_post.Permission = '0'";
+                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Category = '0' AND tsc_post.Permission = '0' AND Valid = '0'";
             }
             else if($_GET['kind'] == 'cpp') {
-                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Category = '1' AND tsc_post.Permission = '0'";
+                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Category = '1' AND tsc_post.Permission = '0' AND Valid = '0'";
             }
             else {
-                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Permission = '0'";
+                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Permission = '0' AND Valid = '0'";
             }
             $_SESSION['Category'] = $_GET['kind'];
         }
@@ -328,7 +328,7 @@
         //echo $sql4;
             
         if(isset($_GET['PostIndex'])) {
-            $sql4 = "SELECT * FROM tsc_post WHERE PostIndex = ".$_GET['PostIndex']." AND Permission = '0'";
+            $sql4 = "SELECT * FROM tsc_post WHERE PostIndex = ".$_GET['PostIndex']." AND Valid = '0' AND Permission = '0'";
             $count = 1;
             $pages = 1;
         }
@@ -452,13 +452,13 @@
                         <tr>
                             <th colspan="2" style="text-align: left;border-left: 1px solid #ddd;border-right: 1px solid #ddd;">
                             <?php
-                                $require = "SELECT * FROM tsc_comment ORDER BY Time DESC";
+                                $require = "SELECT * FROM tsc_comment WHERE Valid = '0' ORDER BY Time DESC";
                                 $ret = querydb($require, $db_conn);
                                 $acc = 0;
 
                                 foreach($ret as $c){
                                     if($v['PostIndex'] == $c['PostIndex']) {
-                                        $userIDSql = "SELECT * FROM tsc_account WHERE UserIndex = ".$c['UserIndex'];
+                                        $userIDSql = "SELECT * FROM tsc_account WHERE UserIndex = ".$c['UserIndex']." AND Valid = '0'";
                                         $arr = querydb($userIDSql, $db_conn);
                                         $uesrID = $arr[0]['Username'];
                                         echo "<h6 style='text-align:left;background-color:#fff;color:#333333;border:2px #bfbfbf solid;border-radius: 10px;padding :10px;height:80px;'>";
@@ -468,7 +468,7 @@
                                         $acc++;?>
                                         <div style="width: 450px;" id = "replyBlock">
                                             <?php
-                                            $rs = "SELECT * FROM tsc_reply WHERE tsc_reply.CommentIndex = '".$c['CommentIndex']."'  ORDER BY tsc_reply.Time";
+                                            $rs = "SELECT * FROM tsc_reply WHERE Valid = '0' AND tsc_reply.CommentIndex = '".$c['CommentIndex']."'  ORDER BY tsc_reply.Time";
                                                 //echo $rs;
                                             $r = querydb($rs, $db_conn);
                                             if(count($r) > 0) {
@@ -478,7 +478,7 @@
                                                     $rUI = $eachReply['UserIndex'];
                                                     $rDate = $eachReply['Time'];
                                                     $rData = $eachReply['ReplyContent'];
-                                                    $userIDSql = "SELECT * FROM tsc_account WHERE UserIndex = ".$rUI;
+                                                    $userIDSql = "SELECT * FROM tsc_account WHERE Valid = '0' AND UserIndex = ".$rUI;
                                                     $arr = querydb($userIDSql, $db_conn);
                                                     $uesrID = $arr[0]['Username'];
                                                     echo "<h6 style='text-align:left;background-color:#EEE;color:#333333;border-radius: 10px;padding :10px ; clear: right;height:80px;'>";
@@ -497,7 +497,7 @@
                                                        style="width:60px;height:30px;border:0px blue none;color:#fff;background: #a4b0c6;position:relative;float: right;">
                                                 <input type="button" name="trueReplyButton" id="<?php echo "trueReplyButton_".$c['CommentIndex']; ?>" data-id="<?php echo $c['CommentIndex']; ?>" class="trueReply"
                                                        value="Reply" 
-                                                       style="width:60px;height:30px;border:0px blue none;color:#fff;background: #a4b0c6;position:relative;float: right; display: none;">
+                                                       style="width:60px;height:30px;border:0px blue none;color:#fff;background: #a4b0c6;position:relative;float: right;">
                                                 <br><br>
                                             </form>
                                         <?php }?>

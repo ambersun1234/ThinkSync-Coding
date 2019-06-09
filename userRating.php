@@ -12,7 +12,7 @@
         //$rs = querydb($userIndexSql, $db_conn);
         $UserIndex = $id;//$res[0]['UserIndex'];
         
-        $checkSql = "SELECT * FROM tsc_rating WHERE PostIndex = '$PostIndex' AND UserIndex = '$UserIndex'";
+        $checkSql = "SELECT * FROM tsc_rating WHERE PostIndex = '$PostIndex' AND UserIndex = '$UserIndex' AND Valid = '0'";
         $rs = querydb($checkSql, $db_conn);
         
         if(count($rs) > 0) {
@@ -27,7 +27,7 @@
         $updateCurrentPostRating
          = "UPDATE tsc_post
             SET tsc_post.Stars 
-                = (SELECT AVG(Stars) FROM tsc_rating WHERE tsc_rating.PostIndex = '$PostIndex')
+                = (SELECT AVG(Stars) FROM tsc_rating WHERE tsc_rating.PostIndex = '$PostIndex' AND Valid = '0')
             WHERE tsc_post.PostIndex = '$PostIndex'";
         //echo "<meta http-equiv=REFRESH CONTENT=1;url=view_article.php?PostIndex=$PostIndex>";
         $ret_updateCurrentPostRating = querydb($updateCurrentPostRating, $db_conn);
@@ -43,13 +43,13 @@
     function getRatingOfStar($PostIndex) {
 
         global $db_conn;
-        $sql = "SELECT ROUND(AVG(tsc_rating.Stars), 1) FROM tsc_rating WHERE tsc_rating.PostIndex = '$PostIndex' GROUP BY (tsc_rating.PostIndex)";
+        $sql = "SELECT ROUND(AVG(tsc_rating.Stars), 1) FROM tsc_rating WHERE tsc_rating.PostIndex = '$PostIndex' AND Valid = '0' GROUP BY (tsc_rating.PostIndex)";
         $rs = querydb($sql, $db_conn);
         return $rs[0][0];
     }
     function getPeopleNumber($PostIndex) {
         global $db_conn;
-        $sql5 = "SELECT COUNT(RC.UserIndex) FROM tsc_rating AS RC WHERE RC.PostIndex = '$PostIndex'";
+        $sql5 = "SELECT COUNT(RC.UserIndex) FROM tsc_rating AS RC WHERE RC.PostIndex = '$PostIndex' AND RC.Valid = '0'";
         $end = querydb($sql5, $db_conn);
         return $end[0][0];
     }
