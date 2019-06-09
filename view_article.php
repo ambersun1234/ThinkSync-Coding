@@ -8,14 +8,14 @@
     echo "<br><br><br><br><br>";
     include_once("userRating.php");
     include_once("./include/mysql_connect.inc.php");
-    
+
     $db_conn = connect2db($dbhost, $dbuser, $dbpwd, $dbname);
 ?>
 
 <html>
     <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-        
+
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -28,7 +28,7 @@
         <link rel="stylesheet" type="text/css" href="prism.css">
         <!--link rel="stylesheet" type="text/css" href="main.css"-->
         <link rel="stylesheet" type="text/css" href="prism.css">
-        
+
         <script type="text/javascript" src="prism.js"></script>
 
         <style>
@@ -220,7 +220,7 @@
             else if($_SESSION['Category'] == 'cpp') {
                 $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Category = '1' AND tsc_post.Permission = '0' AND Valid = '0'";
             }
-            else { 
+            else {
                 $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Permission = '0' AND Valid = '0'";
             }
         }
@@ -239,7 +239,7 @@
         //結束 種類選擇
         ?>
 
-        <?php 
+        <?php
         //echo $_GET['OrderBy']."<br>";
         //echo $_SESSION['OrderBy']."<br>";
         //排序選擇
@@ -250,7 +250,7 @@
             else if($_SESSION['OrderBy'] == 'RatingHigh' ) {
                 $sql3 .= " ORDER BY Stars DESC, Date DESC";
             }
-            else if($_SESSION['OrderBy'] == 'RatingLow') {     
+            else if($_SESSION['OrderBy'] == 'RatingLow') {
                 $sql3 .= " ORDER BY Stars, Date DESC";
             }
             else {
@@ -272,7 +272,7 @@
                 $sql3 .= " ORDER BY Stars DESC, Date DESC";
                 $_SESSION['OrderBy'] = $_GET['OrderBy'];
             }
-            else if($_GET['OrderBy'] == 'RatingLow') {  
+            else if($_GET['OrderBy'] == 'RatingLow') {
                 $sql3 .= " ORDER BY Stars, Date DESC";
                 $_SESSION['OrderBy'] = $_GET['OrderBy'];
             }
@@ -309,10 +309,10 @@
             </div>
 
         <div class="out"><br><br>
-        <?php 
+        <?php
         $ret = querydb($sql3, $db_conn);
         $count = count($ret);
-            
+
         $per = 3;
         $pages = ceil($count/$per);
         if(!isset($_GET['page'])) {
@@ -322,17 +322,17 @@
             $page = intval($_GET['page']);
         }
         $start = ($page-1)*$per;
-        
+
         $sql4 = $sql3.' LIMIT '.$start.', '.$per;
-        
+
         //echo $sql4;
-            
+
         if(isset($_GET['PostIndex'])) {
             $sql4 = "SELECT * FROM tsc_post WHERE PostIndex = ".$_GET['PostIndex']." AND Valid = '0' AND Permission = '0'";
             $count = 1;
             $pages = 1;
         }
-        //echo "<script>console.log(".$sql4.")</script>";  
+        //echo "<script>console.log(".$sql4.")</script>";
         $list = array();
         $list = $db_conn->query($sql4);
         try {
@@ -372,7 +372,7 @@
                                             <input type="radio" name="stars" value="3"  data-id="<?php echo $v['PostIndex']; ?>"/>
                                             <span class="icon">★</span>
                                             <span class="icon">★</span>
-                                            <span class="icon">★</span>   
+                                            <span class="icon">★</span>
                                         </label>
                                         <label>
                                             <input type="radio" name="stars" value="4"  data-id="<?php echo $v['PostIndex']; ?>"/>
@@ -410,7 +410,7 @@
                                     echo "<div style='text-align:right;color:#aaa;width:100%;'>$date_post</div>";
                                 ?>
                             </td>
-                            
+
                         </tr>
                         <tr>
                             <td style="width:10%;border-left: 1px solid #ddd;">
@@ -428,7 +428,7 @@
                             <td style="border-left: 1px solid #ddd;"></td>
                             <td style="border-right: 1px solid #ddd;">
                                 <?php
-                                    
+
                                     $db_conn2 = connect2db($dbhost, $dbuser, $dbpwd, $dbname);
                                     $codeid = $v['CodeIndex'];
                                     $sql_getCode = "SELECT * FROM tsc_code WHERE CodeIndex = '$codeid'";
@@ -437,7 +437,7 @@
                                     $ret_getCode = str_replace("......", "'",$ret_getCode[0]['CodeContent']);
                                     $ret_getCode = str_replace("@@@@@@", "\r\n", $ret_getCode);
 									$ret_getCode = str_replace("++++++", "\\n",$ret_getCode);
-                                    
+
                                 ?>
                                 <figure class="ce ce-lift ce-twist"><!--figcaption class="ce_caption">CODE CAPTION</figcaption--><pre class="line-number" ><code spellcheck="false" class="language-clike" style="display:inline-block;width:880px;"><?php echo $ret_getCode;?></code></pre></figure>
                             </td>
@@ -465,11 +465,14 @@
                                         echo $arr[0]['Username']." : ".nl2br($c['CommentContent']);
                                         echo "<p style='text-align:right;color:#BBB;'>";
                                         echo $c['Time']."</p>"."</h6>";
-                                        $acc++;?>
+                                        $acc++;
+                             ?>
                                         <div style="width: 450px;" id = "replyBlock">
                                             <?php
-                                            $rs = "SELECT * FROM tsc_reply WHERE Valid = '0' AND tsc_reply.CommentIndex = '".$c['CommentIndex']."'  ORDER BY tsc_reply.Time";
-                                                //echo $rs;
+                                            $rs = "SELECT * FROM tsc_reply
+                                                   WHERE Valid = '0' AND
+                                                   CommentIndex = '" . $c["CommentIndex"] . "'  ORDER BY tsc_reply.Time";
+
                                             $r = querydb($rs, $db_conn);
                                             if(count($r) > 0) {
                                                 $cc = 0;
@@ -487,23 +490,21 @@
                                                     echo $rDate."</p>"."</h6>";
                                                 }
                                             ?>
-                                        </div>
+                                        <?php }// show reply ?>
                                         <?php if(isset($_SESSION['uid'])) {?>
-                                            <form>
                                                 <input type="text" name="commentReply" id="<?php echo "commentReply_".$c['CommentIndex']; ?>"
-                                                          style="width:450px;height:40px;background-color:#666;color:#FFF;padding:20px;border:0px blue none; text-align: left; display: none;border-radius:5px;" placeholder="  Enter your reply！">
+                                                          style="bottom:20px;width:450px;height:40px;background-color:#666;color:#FFF;padding:20px;border:0px blue none; text-align: left; display: none;border-radius:5px;" placeholder="  Enter your reply！">
                                                 <input type="button" name="replyButton" id="<?php echo "replyButton_".$c['CommentIndex']; ?>"
                                                        value="Reply"  data-id="<?php echo $c['CommentIndex']; ?>" class="reply"
-                                                       style="width:60px;height:30px;border:0px blue none;color:#fff;background: #a4b0c6;position:relative;float: right;">
+                                                       style="width:100px;height:30px;border:0px blue none;color:#fff;background: #a4b0c6;position:relative;float: right;">
                                                 <input type="button" name="trueReplyButton" id="<?php echo "trueReplyButton_".$c['CommentIndex']; ?>" data-id="<?php echo $c['CommentIndex']; ?>" class="trueReply"
-                                                       value="Reply" 
-                                                       style="width:60px;height:30px;border:0px blue none;color:#fff;background: #a4b0c6;position:relative;float: right;">
+                                                       value="Reply"
+                                                       style="left:120px;bottom:30px;width:100px;height:30px;border:0px blue none;color:#fff;background: #a4b0c6;position:relative;float: right; display:none;">
                                                 <br><br>
-                                            </form>
                                         <?php }?>
-                                    <?php } ?>
-                                <?php }
-                                }
+                                <?php } // end if ?>
+                                    </div>
+                                <?php } // end foreach
                                 if($acc == 0) echo "<p style='text-align: center;color:#AAAAAA;'>"."======== No comment Now！========"."</p>";
                             ?>
                             </th>
@@ -579,7 +580,7 @@
             }
         })
     });
-    
+
     $('.reply').on('click', function() {
         var commentIndex = $(this).attr('data-id');
         var replyData = $('#commentReply_'+commentIndex).val();
@@ -600,7 +601,7 @@
             },
             success: function(data) {
                 //var callback = JSON.stringify(data.sql);
-                alert("回覆成功\n" + data.sql);
+                alert("回覆成功\n");// + data.sql);
                 history.go(0);
                 $('#commentReply_' + commentIndex).hide();
                 $('#replyButton_' + commentIndex).show();
@@ -608,14 +609,14 @@
             }
         })
     });
-    
+
     $('.commentButton').click(function() {
         var postIndex = $(this).attr('data-id');
         //comment, post_id, myid
         var comment = $('#comment' + postIndex).val();
         var post_id = $('#post_id' + postIndex).val();
         var myid = $('#myid' + postIndex).val();
-    
+
         $.ajax({
             url: 'comment_function.php',
             type: 'POST',
