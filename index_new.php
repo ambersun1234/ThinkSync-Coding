@@ -435,7 +435,7 @@
     </div>
     <!--/*compile message*/-->
     <div class="compileMsg" style="margin:72px 4% 0px 0px; padding: 5px 10px;">
-        <form style="height:100%;margin:3%;width:100%;">
+        <form style="height:100%;margin:3%;width:100%;overflow:auto;">
             <span id="compiler_version" name="compiler_version" style="height: 100%; width: 100%;">
             </span>
             <br><br><br>
@@ -444,7 +444,7 @@
             </span>
         </form>
 
-		<textarea class="compileInput" name="input" style="width:100%" col="50"></textarea>
+		<textarea class="compileInput" name="input" style="width:100%;overflow:auto;" col="50"></textarea>
 
 	</div>
     <!--/*code area*/-->
@@ -751,7 +751,7 @@
         /*}*/
     </script>
     <!--/*compile output*/-->
-    <div class="output" style="margin:10px 0px 0px 3%;">
+    <div div class="output" style="margin:10px 0px 0px 3%; overflow:auto;">
         <span id="compile_output" style="padding: 5px 10px; color: white; display: inline-block; white-space:nowrap;"></span>
     </div>
     <br><br>

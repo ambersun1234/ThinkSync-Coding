@@ -19,7 +19,8 @@
             $sql = "UPDATE tsc_rating SET Stars = '$stars' WHERE PostIndex = '$PostIndex' AND UserIndex = '$UserIndex'";
         }
         else {
-            $sql = "INSERT INTO tsc_rating VALUES ('$PostIndex', '$UserIndex', '$stars')";
+            $sql = "INSERT INTO tsc_rating (`PostIndex`, `UserIndex`, `Stars`, `Valid`) VALUES ('$PostIndex', '$UserIndex', '$stars', '0')";
+			//$sql = "INSERT INTO tsc_rating VALUES ('$PostIndex', '$UserIndex', '$stars')";
         }
         $ret = updatedb($sql, $db_conn);
         

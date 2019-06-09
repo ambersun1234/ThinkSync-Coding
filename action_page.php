@@ -21,7 +21,11 @@ if(!empty($_POST["T1"])){
     $headers .= "Content-type: text/html; charset=utf-8\r\n";
     $headers .= "From:".mb_encode_mimeheader("$Name","utf-8")."<$uEmail>\r\n";
     ini_set('display_error', '1');
-    mail($to, $Subject, $message, $headers);
-    echo "寄件成功!";
+   
+    if(mail($to, $Subject, $message, $headers)) {
+        echo "寄件成功!"
+	} else {
+	    echo "faild";
+	}
 }
 ?>

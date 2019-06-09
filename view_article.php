@@ -215,24 +215,24 @@
         //echo $_SESSION['Category']."<br>";
         if(!isset($_GET['kind']) && isset($_SESSION['Category'])) {
             if($_SESSION['Category'] == 'c') {
-                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Category = '0'";
+                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Category = '0' AND tsc_post.Permisseion = '0'";
             }
             else if($_SESSION['Category'] == 'cpp') {
-                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Category = '1'";
+                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Category = '1' AND tsc_post.Permission = '0'";
             }
             else { 
-                $sql3 = "SELECT * FROM tsc_post";
+                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Permission = '0'";
             }
         }
         else {
             if($_GET['kind'] == 'c') {
-                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Category = '0'";
+                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Category = '0' AND tsc_post.Permission = '0'";
             }
             else if($_GET['kind'] == 'cpp') {
-                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Category = '1'";
+                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Category = '1' AND tsc_post.Permission = '0'";
             }
             else {
-                $sql3 = "SELECT * FROM tsc_post";
+                $sql3 = "SELECT * FROM tsc_post WHERE tsc_post.Permission = '0'";
             }
             $_SESSION['Category'] = $_GET['kind'];
         }
@@ -328,7 +328,7 @@
         //echo $sql4;
             
         if(isset($_GET['PostIndex'])) {
-            $sql4 = "SELECT * FROM tsc_post WHERE PostIndex = ".$_GET['PostIndex'];
+            $sql4 = "SELECT * FROM tsc_post WHERE PostIndex = ".$_GET['PostIndex']." AND Permission = '0'";
             $count = 1;
             $pages = 1;
         }
@@ -435,7 +435,8 @@
                                     $ret_getCode = querydb($sql_getCode, $db_conn2);
                                     //echo "<pre><div style='text-align:left;'>".$ret_getCode[0]['CodeContent']."</div><pre>";
                                     $ret_getCode = str_replace("......", "'",$ret_getCode[0]['CodeContent']);
-                                    $ret_getCode = str_replace("++++++", "\\n",$ret_getCode);
+                                    $ret_getCode = str_replace("@@@@@@", "\r\n", $ret_getCode);
+									$ret_getCode = str_replace("++++++", "\\n",$ret_getCode);
                                     
                                 ?>
                                 <figure class="ce ce-lift ce-twist"><!--figcaption class="ce_caption">CODE CAPTION</figcaption--><pre class="line-number" ><code spellcheck="false" class="language-clike" style="display:inline-block;width:880px;"><?php echo $ret_getCode;?></code></pre></figure>

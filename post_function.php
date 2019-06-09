@@ -72,6 +72,7 @@
 
     $new_getcode = str_replace("'", "......",$getcode);
     //echo "new_getcode : ".$new_getcode."<br>";
+	$new_getcode = str_replace("\r\n", "@@@@@@", $new_getcode);
     $new_getcode = str_replace("\n", "++++++",$new_getcode);
     
     $sql = "INSERT INTO tsc_code (UserIndex, CodeContent, Date, Permission) VALUES ('$uid', '$new_getcode', '$date' ,'$permission')";
