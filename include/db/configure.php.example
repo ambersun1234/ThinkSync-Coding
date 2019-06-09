@@ -1,0 +1,9 @@
+<?php
+$DBMS = 'mysqli';
+$dbname = "YOUR_DB_NAME";
+$dbhost = "YOUR_DB_HOST";
+$dbuser = "YOUR_DB_USER";
+$dbpwd = "YOUR_DB_PASSWORD";
+$AttachDir = '/doc';
+$ItemPerPage = 4;
+?>

@@ -1,0 +1,22 @@
+dist: xenial
+language: generic
+addons:
+  apt:
+    packages:
+    - sshpass
+after_success:
+- export SSHPASS=$PSPwd
+- sshpass -e ssh -o PubkeyAuthentication=no -o StrictHostKeyChecking=no -v -p $port
+  $PSUser@$remote "rm -rf /home/$PSUser/web/ThinkSync/* && mkdir -vp /home/$PSUser/web/ThinkSync"
+- sshpass -e rsync -avz --exclude='.git' -e "ssh -p 6561" $TRAVIS_BUILD_DIR/ $PSUser@$remote:/home/$PSUser/web/ThinkSync/
+- sshpass -e ssh -o PubkeyAuthentication=no -o StrictHostKeyChecking=no -v -p $port $PSUser@$remote "cp /home/$PSUser/web/configure.php /home/$PSUser/web/ThinkSync/include/db/. && cp /home/$PSUser/web/goauthData.php /home/$PSUser/web/ThinkSync/include/oauth/."
+notifications:
+  email:
+    recipients:
+    - ambersun1019.shawn@gmail.com
+    - u10506111@ms.ttu.edu.tw
+    on_success: never
+    on_failure: always
+env:
+  global:
+    secure: KPneG51v9IRypMVUwlD6evBa46gy/hO6+pfmddSlzZa+g0Z00bD7yPvye26kItc0kI9XS4y8zLiPKmyv41u6OPm7vl8ttW+3V9H9YXj7YGHQvVQkLDCWtTdfmbxtiJPtWgoFN2uzP8WZW0UdxAzJ+WeeF7KEAbBLUPSqf4835xTev4qZVHwIyy4xJX7tW4rz9iXkjjqxGsN8G/+1vGw75yeQu9YeRBhmxAqObROJxwxndl58XNK2KJb4FlVRnkqywIdAT8/bRvb6fZjdQJKD+AwMWnKqNsWIubtauCezEsqTaW2IocTd6qxEo3GX/lWaN1165D1onTPTzvf35cYottlsnM0FCParHQvID+2g80GEKhdZolfJkoPBechb4gKRvdgkkGYIOydcwweKsT3a5GTeS2uJ6FsI3IuHEf9UtzQrZiHToAuAWuiYj71vS/to9s36QdiyYOpLMEkF45B9zuOX4ha3WbQ3sw9Dz0NzGLTa54e/DMufGUGaYP/OuoYrKCFVJBNay7cqkgzJkGqlkiVsrR3guA2CDVh/bmuc0GLFmv1PpnSB/KFfDFaS8M0XW7J0CMsXqabsdbfmKnVOmSYm9nj8YJwWv+wIw2wsZ5pudKnlBAE6eF198OJ5DZUt4eVQ1eD2qjlthQeMpyidPXaZgRNjWZGEoZH6jt7b1sg=
