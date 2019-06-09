@@ -14,7 +14,7 @@
     $sql = "";
     if(isset($_POST['keyword'])) {
         $keyword = $_POST['keyword'];
-        $sql = "SELECT * FROM tsc_post WHERE tsc_post.Title LIKE '%".$keyword."%' ORDER BY tsc_post.Date DESC, Stars DESC";
+        $sql = "SELECT * FROM tsc_post WHERE tsc_post.Permission = '0' AND tsc_post.Title LIKE '%".$keyword."%' ORDER BY tsc_post.Date DESC, Stars DESC";
         $ret = querydb($sql, $db_conn);
         //return $ret[0];
     }
