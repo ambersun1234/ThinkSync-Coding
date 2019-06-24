@@ -1,0 +1,62 @@
+FROM centos:7
+
+RUN yum update -y
+RUN yum upgrade -y
+
+RUN yum install epel-release yum-utils -y
+RUN yum update -y
+
+# install compiler
+RUN yum install clang -y
+
+# install web server and editor
+RUN yum install nginx vim-enhanced net-tools -y
+
+# copy nginx.conf to docker container
+COPY ./nginx.conf /etc/nginx/
+
+# configure .vimrc
+RUN echo -e ":set nu\n:set ai\n:set cursorline\n:set tabstop=4\n" >> ~/.vimrc
+
+# install php
+# RUN yum install centos-release-scl -y
+# RUN yum install rh-php71 rh-php71-php-fpm rh-php71-php-mysqlnd -y
+RUN yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm -y
+RUN yum-config-manager --enable remi-php70
+RUN yum install php-fpm php php-mysql -y
+# RUN sed -i 's/;php_flag[display_errors] = off/php_flag[display_errors] = on/g' /etc/php-fpm.d/www.conf
+RUN chmod 1733 /var/lib/php/session
+
+# change shell color
+RUN echo "PS1='\033[00;33m[\u@\h \W]$ \033[01;00m'" >> /etc/bashrc
+
+# install git and clone repo
+RUN yum install git-core -y
+RUN cd /usr/share/nginx/html/ && git clone https://github.com/ambersun1234/ThinkSync-Coding.git ThinkSync
+COPY ./configure.php /usr/share/nginx/html/ThinkSync/include/db/.
+COPY ./goauthData.php /usr/share/nginx/html/ThinkSync/include/oauth/.
+
+# change owner and group
+RUN chown -R nginx /usr/share/nginx/html
+RUN chgrp -R nginx /usr/share/nginx/html
+RUN chmod -R 775 /usr/share/nginx/html/ThinkSync
+
+# expose port 80
+EXPOSE 80
+
+# set up php-fpm
+RUN echo "d /var/run/php-fpm 755 root root" >> /usr/lib/tmpfiles.d/php-fpm.conf
+RUN mkdir /var/run/php-fpm
+RUN sed -i 's/listen = 127.0.0.1:9000/listen = 127.0.0.1:8080/g' /etc/php-fpm.d/www.conf
+
+# set /var/lib/php premission
+RUN chown -R nginx /var/lib/php/
+RUN chgrp -R nginx /var/lib/php/
+
+# copy html
+RUN cp /usr/share/nginx/html/404.html /usr/share/nginx/html/ThinkSync
+RUN cp /usr/share/nginx/html/50x.html /usr/share/nginx/html/ThinkSync
+RUN cp /usr/share/nginx/html/*.png /usr/share/nginx/html/ThinkSync
+
+# start service nginx & php
+CMD ["sh", "-c", "/usr/sbin/php-fpm && nginx -g 'daemon off;'"]
