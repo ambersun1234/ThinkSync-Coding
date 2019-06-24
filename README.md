@@ -32,6 +32,29 @@ cd ThinkSync-Coding
 git submodule update --init --recursive
 ```
 
+## Run
++ install `docker` and `docker-compose` on your machine
+    ### Debian/Ubuntu
+    ```=1
+    sudo apt install docker.io
+    sudo apt install docker-compose
+    ```
++ configure google oauth 2.0 client id
+```=1
+cp ./include/oauth/goauthData.php.example ./include/oauth/goauthData.php
+# modify goauthData.php
+```
++ Run container
+```=1
+cd docker
+docker-compose build --no-cache
+docker-compose up -d
+```
++ Finally type the following in your web browser
+```=1
+localhost:8080/ThinkSync/home.php
+```
+
 ## Author
 + [ambersun1234](https://github.com/ambersun1234)
 + [snowmint](https://github.com/snowmint)

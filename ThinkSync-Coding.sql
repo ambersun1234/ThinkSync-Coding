@@ -1,9 +1,4 @@
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-CREATE DATABASE tsc;
+CREATE DATABASE `tsc`;
 
 CREATE TABLE `tsc`.`tsc_account` (
   `UserIndex` int(11) NOT NULL,
@@ -15,7 +10,7 @@ CREATE TABLE `tsc`.`tsc_account` (
   `Mode` varchar(30) NOT NULL DEFAULT 'normal'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tsc`.`tsc`.`tsc_code` (
+CREATE TABLE `tsc`.`tsc_code` (
   `CodeIndex` int(11) NOT NULL,
   `UserIndex` int(11) NOT NULL,
   `CodeContent` longtext NOT NULL,
@@ -70,7 +65,7 @@ ALTER TABLE `tsc`.`tsc_account`
   ADD UNIQUE KEY `Username` (`Username`),
   ADD UNIQUE KEY `Email` (`Email`);
 
-ALTER TABLE `tsc`.`tsc`.`tsc_code`
+ALTER TABLE `tsc`.`tsc_code`
   ADD PRIMARY KEY (`CodeIndex`,`UserIndex`) USING BTREE,
   ADD UNIQUE KEY `CodeIndex` (`CodeIndex`),
   ADD KEY `UserIndex` (`UserIndex`);
@@ -98,7 +93,7 @@ ALTER TABLE `tsc`.`tsc_reply`
 ALTER TABLE `tsc`.`tsc_account`
   MODIFY `UserIndex` int(11) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `tsc`.`tsc`.`tsc_code`
+ALTER TABLE `tsc`.`tsc_code`
   MODIFY `CodeIndex` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `tsc`.`tsc_comment`
@@ -114,7 +109,7 @@ ALTER TABLE `tsc`.`tsc_reply`
   MODIFY `ReplyIndex` int(11) NOT NULL AUTO_INCREMENT;
 
 
-ALTER TABLE `tsc`.`tsc`.`tsc_code`
+ALTER TABLE `tsc`.`tsc_code`
   ADD CONSTRAINT `tsc_code_ibfk_1` FOREIGN KEY (`UserIndex`) REFERENCES `tsc`.`tsc_account` (`UserIndex`);
 
 ALTER TABLE `tsc`.`tsc_comment`
