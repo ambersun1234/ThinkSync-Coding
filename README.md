@@ -40,20 +40,18 @@ git submodule update --init --recursive
     sudo apt install docker-compose
     ```
 + configure google oauth 2.0 client id
-```=1
-cp ./include/oauth/goauthData.php.example ./include/oauth/goauthData.php
-# modify goauthData.php
-```
+	+ modify `ThinkSync-Coding/docker/goauthData.php`
 + Run container
-```=1
-cd docker
-docker-compose build --no-cache
-docker-compose up -d
-```
+	```=1
+	cd ThinkSync-Coding
+	cd docker
+	docker-compose build --no-cache
+	docker-compose up -d
+	```
 + Finally type the following in your web browser
-```=1
-localhost:8080/ThinkSync/home.php
-```
+	```=1
+	localhost:8080/ThinkSync/home.php
+	```
 
 ## Author
 + [ambersun1234](https://github.com/ambersun1234)

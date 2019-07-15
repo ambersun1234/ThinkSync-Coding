@@ -1,2 +1,4 @@
 configure.php
 goauthData.php
+!docker/configure.php
+!docker/goauthData.php
