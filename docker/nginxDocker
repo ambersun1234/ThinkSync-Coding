@@ -4,6 +4,7 @@ RUN yum update -y
 RUN yum upgrade -y
 
 RUN yum install epel-release yum-utils -y
+RUN yum groupinstall "Development Tools" -y
 RUN yum update -y
 
 # install compiler
@@ -40,6 +41,8 @@ COPY ./goauthData.php /usr/share/nginx/html/ThinkSync/include/oauth/.
 RUN chown -R nginx /usr/share/nginx/html
 RUN chgrp -R nginx /usr/share/nginx/html
 RUN chmod -R 775 /usr/share/nginx/html/ThinkSync
+RUN chmod 777 nginx /usr/share/nginx/html/ThinkSync
+RUN chmod 777 nginx /usr/share/nginx/html/ThinkSync/tmp
 
 # expose port 80
 EXPOSE 80
